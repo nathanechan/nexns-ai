@@ -94,7 +94,7 @@ export function HomePage() {
             <button
               key={item}
               type="button"
-              onClick={() => (i === 1 ? navigate("/companion") : i === 3 ? claimTask("Home Rewards Preview", "+20 NS") : setModal({ title: item, description: "This opens a simulated growth detail panel. Rewards, levels, and balances are Simulated Market Data only." }))}
+              onClick={() => (i === 1 ? navigate("/companion") : i === 3 ? claimTask("Home Rewards", "+20 NS") : setModal({ title: item, description: "Open growth details across rewards, levels, balances, and companion progress." }))}
               className="h-full text-left"
             >
               <GlassCard className="interactive-glow h-full p-5">

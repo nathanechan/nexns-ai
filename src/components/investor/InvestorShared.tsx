@@ -3,9 +3,9 @@ import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { MiniLine } from "../charts/MiniLine";
 import { GlassCard } from "../ui/GlassCard";
-import { Logo } from "../ui/Logo";
 import { Mascot } from "../ui/Mascot";
 import { roiData } from "../../data/previewData";
+import nexLogoWhite from "../../assets/logo/nex-logo-white.png";
 
 export const investorMetrics = [
   { label: "Users", value: "82,360", delta: "+42.7%", icon: Users },
@@ -18,29 +18,31 @@ export const investorMetrics = [
 export const investorPages = [
   { title: "Why NEXNS", path: "/investor/why-nexns", copy: "Understand the market, users, problem, growth model, and differentiation.", icon: Sparkles },
   { title: "Growth Journey", path: "/investor/growth-journey", copy: "From joining NEXNS to leadership and ecosystem influence.", icon: Rocket },
-  { title: "Flywheel", path: "/investor/flywheel", copy: "The compounding loop that turns predictions into ecosystem growth.", icon: Zap },
+  { title: "Growth Flywheel", path: "/investor/flywheel", copy: "The compounding loop that turns predictions into ecosystem growth.", icon: Zap },
   { title: "Value Flow", path: "/investor/value-flow", copy: "How users, creators, projects, NEX, and the ecosystem exchange value.", icon: Coins },
   { title: "Ecosystem Map", path: "/investor/ecosystem", copy: "The full PredictionFi, creator, pet, community, and technology map.", icon: Users },
-  { title: "Investor One Page", path: "/investor/one-page", copy: "A complete investor summary of the NEXNS growth thesis.", icon: BarChart3 },
+  { title: "Investor One Pager", path: "/investor/one-page", copy: "A complete investor summary of the NEXNS growth thesis.", icon: BarChart3 },
 ];
 
 export function InvestorShell({ children, title, subtitle }: { children: ReactNode; title: string; subtitle?: string }) {
   return (
     <div className="min-h-screen bg-space-radial px-4 py-5 text-white sm:px-6">
       <header className="mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-4">
-        <Logo />
+        <div className="inline-flex flex-col">
+          <img src={nexLogoWhite} alt="NEXNS" className="h-12 w-auto object-contain" draggable={false} />
+          <div className="mt-2 text-xs font-semibold leading-4 text-slate-300">The PredictionFi<br />Growth Network</div>
+        </div>
         <nav className="flex flex-wrap gap-3 text-sm">
           <Link className="interactive-glow rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-slate-200" to="/app">App</Link>
           <Link className="interactive-glow rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-slate-200" to="/investor">Investor Center</Link>
           <Link className="interactive-glow rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-slate-200" to="/presentation">Presentation</Link>
-          <Link className="purple-button interactive-glow rounded-xl px-4 py-2 font-semibold" to="/investor/one-page">One Page</Link>
+          <Link className="purple-button interactive-glow rounded-xl px-4 py-2 font-semibold" to="/investor/one-page">One Pager</Link>
         </nav>
       </header>
       <main className="mx-auto mt-8 max-w-[1500px]">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <div className="nex-label">NEXNS Investor Center</div>
-            <h1 className="nex-title mt-2 text-4xl md:text-6xl">{title}</h1>
+            <h1 className="nex-title text-4xl md:text-6xl">{title}</h1>
             {subtitle && <p className="mt-3 max-w-3xl text-lg leading-8 text-slate-300">{subtitle}</p>}
           </div>
           <Link to="/investor" className="interactive-glow flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-200">

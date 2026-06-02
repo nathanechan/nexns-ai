@@ -11,7 +11,7 @@ import { useProductState } from "../state/productState";
 const steps = [
   { title: "What is NEXNS", route: "/investor/why-nexns", icon: Compass, copy: "A PredictionFi Growth Network where users predict, creators lead attention, projects launch campaigns, and AI companions keep growth personal." },
   { title: "Home Live Platform", route: "/app", icon: LineChart, copy: "The dashboard proves NEXNS is more than a site: live predictions, creator alerts, project momentum, rewards, and pet state all move together." },
-  { title: "Prediction Lifecycle", route: "/prediction", icon: Target, copy: "Users choose a market, select UP or DOWN, create a preview position, settle outcomes, and feed EXP, rewards, and companion growth." },
+  { title: "Prediction Lifecycle", route: "/prediction", icon: Target, copy: "Users choose a market, select UP or DOWN, record a prediction signal, settle outcomes, and feed EXP, rewards, and companion growth." },
   { title: "Creator Economy", route: "/creator", icon: Crown, copy: "Creators convert insight into distribution. Follows, communities, prediction calls, and revenue loops make market attention repeatable." },
   { title: "Project Growth", route: "/projects", icon: Rocket, copy: "Projects activate prediction markets, creator campaigns, tasks, and communities to turn launch attention into measurable growth." },
   { title: "AI Pet World", route: "/pet/world", icon: Bot, copy: "NEX companions transform product actions into emotional retention, progression, and daily return behavior." },
@@ -70,7 +70,7 @@ export function PresentationPage() {
                     <h1 className="mt-6 text-4xl font-black md:text-6xl">{current.title}</h1>
                     <p className="mt-5 max-w-3xl text-xl leading-9 text-slate-300">{current.copy}</p>
                     <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                      <GlassCard className="p-4"><div className="text-xs text-slate-400">Preview Balance</div><b className="text-2xl">{nsBalance.toLocaleString()} NS</b></GlassCard>
+                      <GlassCard className="p-4"><div className="text-xs text-slate-400">NS Balance</div><b className="text-2xl">{nsBalance.toLocaleString()} NS</b></GlassCard>
                       <GlassCard className="p-4"><div className="text-xs text-slate-400">Predictions</div><b className="text-2xl">{predictions.length}</b></GlassCard>
                       <GlassCard className="p-4"><div className="text-xs text-slate-400">Pet Mood</div><b className="text-2xl">{pet.mood}</b></GlassCard>
                     </div>

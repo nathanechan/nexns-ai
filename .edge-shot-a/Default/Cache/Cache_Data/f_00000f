@@ -1,0 +1,602 @@
+import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=8b22fcee"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import {
+  ArrowLeft,
+  Bed,
+  Dumbbell,
+  Eye,
+  FlaskConical,
+  Gift,
+  Heart,
+  Images,
+  ListChecks,
+  Sparkles,
+  Trophy,
+  Users
+} from "/node_modules/.vite/deps/lucide-react.js?v=4cbbadcc";
+import __vite__cjsImport2_react from "/node_modules/.vite/deps/react.js?v=b3fec0a0"; const useState = __vite__cjsImport2_react["useState"];
+import { Link } from "/node_modules/.vite/deps/react-router-dom.js?v=868b86c1";
+import { characterAssets } from "/src/assets/characters/characterAssets.ts";
+import nexWorldBg from "/src/assets/world/nex-world-bg.png?import";
+import nexWorldMobileBg from "/src/assets/world/nex-world-mobile-bg.png?import";
+import { GlassCard } from "/src/components/ui/GlassCard.tsx";
+import { PreviewModal } from "/src/components/ui/PreviewModal.tsx";
+import { ToastHost } from "/src/components/ui/ToastHost.tsx";
+import { tasks, user } from "/src/data/previewData.ts";
+import { useProductState } from "/src/state/productState.tsx";
+const worldZones = [
+  {
+    title: "Training Zone",
+    copy: "Train NEX and convert energy into pet EXP.",
+    icon: Dumbbell,
+    position: "left-[4.6%] top-[18%]",
+    mobileGroup: "World Areas",
+    characterVariant: "evolution",
+    action: "train"
+  },
+  {
+    title: "Rest Area",
+    copy: "Recover energy and reset the companion mood.",
+    icon: Bed,
+    position: "left-[4.5%] bottom-[31%]",
+    mobileGroup: "World Areas",
+    characterVariant: "sleeping",
+    action: "rest"
+  },
+  {
+    title: "Observation Deck",
+    copy: "Scan the ecosystem and discover growth signals.",
+    icon: Eye,
+    position: "left-[31%] top-[13%]",
+    mobileGroup: "World Areas",
+    characterVariant: "thinking",
+    action: "observe"
+  },
+  {
+    title: "Evolution Lab",
+    copy: "Advance NEX toward the next evolution stage.",
+    icon: FlaskConical,
+    position: "right-[6.4%] top-[17%]",
+    mobileGroup: "World Areas",
+    characterVariant: "evolution",
+    action: "evolve"
+  },
+  {
+    title: "Gallery",
+    copy: "Explore achievements, memories, and collection progress.",
+    icon: Images,
+    position: "right-[8%] top-[48%]",
+    mobileGroup: "World Areas",
+    characterVariant: "legend",
+    action: "gallery"
+  },
+  {
+    title: "Social Plaza",
+    copy: "Meet other explorers and increase social bond.",
+    icon: Users,
+    position: "right-[3.8%] bottom-[14%]",
+    mobileGroup: "World Areas",
+    characterVariant: "community",
+    action: "social"
+  },
+  {
+    title: "Growth Center",
+    copy: "Review milestone progress and evolution goals.",
+    icon: Sparkles,
+    position: "left-[4.4%] bottom-[11%]",
+    mobileGroup: "Progress Actions",
+    characterVariant: "evolution",
+    action: "growth"
+  },
+  {
+    title: "Daily Affection",
+    copy: "Interact with NEX to increase bond.",
+    icon: Heart,
+    position: "left-[3.6%] bottom-[2.5%]",
+    mobileGroup: "Progress Actions",
+    characterVariant: "happy",
+    action: "affection"
+  },
+  {
+    title: "Mission Center",
+    copy: "Complete a pet task and receive growth progress.",
+    icon: ListChecks,
+    position: "left-[36%] bottom-[2.4%]",
+    mobileGroup: "Progress Actions",
+    characterVariant: "quest",
+    action: "tasks"
+  },
+  {
+    title: "Reward Center",
+    copy: "Claim a companion reward and update activity.",
+    icon: Gift,
+    position: "right-[35%] bottom-[2.4%]",
+    mobileGroup: "Progress Actions",
+    characterVariant: "reward",
+    action: "rewards"
+  }
+];
+export function PetWorldPage() {
+  const [modal, setModal] = useState(null);
+  const { pet, petAction, claimTask, claimedTasks } = useProductState();
+  const handleZone = (zone) => {
+    const firstPetTask = tasks[0];
+    if (zone.action === "tasks") {
+      claimTask(`Pet World: ${firstPetTask.label}`, firstPetTask.reward);
+      setModal({ title: zone.title, description: `${firstPetTask.label} completed inside NEX World. ${firstPetTask.reward} added to your growth journey.` });
+      return;
+    }
+    if (zone.action === "rewards") {
+      claimTask("NEX World Reward", "+25 NS");
+      setModal({ title: zone.title, description: "A NEX World reward was added to your reward history and activity feed." });
+      return;
+    }
+    const effects = {
+      train: { exp: pet.exp + 8, energy: pet.energy - 8, mood: "Training" },
+      rest: { energy: pet.energy + 12, bond: pet.bond + 2, mood: "Calm" },
+      observe: { exp: pet.exp + 4, mood: "Curious" },
+      evolve: { evolution: pet.evolution + 6, energy: pet.energy - 4, mood: "Evolving" },
+      gallery: { exp: pet.exp + 3, bond: pet.bond + 2, mood: "Proud" },
+      social: { bond: pet.bond + 4, mood: "Social" },
+      growth: { exp: pet.exp + 5, evolution: pet.evolution + 3, mood: "Motivated" },
+      affection: { bond: pet.bond + 6, mood: "Loved" }
+    };
+    petAction(zone.title, zone.copy, effects[zone.action]);
+    setModal({ title: zone.title, description: zone.copy });
+  };
+  return /* @__PURE__ */ jsxDEV("div", { className: "min-h-screen overflow-hidden bg-[#030712] px-4 py-5 text-white sm:px-6", children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "mx-auto max-w-[1760px]", children: [
+      /* @__PURE__ */ jsxDEV("header", { className: "relative z-20 flex flex-wrap items-center justify-between gap-4", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "min-w-0 max-w-full", children: [
+          /* @__PURE__ */ jsxDEV(Link, { to: "/pet", className: "interactive-glow mb-4 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3", children: [
+            /* @__PURE__ */ jsxDEV(ArrowLeft, { className: "h-5 w-5" }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+              lineNumber: 170,
+              columnNumber: 15
+            }, this),
+            " Back to AI Pet"
+          ] }, void 0, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 169,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV(Link, { to: "/companion", className: "interactive-glow mb-4 ml-3 inline-flex items-center gap-2 rounded-xl border border-neon/30 bg-neon/10 px-4 py-3", children: "Ask NEX" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 172,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("h1", { className: "text-4xl font-black tracking-wide sm:text-5xl md:text-7xl", children: [
+            "NEX ",
+            /* @__PURE__ */ jsxDEV("span", { className: "text-gradient", children: "WORLD" }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+              lineNumber: 175,
+              columnNumber: 91
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 175,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("p", { className: "mt-3 max-w-full break-words text-slate-300 sm:max-w-xl", children: "A cinematic companion world where training, rest, evolution, rewards, and social growth happen in one living environment." }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 176,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 168,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "grid w-full max-w-full gap-3 sm:grid-cols-4 lg:w-auto", children: [
+          ["NEXY", `Lv.${user.level}`],
+          ["EXP", `${pet.exp} / 100`],
+          ["Energy", `${pet.energy} / 100`],
+          ["Mood", pet.mood]
+        ].map(([label, value]) => /* @__PURE__ */ jsxDEV(GlassCard, { className: "p-4", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "text-xs text-slate-400", children: label }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 186,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "mt-1 font-semibold", children: value }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 187,
+            columnNumber: 17
+          }, this)
+        ] }, label, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 185,
+          columnNumber: 15
+        }, this)) }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 178,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+        lineNumber: 167,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("main", { className: "relative mt-6", children: [
+        /* @__PURE__ */ jsxDEV("section", { className: "relative hidden h-[calc(100vh-260px)] min-h-[720px] max-h-[860px] overflow-hidden rounded-[34px] border border-white/10 bg-black shadow-hero lg:block", children: [
+          /* @__PURE__ */ jsxDEV("img", { src: nexWorldBg, alt: "NEX World companion city", className: "absolute inset-0 h-full w-full object-cover" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 195,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 bg-[radial-gradient(circle_at_50%_56%,transparent_0%,transparent_22%,rgba(3,7,18,0.12)_43%,rgba(3,7,18,0.58)_100%)]" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 196,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/55 to-transparent" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 197,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/65 to-transparent" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 198,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV(Link, { to: "/companion", className: "world-hotspot absolute left-[55%] top-[50%] z-30 max-w-60", children: /* @__PURE__ */ jsxDEV(GlassCard, { className: "interactive-glow p-4", children: [
+            /* @__PURE__ */ jsxDEV("b", { children: "Hey, I am NEXY" }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+              lineNumber: 202,
+              columnNumber: 17
+            }, this),
+            /* @__PURE__ */ jsxDEV("p", { className: "mt-2 text-sm text-slate-300", children: "Choose a zone and keep growing together." }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+              lineNumber: 203,
+              columnNumber: 17
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 201,
+            columnNumber: 15
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 200,
+            columnNumber: 13
+          }, this),
+          worldZones.map((zone) => /* @__PURE__ */ jsxDEV(WorldHotspot, { zone, onClick: () => handleZone(zone), claimed: zone.action === "tasks" && claimedTasks.includes(`Pet World: ${tasks[0].label}`) }, zone.title, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 208,
+            columnNumber: 15
+          }, this))
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 194,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "hidden lg:block", children: /* @__PURE__ */ jsxDEV(WorldStatusPanel, { pet, onAffection: () => handleZone(worldZones.find((zone) => zone.action === "affection")) }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 214,
+          columnNumber: 13
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 213,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("section", { className: "lg:hidden", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "relative overflow-hidden rounded-[30px] border border-white/10 bg-black shadow-hero", children: [
+            /* @__PURE__ */ jsxDEV("img", { src: nexWorldMobileBg, alt: "Mobile NEX World companion city", className: "block w-full" }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+              lineNumber: 219,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/70" }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+              lineNumber: 220,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "absolute bottom-5 left-5 right-5", children: /* @__PURE__ */ jsxDEV(GlassCard, { className: "bg-slate-950/70 p-5", children: [
+              /* @__PURE__ */ jsxDEV("div", { className: "nex-label", children: "NEX World" }, void 0, false, {
+                fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+                lineNumber: 223,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV("h2", { className: "mt-2 text-3xl font-black", children: "Choose a companion zone" }, void 0, false, {
+                fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+                lineNumber: 224,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV("p", { className: "mt-2 text-sm leading-6 text-slate-300", children: "The world remains cinematic on mobile. Use the touch actions below to train, rest, evolve, claim rewards, and grow NEX." }, void 0, false, {
+                fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+                lineNumber: 225,
+                columnNumber: 19
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+              lineNumber: 222,
+              columnNumber: 17
+            }, this) }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+              lineNumber: 221,
+              columnNumber: 15
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 218,
+            columnNumber: 13
+          }, this),
+          ["World Areas", "Progress Actions"].map((group) => /* @__PURE__ */ jsxDEV("div", { className: "mt-5", children: [
+            /* @__PURE__ */ jsxDEV("h2", { className: "nex-label mb-3", children: group }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+              lineNumber: 232,
+              columnNumber: 17
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "grid gap-3", children: worldZones.filter((zone) => zone.mobileGroup === group).map((zone) => /* @__PURE__ */ jsxDEV("button", { type: "button", onClick: () => handleZone(zone), className: "world-mobile-action interactive-glow text-left", children: [
+              /* @__PURE__ */ jsxDEV(zone.icon, { className: "h-5 w-5 text-cyan" }, void 0, false, {
+                fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+                lineNumber: 236,
+                columnNumber: 23
+              }, this),
+              /* @__PURE__ */ jsxDEV("img", { src: characterAssets[zone.characterVariant], alt: "", className: "h-12 w-12 object-contain" }, void 0, false, {
+                fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+                lineNumber: 237,
+                columnNumber: 23
+              }, this),
+              /* @__PURE__ */ jsxDEV("span", { children: [
+                /* @__PURE__ */ jsxDEV("b", { children: zone.title }, void 0, false, {
+                  fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+                  lineNumber: 239,
+                  columnNumber: 25
+                }, this),
+                /* @__PURE__ */ jsxDEV("small", { children: zone.copy }, void 0, false, {
+                  fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+                  lineNumber: 240,
+                  columnNumber: 25
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+                lineNumber: 238,
+                columnNumber: 23
+              }, this),
+              /* @__PURE__ */ jsxDEV(ArrowLeft, { className: "ml-auto h-4 w-4 rotate-180 text-purple-200" }, void 0, false, {
+                fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+                lineNumber: 242,
+                columnNumber: 23
+              }, this)
+            ] }, zone.title, true, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+              lineNumber: 235,
+              columnNumber: 21
+            }, this)) }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+              lineNumber: 233,
+              columnNumber: 17
+            }, this)
+          ] }, group, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 231,
+            columnNumber: 15
+          }, this)),
+          /* @__PURE__ */ jsxDEV(WorldStatusPanel, { pet, onAffection: () => handleZone(worldZones.find((zone) => zone.action === "affection")), mobile: true }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 249,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 217,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+        lineNumber: 193,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+      lineNumber: 166,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(PreviewModal, { open: !!modal, title: modal?.title ?? "", description: modal?.description, onClose: () => setModal(null), children: /* @__PURE__ */ jsxDEV("div", { className: "rounded-2xl border border-cyan/20 bg-cyan/10 p-4 text-sm text-slate-200", children: "NEX World uses local state and simulated progression only." }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+      lineNumber: 255,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+      lineNumber: 254,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(ToastHost, {}, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+      lineNumber: 257,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+    lineNumber: 165,
+    columnNumber: 5
+  }, this);
+}
+function WorldHotspot({ zone, onClick, claimed }) {
+  const Icon = zone.icon;
+  return /* @__PURE__ */ jsxDEV("button", { type: "button", onClick, className: `world-hotspot absolute z-30 max-w-[260px] text-left ${zone.position}`, children: [
+    /* @__PURE__ */ jsxDEV("span", { className: "world-pulse" }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+      lineNumber: 267,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(GlassCard, { className: "interactive-glow border-neon/30 bg-slate-950/60 p-4 shadow-glow", children: [
+      /* @__PURE__ */ jsxDEV("img", { src: characterAssets[zone.characterVariant], alt: "", className: "pointer-events-none absolute bottom-1 right-2 h-16 w-14 object-contain opacity-70 drop-shadow-[0_0_18px_rgba(139,92,246,.65)]" }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+        lineNumber: 269,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "relative z-10 flex items-center gap-3 pr-12", children: [
+        /* @__PURE__ */ jsxDEV("span", { className: "grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-neon/20 text-cyan", children: /* @__PURE__ */ jsxDEV(Icon, { className: "h-5 w-5" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 271,
+          columnNumber: 104
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 271,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { children: [
+          /* @__PURE__ */ jsxDEV("span", { className: "block text-sm font-black uppercase tracking-wide", children: zone.title }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 273,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("span", { className: "mt-1 block text-xs leading-5 text-slate-300", children: claimed ? "Claimed today" : zone.copy }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 274,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 272,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+        lineNumber: 270,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+      lineNumber: 268,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+    lineNumber: 266,
+    columnNumber: 5
+  }, this);
+}
+function WorldStatusPanel({ pet, onAffection, mobile = false }) {
+  return /* @__PURE__ */ jsxDEV(GlassCard, { className: `${mobile ? "mt-5" : "mt-4"} grid gap-4 p-4 lg:grid-cols-[1fr_1fr_1fr]`, children: [
+    /* @__PURE__ */ jsxDEV("div", { children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "flex items-center justify-between gap-3", children: [
+        /* @__PURE__ */ jsxDEV("span", { children: [
+          /* @__PURE__ */ jsxDEV(Heart, { className: "mr-2 inline text-pink-300" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 287,
+            columnNumber: 17
+          }, this),
+          "Daily Affection"
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 287,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { onClick: onAffection, className: "purple-button rounded-xl px-5 py-3 font-semibold", children: "Interact" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 288,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+        lineNumber: 286,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "mt-4 h-3 rounded-full bg-white/10", children: /* @__PURE__ */ jsxDEV("span", { className: "block h-full rounded-full bg-gradient-to-r from-neon to-cyan", style: { width: `${pet.bond}%` } }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+        lineNumber: 290,
+        columnNumber: 60
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+        lineNumber: 290,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+      lineNumber: 285,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { children: [
+      /* @__PURE__ */ jsxDEV("h2", { className: "font-semibold", children: "Pet State" }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+        lineNumber: 293,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "mt-3 grid grid-cols-3 gap-2 text-sm", children: [
+        /* @__PURE__ */ jsxDEV("span", { className: "rounded-xl bg-white/5 p-3", children: [
+          "EXP ",
+          /* @__PURE__ */ jsxDEV("b", { className: "block text-white", children: pet.exp }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 295,
+            columnNumber: 59
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 295,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { className: "rounded-xl bg-white/5 p-3", children: [
+          "Energy ",
+          /* @__PURE__ */ jsxDEV("b", { className: "block text-white", children: pet.energy }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 296,
+            columnNumber: 62
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 296,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { className: "rounded-xl bg-white/5 p-3", children: [
+          "Bond ",
+          /* @__PURE__ */ jsxDEV("b", { className: "block text-white", children: pet.bond }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+            lineNumber: 297,
+            columnNumber: 60
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 297,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+        lineNumber: 294,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+      lineNumber: 292,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { children: [
+      /* @__PURE__ */ jsxDEV("h2", { className: "flex items-center gap-2 font-semibold", children: [
+        /* @__PURE__ */ jsxDEV(Trophy, { className: "h-5 w-5 text-cyan" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+          lineNumber: 301,
+          columnNumber: 63
+        }, this),
+        "Next Milestone"
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+        lineNumber: 301,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "mt-2 text-3xl font-black", children: "Lv.30" }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+        lineNumber: 302,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "mt-3 h-2 rounded-full bg-white/10", children: /* @__PURE__ */ jsxDEV("span", { className: "block h-full rounded-full bg-neon", style: { width: `${pet.evolution}%` } }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+        lineNumber: 303,
+        columnNumber: 60
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+        lineNumber: 303,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+      lineNumber: 300,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/pages/PetWorldPage.tsx",
+    lineNumber: 284,
+    columnNumber: 5
+  }, this);
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIlBldFdvcmxkUGFnZS50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHtcbiAgQXJyb3dMZWZ0LFxuICBCZWQsXG4gIER1bWJiZWxsLFxuICBFeWUsXG4gIEZsYXNrQ29uaWNhbCxcbiAgR2lmdCxcbiAgSGVhcnQsXG4gIEltYWdlcyxcbiAgTGlzdENoZWNrcyxcbiAgU3BhcmtsZXMsXG4gIFRyb3BoeSxcbiAgVXNlcnMsXG59IGZyb20gXCJsdWNpZGUtcmVhY3RcIjtcbmltcG9ydCB0eXBlIHsgTHVjaWRlSWNvbiB9IGZyb20gXCJsdWNpZGUtcmVhY3RcIjtcbmltcG9ydCB7IHVzZVN0YXRlIH0gZnJvbSBcInJlYWN0XCI7XG5pbXBvcnQgeyBMaW5rIH0gZnJvbSBcInJlYWN0LXJvdXRlci1kb21cIjtcbmltcG9ydCB7IGNoYXJhY3RlckFzc2V0cywgdHlwZSBDaGFyYWN0ZXJWYXJpYW50IH0gZnJvbSBcIi4uL2Fzc2V0cy9jaGFyYWN0ZXJzL2NoYXJhY3RlckFzc2V0c1wiO1xuaW1wb3J0IG5leFdvcmxkQmcgZnJvbSBcIi4uL2Fzc2V0cy93b3JsZC9uZXgtd29ybGQtYmcucG5nXCI7XG5pbXBvcnQgbmV4V29ybGRNb2JpbGVCZyBmcm9tIFwiLi4vYXNzZXRzL3dvcmxkL25leC13b3JsZC1tb2JpbGUtYmcucG5nXCI7XG5pbXBvcnQgeyBHbGFzc0NhcmQgfSBmcm9tIFwiLi4vY29tcG9uZW50cy91aS9HbGFzc0NhcmRcIjtcbmltcG9ydCB7IFByZXZpZXdNb2RhbCB9IGZyb20gXCIuLi9jb21wb25lbnRzL3VpL1ByZXZpZXdNb2RhbFwiO1xuaW1wb3J0IHsgVG9hc3RIb3N0IH0gZnJvbSBcIi4uL2NvbXBvbmVudHMvdWkvVG9hc3RIb3N0XCI7XG5pbXBvcnQgeyB0YXNrcywgdXNlciB9IGZyb20gXCIuLi9kYXRhL3ByZXZpZXdEYXRhXCI7XG5pbXBvcnQgeyB1c2VQcm9kdWN0U3RhdGUgfSBmcm9tIFwiLi4vc3RhdGUvcHJvZHVjdFN0YXRlXCI7XG5cbnR5cGUgV29ybGRab25lID0ge1xuICB0aXRsZTogc3RyaW5nO1xuICBjb3B5OiBzdHJpbmc7XG4gIGljb246IEx1Y2lkZUljb247XG4gIHBvc2l0aW9uOiBzdHJpbmc7XG4gIG1vYmlsZUdyb3VwOiBcIldvcmxkIEFyZWFzXCIgfCBcIlByb2dyZXNzIEFjdGlvbnNcIjtcbiAgY2hhcmFjdGVyVmFyaWFudDogQ2hhcmFjdGVyVmFyaWFudDtcbiAgYWN0aW9uOiBcInRyYWluXCIgfCBcInJlc3RcIiB8IFwib2JzZXJ2ZVwiIHwgXCJldm9sdmVcIiB8IFwiZ2FsbGVyeVwiIHwgXCJzb2NpYWxcIiB8IFwiZ3Jvd3RoXCIgfCBcImFmZmVjdGlvblwiIHwgXCJ0YXNrc1wiIHwgXCJyZXdhcmRzXCI7XG59O1xuXG5jb25zdCB3b3JsZFpvbmVzOiBXb3JsZFpvbmVbXSA9IFtcbiAge1xuICAgIHRpdGxlOiBcIlRyYWluaW5nIFpvbmVcIixcbiAgICBjb3B5OiBcIlRyYWluIE5FWCBhbmQgY29udmVydCBlbmVyZ3kgaW50byBwZXQgRVhQLlwiLFxuICAgIGljb246IER1bWJiZWxsLFxuICAgIHBvc2l0aW9uOiBcImxlZnQtWzQuNiVdIHRvcC1bMTglXVwiLFxuICAgIG1vYmlsZUdyb3VwOiBcIldvcmxkIEFyZWFzXCIsXG4gICAgY2hhcmFjdGVyVmFyaWFudDogXCJldm9sdXRpb25cIixcbiAgICBhY3Rpb246IFwidHJhaW5cIixcbiAgfSxcbiAge1xuICAgIHRpdGxlOiBcIlJlc3QgQXJlYVwiLFxuICAgIGNvcHk6IFwiUmVjb3ZlciBlbmVyZ3kgYW5kIHJlc2V0IHRoZSBjb21wYW5pb24gbW9vZC5cIixcbiAgICBpY29uOiBCZWQsXG4gICAgcG9zaXRpb246IFwibGVmdC1bNC41JV0gYm90dG9tLVszMSVdXCIsXG4gICAgbW9iaWxlR3JvdXA6IFwiV29ybGQgQXJlYXNcIixcbiAgICBjaGFyYWN0ZXJWYXJpYW50OiBcInNsZWVwaW5nXCIsXG4gICAgYWN0aW9uOiBcInJlc3RcIixcbiAgfSxcbiAge1xuICAgIHRpdGxlOiBcIk9ic2VydmF0aW9uIERlY2tcIixcbiAgICBjb3B5OiBcIlNjYW4gdGhlIGVjb3N5c3RlbSBhbmQgZGlzY292ZXIgZ3Jvd3RoIHNpZ25hbHMuXCIsXG4gICAgaWNvbjogRXllLFxuICAgIHBvc2l0aW9uOiBcImxlZnQtWzMxJV0gdG9wLVsxMyVdXCIsXG4gICAgbW9iaWxlR3JvdXA6IFwiV29ybGQgQXJlYXNcIixcbiAgICBjaGFyYWN0ZXJWYXJpYW50OiBcInRoaW5raW5nXCIsXG4gICAgYWN0aW9uOiBcIm9ic2VydmVcIixcbiAgfSxcbiAge1xuICAgIHRpdGxlOiBcIkV2b2x1dGlvbiBMYWJcIixcbiAgICBjb3B5OiBcIkFkdmFuY2UgTkVYIHRvd2FyZCB0aGUgbmV4dCBldm9sdXRpb24gc3RhZ2UuXCIsXG4gICAgaWNvbjogRmxhc2tDb25pY2FsLFxuICAgIHBvc2l0aW9uOiBcInJpZ2h0LVs2LjQlXSB0b3AtWzE3JV1cIixcbiAgICBtb2JpbGVHcm91cDogXCJXb3JsZCBBcmVhc1wiLFxuICAgIGNoYXJhY3RlclZhcmlhbnQ6IFwiZXZvbHV0aW9uXCIsXG4gICAgYWN0aW9uOiBcImV2b2x2ZVwiLFxuICB9LFxuICB7XG4gICAgdGl0bGU6IFwiR2FsbGVyeVwiLFxuICAgIGNvcHk6IFwiRXhwbG9yZSBhY2hpZXZlbWVudHMsIG1lbW9yaWVzLCBhbmQgY29sbGVjdGlvbiBwcm9ncmVzcy5cIixcbiAgICBpY29uOiBJbWFnZXMsXG4gICAgcG9zaXRpb246IFwicmlnaHQtWzglXSB0b3AtWzQ4JV1cIixcbiAgICBtb2JpbGVHcm91cDogXCJXb3JsZCBBcmVhc1wiLFxuICAgIGNoYXJhY3RlclZhcmlhbnQ6IFwibGVnZW5kXCIsXG4gICAgYWN0aW9uOiBcImdhbGxlcnlcIixcbiAgfSxcbiAge1xuICAgIHRpdGxlOiBcIlNvY2lhbCBQbGF6YVwiLFxuICAgIGNvcHk6IFwiTWVldCBvdGhlciBleHBsb3JlcnMgYW5kIGluY3JlYXNlIHNvY2lhbCBib25kLlwiLFxuICAgIGljb246IFVzZXJzLFxuICAgIHBvc2l0aW9uOiBcInJpZ2h0LVszLjglXSBib3R0b20tWzE0JV1cIixcbiAgICBtb2JpbGVHcm91cDogXCJXb3JsZCBBcmVhc1wiLFxuICAgIGNoYXJhY3RlclZhcmlhbnQ6IFwiY29tbXVuaXR5XCIsXG4gICAgYWN0aW9uOiBcInNvY2lhbFwiLFxuICB9LFxuICB7XG4gICAgdGl0bGU6IFwiR3Jvd3RoIENlbnRlclwiLFxuICAgIGNvcHk6IFwiUmV2aWV3IG1pbGVzdG9uZSBwcm9ncmVzcyBhbmQgZXZvbHV0aW9uIGdvYWxzLlwiLFxuICAgIGljb246IFNwYXJrbGVzLFxuICAgIHBvc2l0aW9uOiBcImxlZnQtWzQuNCVdIGJvdHRvbS1bMTElXVwiLFxuICAgIG1vYmlsZUdyb3VwOiBcIlByb2dyZXNzIEFjdGlvbnNcIixcbiAgICBjaGFyYWN0ZXJWYXJpYW50OiBcImV2b2x1dGlvblwiLFxuICAgIGFjdGlvbjogXCJncm93dGhcIixcbiAgfSxcbiAge1xuICAgIHRpdGxlOiBcIkRhaWx5IEFmZmVjdGlvblwiLFxuICAgIGNvcHk6IFwiSW50ZXJhY3Qgd2l0aCBORVggdG8gaW5jcmVhc2UgYm9uZC5cIixcbiAgICBpY29uOiBIZWFydCxcbiAgICBwb3NpdGlvbjogXCJsZWZ0LVszLjYlXSBib3R0b20tWzIuNSVdXCIsXG4gICAgbW9iaWxlR3JvdXA6IFwiUHJvZ3Jlc3MgQWN0aW9uc1wiLFxuICAgIGNoYXJhY3RlclZhcmlhbnQ6IFwiaGFwcHlcIixcbiAgICBhY3Rpb246IFwiYWZmZWN0aW9uXCIsXG4gIH0sXG4gIHtcbiAgICB0aXRsZTogXCJNaXNzaW9uIENlbnRlclwiLFxuICAgIGNvcHk6IFwiQ29tcGxldGUgYSBwZXQgdGFzayBhbmQgcmVjZWl2ZSBncm93dGggcHJvZ3Jlc3MuXCIsXG4gICAgaWNvbjogTGlzdENoZWNrcyxcbiAgICBwb3NpdGlvbjogXCJsZWZ0LVszNiVdIGJvdHRvbS1bMi40JV1cIixcbiAgICBtb2JpbGVHcm91cDogXCJQcm9ncmVzcyBBY3Rpb25zXCIsXG4gICAgY2hhcmFjdGVyVmFyaWFudDogXCJxdWVzdFwiLFxuICAgIGFjdGlvbjogXCJ0YXNrc1wiLFxuICB9LFxuICB7XG4gICAgdGl0bGU6IFwiUmV3YXJkIENlbnRlclwiLFxuICAgIGNvcHk6IFwiQ2xhaW0gYSBjb21wYW5pb24gcmV3YXJkIGFuZCB1cGRhdGUgYWN0aXZpdHkuXCIsXG4gICAgaWNvbjogR2lmdCxcbiAgICBwb3NpdGlvbjogXCJyaWdodC1bMzUlXSBib3R0b20tWzIuNCVdXCIsXG4gICAgbW9iaWxlR3JvdXA6IFwiUHJvZ3Jlc3MgQWN0aW9uc1wiLFxuICAgIGNoYXJhY3RlclZhcmlhbnQ6IFwicmV3YXJkXCIsXG4gICAgYWN0aW9uOiBcInJld2FyZHNcIixcbiAgfSxcbl07XG5cbmV4cG9ydCBmdW5jdGlvbiBQZXRXb3JsZFBhZ2UoKSB7XG4gIGNvbnN0IFttb2RhbCwgc2V0TW9kYWxdID0gdXNlU3RhdGU8eyB0aXRsZTogc3RyaW5nOyBkZXNjcmlwdGlvbjogc3RyaW5nIH0gfCBudWxsPihudWxsKTtcbiAgY29uc3QgeyBwZXQsIHBldEFjdGlvbiwgY2xhaW1UYXNrLCBjbGFpbWVkVGFza3MgfSA9IHVzZVByb2R1Y3RTdGF0ZSgpO1xuXG4gIGNvbnN0IGhhbmRsZVpvbmUgPSAoem9uZTogV29ybGRab25lKSA9PiB7XG4gICAgY29uc3QgZmlyc3RQZXRUYXNrID0gdGFza3NbMF07XG5cbiAgICBpZiAoem9uZS5hY3Rpb24gPT09IFwidGFza3NcIikge1xuICAgICAgY2xhaW1UYXNrKGBQZXQgV29ybGQ6ICR7Zmlyc3RQZXRUYXNrLmxhYmVsfWAsIGZpcnN0UGV0VGFzay5yZXdhcmQpO1xuICAgICAgc2V0TW9kYWwoeyB0aXRsZTogem9uZS50aXRsZSwgZGVzY3JpcHRpb246IGAke2ZpcnN0UGV0VGFzay5sYWJlbH0gY29tcGxldGVkIGluc2lkZSBORVggV29ybGQuICR7Zmlyc3RQZXRUYXNrLnJld2FyZH0gYWRkZWQgdG8geW91ciBncm93dGggam91cm5leS5gIH0pO1xuICAgICAgcmV0dXJuO1xuICAgIH1cblxuICAgIGlmICh6b25lLmFjdGlvbiA9PT0gXCJyZXdhcmRzXCIpIHtcbiAgICAgIGNsYWltVGFzayhcIk5FWCBXb3JsZCBSZXdhcmRcIiwgXCIrMjUgTlNcIik7XG4gICAgICBzZXRNb2RhbCh7IHRpdGxlOiB6b25lLnRpdGxlLCBkZXNjcmlwdGlvbjogXCJBIE5FWCBXb3JsZCByZXdhcmQgd2FzIGFkZGVkIHRvIHlvdXIgcmV3YXJkIGhpc3RvcnkgYW5kIGFjdGl2aXR5IGZlZWQuXCIgfSk7XG4gICAgICByZXR1cm47XG4gICAgfVxuXG4gICAgY29uc3QgZWZmZWN0cyA9IHtcbiAgICAgIHRyYWluOiB7IGV4cDogcGV0LmV4cCArIDgsIGVuZXJneTogcGV0LmVuZXJneSAtIDgsIG1vb2Q6IFwiVHJhaW5pbmdcIiB9LFxuICAgICAgcmVzdDogeyBlbmVyZ3k6IHBldC5lbmVyZ3kgKyAxMiwgYm9uZDogcGV0LmJvbmQgKyAyLCBtb29kOiBcIkNhbG1cIiB9LFxuICAgICAgb2JzZXJ2ZTogeyBleHA6IHBldC5leHAgKyA0LCBtb29kOiBcIkN1cmlvdXNcIiB9LFxuICAgICAgZXZvbHZlOiB7IGV2b2x1dGlvbjogcGV0LmV2b2x1dGlvbiArIDYsIGVuZXJneTogcGV0LmVuZXJneSAtIDQsIG1vb2Q6IFwiRXZvbHZpbmdcIiB9LFxuICAgICAgZ2FsbGVyeTogeyBleHA6IHBldC5leHAgKyAzLCBib25kOiBwZXQuYm9uZCArIDIsIG1vb2Q6IFwiUHJvdWRcIiB9LFxuICAgICAgc29jaWFsOiB7IGJvbmQ6IHBldC5ib25kICsgNCwgbW9vZDogXCJTb2NpYWxcIiB9LFxuICAgICAgZ3Jvd3RoOiB7IGV4cDogcGV0LmV4cCArIDUsIGV2b2x1dGlvbjogcGV0LmV2b2x1dGlvbiArIDMsIG1vb2Q6IFwiTW90aXZhdGVkXCIgfSxcbiAgICAgIGFmZmVjdGlvbjogeyBib25kOiBwZXQuYm9uZCArIDYsIG1vb2Q6IFwiTG92ZWRcIiB9LFxuICAgIH0gc2F0aXNmaWVzIFJlY29yZDxFeGNsdWRlPFdvcmxkWm9uZVtcImFjdGlvblwiXSwgXCJ0YXNrc1wiIHwgXCJyZXdhcmRzXCI+LCBQYXJhbWV0ZXJzPHR5cGVvZiBwZXRBY3Rpb24+WzJdPjtcblxuICAgIHBldEFjdGlvbih6b25lLnRpdGxlLCB6b25lLmNvcHksIGVmZmVjdHNbem9uZS5hY3Rpb25dKTtcbiAgICBzZXRNb2RhbCh7IHRpdGxlOiB6b25lLnRpdGxlLCBkZXNjcmlwdGlvbjogem9uZS5jb3B5IH0pO1xuICB9O1xuXG4gIHJldHVybiAoXG4gICAgPGRpdiBjbGFzc05hbWU9XCJtaW4taC1zY3JlZW4gb3ZlcmZsb3ctaGlkZGVuIGJnLVsjMDMwNzEyXSBweC00IHB5LTUgdGV4dC13aGl0ZSBzbTpweC02XCI+XG4gICAgICA8ZGl2IGNsYXNzTmFtZT1cIm14LWF1dG8gbWF4LXctWzE3NjBweF1cIj5cbiAgICAgICAgPGhlYWRlciBjbGFzc05hbWU9XCJyZWxhdGl2ZSB6LTIwIGZsZXggZmxleC13cmFwIGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWJldHdlZW4gZ2FwLTRcIj5cbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cIm1pbi13LTAgbWF4LXctZnVsbFwiPlxuICAgICAgICAgICAgPExpbmsgdG89XCIvcGV0XCIgY2xhc3NOYW1lPVwiaW50ZXJhY3RpdmUtZ2xvdyBtYi00IGlubGluZS1mbGV4IGl0ZW1zLWNlbnRlciBnYXAtMiByb3VuZGVkLXhsIGJvcmRlciBib3JkZXItd2hpdGUvMTAgYmctd2hpdGUvNSBweC00IHB5LTNcIj5cbiAgICAgICAgICAgICAgPEFycm93TGVmdCBjbGFzc05hbWU9XCJoLTUgdy01XCIgLz4gQmFjayB0byBBSSBQZXRcbiAgICAgICAgICAgIDwvTGluaz5cbiAgICAgICAgICAgIDxMaW5rIHRvPVwiL2NvbXBhbmlvblwiIGNsYXNzTmFtZT1cImludGVyYWN0aXZlLWdsb3cgbWItNCBtbC0zIGlubGluZS1mbGV4IGl0ZW1zLWNlbnRlciBnYXAtMiByb3VuZGVkLXhsIGJvcmRlciBib3JkZXItbmVvbi8zMCBiZy1uZW9uLzEwIHB4LTQgcHktM1wiPlxuICAgICAgICAgICAgICBBc2sgTkVYXG4gICAgICAgICAgICA8L0xpbms+XG4gICAgICAgICAgICA8aDEgY2xhc3NOYW1lPVwidGV4dC00eGwgZm9udC1ibGFjayB0cmFja2luZy13aWRlIHNtOnRleHQtNXhsIG1kOnRleHQtN3hsXCI+TkVYIDxzcGFuIGNsYXNzTmFtZT1cInRleHQtZ3JhZGllbnRcIj5XT1JMRDwvc3Bhbj48L2gxPlxuICAgICAgICAgICAgPHAgY2xhc3NOYW1lPVwibXQtMyBtYXgtdy1mdWxsIGJyZWFrLXdvcmRzIHRleHQtc2xhdGUtMzAwIHNtOm1heC13LXhsXCI+QSBjaW5lbWF0aWMgY29tcGFuaW9uIHdvcmxkIHdoZXJlIHRyYWluaW5nLCByZXN0LCBldm9sdXRpb24sIHJld2FyZHMsIGFuZCBzb2NpYWwgZ3Jvd3RoIGhhcHBlbiBpbiBvbmUgbGl2aW5nIGVudmlyb25tZW50LjwvcD5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImdyaWQgdy1mdWxsIG1heC13LWZ1bGwgZ2FwLTMgc206Z3JpZC1jb2xzLTQgbGc6dy1hdXRvXCI+XG4gICAgICAgICAgICB7W1xuICAgICAgICAgICAgICBbXCJORVhZXCIsIGBMdi4ke3VzZXIubGV2ZWx9YF0sXG4gICAgICAgICAgICAgIFtcIkVYUFwiLCBgJHtwZXQuZXhwfSAvIDEwMGBdLFxuICAgICAgICAgICAgICBbXCJFbmVyZ3lcIiwgYCR7cGV0LmVuZXJneX0gLyAxMDBgXSxcbiAgICAgICAgICAgICAgW1wiTW9vZFwiLCBwZXQubW9vZF0sXG4gICAgICAgICAgICBdLm1hcCgoW2xhYmVsLCB2YWx1ZV0pID0+IChcbiAgICAgICAgICAgICAgPEdsYXNzQ2FyZCBrZXk9e2xhYmVsfSBjbGFzc05hbWU9XCJwLTRcIj5cbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInRleHQteHMgdGV4dC1zbGF0ZS00MDBcIj57bGFiZWx9PC9kaXY+XG4gICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJtdC0xIGZvbnQtc2VtaWJvbGRcIj57dmFsdWV9PC9kaXY+XG4gICAgICAgICAgICAgIDwvR2xhc3NDYXJkPlxuICAgICAgICAgICAgKSl9XG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgIDwvaGVhZGVyPlxuXG4gICAgICAgIDxtYWluIGNsYXNzTmFtZT1cInJlbGF0aXZlIG10LTZcIj5cbiAgICAgICAgICA8c2VjdGlvbiBjbGFzc05hbWU9XCJyZWxhdGl2ZSBoaWRkZW4gaC1bY2FsYygxMDB2aC0yNjBweCldIG1pbi1oLVs3MjBweF0gbWF4LWgtWzg2MHB4XSBvdmVyZmxvdy1oaWRkZW4gcm91bmRlZC1bMzRweF0gYm9yZGVyIGJvcmRlci13aGl0ZS8xMCBiZy1ibGFjayBzaGFkb3ctaGVybyBsZzpibG9ja1wiPlxuICAgICAgICAgICAgPGltZyBzcmM9e25leFdvcmxkQmd9IGFsdD1cIk5FWCBXb3JsZCBjb21wYW5pb24gY2l0eVwiIGNsYXNzTmFtZT1cImFic29sdXRlIGluc2V0LTAgaC1mdWxsIHctZnVsbCBvYmplY3QtY292ZXJcIiAvPlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJhYnNvbHV0ZSBpbnNldC0wIGJnLVtyYWRpYWwtZ3JhZGllbnQoY2lyY2xlX2F0XzUwJV81NiUsdHJhbnNwYXJlbnRfMCUsdHJhbnNwYXJlbnRfMjIlLHJnYmEoMyw3LDE4LDAuMTIpXzQzJSxyZ2JhKDMsNywxOCwwLjU4KV8xMDAlKV1cIiAvPlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJhYnNvbHV0ZSBpbnNldC14LTAgdG9wLTAgaC00MCBiZy1ncmFkaWVudC10by1iIGZyb20tYmxhY2svNTUgdG8tdHJhbnNwYXJlbnRcIiAvPlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJhYnNvbHV0ZSBpbnNldC14LTAgYm90dG9tLTAgaC00NCBiZy1ncmFkaWVudC10by10IGZyb20tYmxhY2svNjUgdG8tdHJhbnNwYXJlbnRcIiAvPlxuXG4gICAgICAgICAgICA8TGluayB0bz1cIi9jb21wYW5pb25cIiBjbGFzc05hbWU9XCJ3b3JsZC1ob3RzcG90IGFic29sdXRlIGxlZnQtWzU1JV0gdG9wLVs1MCVdIHotMzAgbWF4LXctNjBcIj5cbiAgICAgICAgICAgICAgPEdsYXNzQ2FyZCBjbGFzc05hbWU9XCJpbnRlcmFjdGl2ZS1nbG93IHAtNFwiPlxuICAgICAgICAgICAgICAgIDxiPkhleSwgSSBhbSBORVhZPC9iPlxuICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT1cIm10LTIgdGV4dC1zbSB0ZXh0LXNsYXRlLTMwMFwiPkNob29zZSBhIHpvbmUgYW5kIGtlZXAgZ3Jvd2luZyB0b2dldGhlci48L3A+XG4gICAgICAgICAgICAgIDwvR2xhc3NDYXJkPlxuICAgICAgICAgICAgPC9MaW5rPlxuXG4gICAgICAgICAgICB7d29ybGRab25lcy5tYXAoKHpvbmUpID0+IChcbiAgICAgICAgICAgICAgPFdvcmxkSG90c3BvdCBrZXk9e3pvbmUudGl0bGV9IHpvbmU9e3pvbmV9IG9uQ2xpY2s9eygpID0+IGhhbmRsZVpvbmUoem9uZSl9IGNsYWltZWQ9e3pvbmUuYWN0aW9uID09PSBcInRhc2tzXCIgJiYgY2xhaW1lZFRhc2tzLmluY2x1ZGVzKGBQZXQgV29ybGQ6ICR7dGFza3NbMF0ubGFiZWx9YCl9IC8+XG4gICAgICAgICAgICApKX1cblxuICAgICAgICAgIDwvc2VjdGlvbj5cblxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiaGlkZGVuIGxnOmJsb2NrXCI+XG4gICAgICAgICAgICA8V29ybGRTdGF0dXNQYW5lbCBwZXQ9e3BldH0gb25BZmZlY3Rpb249eygpID0+IGhhbmRsZVpvbmUod29ybGRab25lcy5maW5kKCh6b25lKSA9PiB6b25lLmFjdGlvbiA9PT0gXCJhZmZlY3Rpb25cIikhKX0gLz5cbiAgICAgICAgICA8L2Rpdj5cblxuICAgICAgICAgIDxzZWN0aW9uIGNsYXNzTmFtZT1cImxnOmhpZGRlblwiPlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJyZWxhdGl2ZSBvdmVyZmxvdy1oaWRkZW4gcm91bmRlZC1bMzBweF0gYm9yZGVyIGJvcmRlci13aGl0ZS8xMCBiZy1ibGFjayBzaGFkb3ctaGVyb1wiPlxuICAgICAgICAgICAgICA8aW1nIHNyYz17bmV4V29ybGRNb2JpbGVCZ30gYWx0PVwiTW9iaWxlIE5FWCBXb3JsZCBjb21wYW5pb24gY2l0eVwiIGNsYXNzTmFtZT1cImJsb2NrIHctZnVsbFwiIC8+XG4gICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiYWJzb2x1dGUgaW5zZXQtMCBiZy1ncmFkaWVudC10by1iIGZyb20tYmxhY2svMTAgdmlhLXRyYW5zcGFyZW50IHRvLWJsYWNrLzcwXCIgLz5cbiAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJhYnNvbHV0ZSBib3R0b20tNSBsZWZ0LTUgcmlnaHQtNVwiPlxuICAgICAgICAgICAgICAgIDxHbGFzc0NhcmQgY2xhc3NOYW1lPVwiYmctc2xhdGUtOTUwLzcwIHAtNVwiPlxuICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJuZXgtbGFiZWxcIj5ORVggV29ybGQ8L2Rpdj5cbiAgICAgICAgICAgICAgICAgIDxoMiBjbGFzc05hbWU9XCJtdC0yIHRleHQtM3hsIGZvbnQtYmxhY2tcIj5DaG9vc2UgYSBjb21wYW5pb24gem9uZTwvaDI+XG4gICAgICAgICAgICAgICAgICA8cCBjbGFzc05hbWU9XCJtdC0yIHRleHQtc20gbGVhZGluZy02IHRleHQtc2xhdGUtMzAwXCI+VGhlIHdvcmxkIHJlbWFpbnMgY2luZW1hdGljIG9uIG1vYmlsZS4gVXNlIHRoZSB0b3VjaCBhY3Rpb25zIGJlbG93IHRvIHRyYWluLCByZXN0LCBldm9sdmUsIGNsYWltIHJld2FyZHMsIGFuZCBncm93IE5FWC48L3A+XG4gICAgICAgICAgICAgICAgPC9HbGFzc0NhcmQ+XG4gICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgPC9kaXY+XG5cbiAgICAgICAgICAgIHsoW1wiV29ybGQgQXJlYXNcIiwgXCJQcm9ncmVzcyBBY3Rpb25zXCJdIGFzIGNvbnN0KS5tYXAoKGdyb3VwKSA9PiAoXG4gICAgICAgICAgICAgIDxkaXYga2V5PXtncm91cH0gY2xhc3NOYW1lPVwibXQtNVwiPlxuICAgICAgICAgICAgICAgIDxoMiBjbGFzc05hbWU9XCJuZXgtbGFiZWwgbWItM1wiPntncm91cH08L2gyPlxuICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZ3JpZCBnYXAtM1wiPlxuICAgICAgICAgICAgICAgICAge3dvcmxkWm9uZXMuZmlsdGVyKCh6b25lKSA9PiB6b25lLm1vYmlsZUdyb3VwID09PSBncm91cCkubWFwKCh6b25lKSA9PiAoXG4gICAgICAgICAgICAgICAgICAgIDxidXR0b24ga2V5PXt6b25lLnRpdGxlfSB0eXBlPVwiYnV0dG9uXCIgb25DbGljaz17KCkgPT4gaGFuZGxlWm9uZSh6b25lKX0gY2xhc3NOYW1lPVwid29ybGQtbW9iaWxlLWFjdGlvbiBpbnRlcmFjdGl2ZS1nbG93IHRleHQtbGVmdFwiPlxuICAgICAgICAgICAgICAgICAgICAgIDx6b25lLmljb24gY2xhc3NOYW1lPVwiaC01IHctNSB0ZXh0LWN5YW5cIiAvPlxuICAgICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPXtjaGFyYWN0ZXJBc3NldHNbem9uZS5jaGFyYWN0ZXJWYXJpYW50XX0gYWx0PVwiXCIgY2xhc3NOYW1lPVwiaC0xMiB3LTEyIG9iamVjdC1jb250YWluXCIgLz5cbiAgICAgICAgICAgICAgICAgICAgICA8c3Bhbj5cbiAgICAgICAgICAgICAgICAgICAgICAgIDxiPnt6b25lLnRpdGxlfTwvYj5cbiAgICAgICAgICAgICAgICAgICAgICAgIDxzbWFsbD57em9uZS5jb3B5fTwvc21hbGw+XG4gICAgICAgICAgICAgICAgICAgICAgPC9zcGFuPlxuICAgICAgICAgICAgICAgICAgICAgIDxBcnJvd0xlZnQgY2xhc3NOYW1lPVwibWwtYXV0byBoLTQgdy00IHJvdGF0ZS0xODAgdGV4dC1wdXJwbGUtMjAwXCIgLz5cbiAgICAgICAgICAgICAgICAgICAgPC9idXR0b24+XG4gICAgICAgICAgICAgICAgICApKX1cbiAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICApKX1cblxuICAgICAgICAgICAgPFdvcmxkU3RhdHVzUGFuZWwgcGV0PXtwZXR9IG9uQWZmZWN0aW9uPXsoKSA9PiBoYW5kbGVab25lKHdvcmxkWm9uZXMuZmluZCgoem9uZSkgPT4gem9uZS5hY3Rpb24gPT09IFwiYWZmZWN0aW9uXCIpISl9IG1vYmlsZSAvPlxuICAgICAgICAgIDwvc2VjdGlvbj5cbiAgICAgICAgPC9tYWluPlxuICAgICAgPC9kaXY+XG5cbiAgICAgIDxQcmV2aWV3TW9kYWwgb3Blbj17ISFtb2RhbH0gdGl0bGU9e21vZGFsPy50aXRsZSA/PyBcIlwifSBkZXNjcmlwdGlvbj17bW9kYWw/LmRlc2NyaXB0aW9ufSBvbkNsb3NlPXsoKSA9PiBzZXRNb2RhbChudWxsKX0+XG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwicm91bmRlZC0yeGwgYm9yZGVyIGJvcmRlci1jeWFuLzIwIGJnLWN5YW4vMTAgcC00IHRleHQtc20gdGV4dC1zbGF0ZS0yMDBcIj5ORVggV29ybGQgdXNlcyBsb2NhbCBzdGF0ZSBhbmQgc2ltdWxhdGVkIHByb2dyZXNzaW9uIG9ubHkuPC9kaXY+XG4gICAgICA8L1ByZXZpZXdNb2RhbD5cbiAgICAgIDxUb2FzdEhvc3QgLz5cbiAgICA8L2Rpdj5cbiAgKTtcbn1cblxuZnVuY3Rpb24gV29ybGRIb3RzcG90KHsgem9uZSwgb25DbGljaywgY2xhaW1lZCB9OiB7IHpvbmU6IFdvcmxkWm9uZTsgb25DbGljazogKCkgPT4gdm9pZDsgY2xhaW1lZD86IGJvb2xlYW4gfSkge1xuICBjb25zdCBJY29uID0gem9uZS5pY29uO1xuXG4gIHJldHVybiAoXG4gICAgPGJ1dHRvbiB0eXBlPVwiYnV0dG9uXCIgb25DbGljaz17b25DbGlja30gY2xhc3NOYW1lPXtgd29ybGQtaG90c3BvdCBhYnNvbHV0ZSB6LTMwIG1heC13LVsyNjBweF0gdGV4dC1sZWZ0ICR7em9uZS5wb3NpdGlvbn1gfT5cbiAgICAgIDxzcGFuIGNsYXNzTmFtZT1cIndvcmxkLXB1bHNlXCIgLz5cbiAgICAgIDxHbGFzc0NhcmQgY2xhc3NOYW1lPVwiaW50ZXJhY3RpdmUtZ2xvdyBib3JkZXItbmVvbi8zMCBiZy1zbGF0ZS05NTAvNjAgcC00IHNoYWRvdy1nbG93XCI+XG4gICAgICAgIDxpbWcgc3JjPXtjaGFyYWN0ZXJBc3NldHNbem9uZS5jaGFyYWN0ZXJWYXJpYW50XX0gYWx0PVwiXCIgY2xhc3NOYW1lPVwicG9pbnRlci1ldmVudHMtbm9uZSBhYnNvbHV0ZSBib3R0b20tMSByaWdodC0yIGgtMTYgdy0xNCBvYmplY3QtY29udGFpbiBvcGFjaXR5LTcwIGRyb3Atc2hhZG93LVswXzBfMThweF9yZ2JhKDEzOSw5MiwyNDYsLjY1KV1cIiAvPlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInJlbGF0aXZlIHotMTAgZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTMgcHItMTJcIj5cbiAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJncmlkIGgtMTEgdy0xMSBzaHJpbmstMCBwbGFjZS1pdGVtcy1jZW50ZXIgcm91bmRlZC14bCBiZy1uZW9uLzIwIHRleHQtY3lhblwiPjxJY29uIGNsYXNzTmFtZT1cImgtNSB3LTVcIiAvPjwvc3Bhbj5cbiAgICAgICAgICA8c3Bhbj5cbiAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cImJsb2NrIHRleHQtc20gZm9udC1ibGFjayB1cHBlcmNhc2UgdHJhY2tpbmctd2lkZVwiPnt6b25lLnRpdGxlfTwvc3Bhbj5cbiAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cIm10LTEgYmxvY2sgdGV4dC14cyBsZWFkaW5nLTUgdGV4dC1zbGF0ZS0zMDBcIj57Y2xhaW1lZCA/IFwiQ2xhaW1lZCB0b2RheVwiIDogem9uZS5jb3B5fTwvc3Bhbj5cbiAgICAgICAgICA8L3NwYW4+XG4gICAgICAgIDwvZGl2PlxuICAgICAgPC9HbGFzc0NhcmQ+XG4gICAgPC9idXR0b24+XG4gICk7XG59XG5cbmZ1bmN0aW9uIFdvcmxkU3RhdHVzUGFuZWwoeyBwZXQsIG9uQWZmZWN0aW9uLCBtb2JpbGUgPSBmYWxzZSB9OiB7IHBldDogUmV0dXJuVHlwZTx0eXBlb2YgdXNlUHJvZHVjdFN0YXRlPltcInBldFwiXTsgb25BZmZlY3Rpb246ICgpID0+IHZvaWQ7IG1vYmlsZT86IGJvb2xlYW4gfSkge1xuICByZXR1cm4gKFxuICAgIDxHbGFzc0NhcmQgY2xhc3NOYW1lPXtgJHttb2JpbGUgPyBcIm10LTVcIiA6IFwibXQtNFwifSBncmlkIGdhcC00IHAtNCBsZzpncmlkLWNvbHMtWzFmcl8xZnJfMWZyXWB9PlxuICAgICAgPGRpdj5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWJldHdlZW4gZ2FwLTNcIj5cbiAgICAgICAgICA8c3Bhbj48SGVhcnQgY2xhc3NOYW1lPVwibXItMiBpbmxpbmUgdGV4dC1waW5rLTMwMFwiIC8+RGFpbHkgQWZmZWN0aW9uPC9zcGFuPlxuICAgICAgICAgIDxidXR0b24gb25DbGljaz17b25BZmZlY3Rpb259IGNsYXNzTmFtZT1cInB1cnBsZS1idXR0b24gcm91bmRlZC14bCBweC01IHB5LTMgZm9udC1zZW1pYm9sZFwiPkludGVyYWN0PC9idXR0b24+XG4gICAgICAgIDwvZGl2PlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cIm10LTQgaC0zIHJvdW5kZWQtZnVsbCBiZy13aGl0ZS8xMFwiPjxzcGFuIGNsYXNzTmFtZT1cImJsb2NrIGgtZnVsbCByb3VuZGVkLWZ1bGwgYmctZ3JhZGllbnQtdG8tciBmcm9tLW5lb24gdG8tY3lhblwiIHN0eWxlPXt7IHdpZHRoOiBgJHtwZXQuYm9uZH0lYCB9fSAvPjwvZGl2PlxuICAgICAgPC9kaXY+XG4gICAgICA8ZGl2PlxuICAgICAgICA8aDIgY2xhc3NOYW1lPVwiZm9udC1zZW1pYm9sZFwiPlBldCBTdGF0ZTwvaDI+XG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwibXQtMyBncmlkIGdyaWQtY29scy0zIGdhcC0yIHRleHQtc21cIj5cbiAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJyb3VuZGVkLXhsIGJnLXdoaXRlLzUgcC0zXCI+RVhQIDxiIGNsYXNzTmFtZT1cImJsb2NrIHRleHQtd2hpdGVcIj57cGV0LmV4cH08L2I+PC9zcGFuPlxuICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInJvdW5kZWQteGwgYmctd2hpdGUvNSBwLTNcIj5FbmVyZ3kgPGIgY2xhc3NOYW1lPVwiYmxvY2sgdGV4dC13aGl0ZVwiPntwZXQuZW5lcmd5fTwvYj48L3NwYW4+XG4gICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwicm91bmRlZC14bCBiZy13aGl0ZS81IHAtM1wiPkJvbmQgPGIgY2xhc3NOYW1lPVwiYmxvY2sgdGV4dC13aGl0ZVwiPntwZXQuYm9uZH08L2I+PC9zcGFuPlxuICAgICAgICA8L2Rpdj5cbiAgICAgIDwvZGl2PlxuICAgICAgPGRpdj5cbiAgICAgICAgPGgyIGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0yIGZvbnQtc2VtaWJvbGRcIj48VHJvcGh5IGNsYXNzTmFtZT1cImgtNSB3LTUgdGV4dC1jeWFuXCIgLz5OZXh0IE1pbGVzdG9uZTwvaDI+XG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwibXQtMiB0ZXh0LTN4bCBmb250LWJsYWNrXCI+THYuMzA8L2Rpdj5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJtdC0zIGgtMiByb3VuZGVkLWZ1bGwgYmctd2hpdGUvMTBcIj48c3BhbiBjbGFzc05hbWU9XCJibG9jayBoLWZ1bGwgcm91bmRlZC1mdWxsIGJnLW5lb25cIiBzdHlsZT17eyB3aWR0aDogYCR7cGV0LmV2b2x1dGlvbn0lYCB9fSAvPjwvZGl2PlxuICAgICAgPC9kaXY+XG4gICAgPC9HbGFz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

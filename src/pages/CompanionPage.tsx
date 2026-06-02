@@ -121,7 +121,7 @@ export function CompanionPage() {
                 <h1 className="text-3xl font-black md:text-5xl">NEX is your AI growth companion inside NEXNS.</h1>
                 <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">NEX is not just a chatbot. It connects prediction, creators, projects, rewards, and pet growth into one guided product layer.</p>
               </div>
-              <span className="rounded-full border border-mint/30 bg-mint/10 px-4 py-2 text-sm text-mint">Preview Environment</span>
+              <span className="rounded-full border border-mint/30 bg-mint/10 px-4 py-2 text-sm text-mint">Growth Companion</span>
             </div>
           </div>
 

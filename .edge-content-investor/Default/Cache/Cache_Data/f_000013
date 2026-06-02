@@ -1,0 +1,566 @@
+import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=cd2ce4b3"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import { CheckCircle2, Filter, Rocket, Search, Users } from "/node_modules/.vite/deps/lucide-react.js?v=7fe346c5";
+import __vite__cjsImport2_react from "/node_modules/.vite/deps/react.js?v=13b7f3a0"; const useState = __vite__cjsImport2_react["useState"];
+import { useNavigate } from "/node_modules/.vite/deps/react-router-dom.js?v=092495c6";
+import { ProjectCard } from "/src/components/cards/ProjectCard.tsx";
+import { MiniLine } from "/src/components/charts/MiniLine.tsx";
+import { AppShell } from "/src/components/layout/AppShell.tsx";
+import { PreviewModal } from "/src/components/ui/PreviewModal.tsx";
+import { GlassCard } from "/src/components/ui/GlassCard.tsx";
+import { Mascot } from "/src/components/ui/Mascot.tsx";
+import { tasks } from "/src/data/previewData.ts";
+import { useLivePreviewData } from "/src/hooks/useLivePreviewData.ts";
+import { useProductState } from "/src/state/productState.tsx";
+import { toSlug } from "/src/utils/slug.ts";
+const categories = ["All Categories", "AI", "GameFi", "DeFi", "RWA", "Meme", "SocialFi", "Infra", "NFT", "More"];
+export function ProjectPage() {
+  const { projects, creators } = useLivePreviewData();
+  const { watchedProjects, joinedCampaigns, watchProject, joinCampaign, claimTask, followCreator, followedCreators } = useProductState();
+  const navigate = useNavigate();
+  const featured = projects[0];
+  const Icon = featured.icon;
+  const [modal, setModal] = useState(null);
+  return /* @__PURE__ */ jsxDEV(AppShell, { children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "grid items-center gap-6 lg:grid-cols-[1fr_.9fr]", children: [
+      /* @__PURE__ */ jsxDEV("div", { children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "glass mb-6 flex max-w-md items-center gap-3 rounded-xl px-4 py-3 text-slate-400", children: [
+          /* @__PURE__ */ jsxDEV(Search, { className: "h-5 w-5" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 29,
+            columnNumber: 108
+          }, this),
+          "Search projects, categories, token..."
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 29,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("h1", { className: "text-4xl font-black md:text-5xl", children: [
+          "Project ",
+          /* @__PURE__ */ jsxDEV("span", { className: "text-gradient", children: "Hub" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 30,
+            columnNumber: 67
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 30,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "mt-3 text-xl font-semibold", children: "Discover Promising Projects. Accelerate Growth." }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 31,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "mt-3 max-w-xl text-slate-300", children: "NEXNS connects innovative projects with a global network of predictors, creators and communities." }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 32,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "mt-7 flex flex-wrap gap-4", children: [
+          /* @__PURE__ */ jsxDEV("button", { onClick: () => setModal({ title: "List Your Project", description: "Project onboarding introduces campaign setup, creator support, community tasks, and growth analytics. No payment or contract interaction is performed." }), className: "purple-button rounded-xl px-6 py-3", children: "List Your Project" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 33,
+            columnNumber: 54
+          }, this),
+          /* @__PURE__ */ jsxDEV("button", { onClick: () => setModal({ title: "How It Works", description: "Projects launch prediction markets, activate creators, organize community tasks, and track growth signals." }), className: "rounded-xl border border-white/10 bg-white/5 px-6 py-3", children: "How It Works" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 33,
+            columnNumber: 359
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 33,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+        lineNumber: 28,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(GlassCard, { className: "soft-grid relative min-h-60 overflow-hidden p-6", children: [
+        /* @__PURE__ */ jsxDEV(Rocket, { className: "absolute right-8 top-8 h-16 w-16 text-cyan drop-shadow-[0_0_28px_rgba(34,211,238,.8)]" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 36,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(Mascot, { variant: "project", className: "absolute bottom-0 left-1/2 w-64 -translate-x-1/2" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 37,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+        lineNumber: 35,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+      lineNumber: 27,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "mt-5 grid grid-cols-2 gap-2 rounded-2xl border border-white/10 bg-white/5 p-2 md:grid-cols-5 lg:grid-cols-10", children: categories.map((cat, i) => /* @__PURE__ */ jsxDEV("button", { onClick: () => setModal({ title: cat, description: "Explore projects by sector, campaign activity, creator support, and community momentum." }), className: `interactive-glow rounded-xl py-3 text-sm ${i === 0 ? "bg-neon" : "hover:bg-white/5"}`, children: cat }, cat, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+      lineNumber: 42,
+      columnNumber: 37
+    }, this)) }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+      lineNumber: 41,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(GlassCard, { className: "mt-5 p-5", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "mb-4 flex justify-between", children: [
+        /* @__PURE__ */ jsxDEV("h2", { className: "text-xl font-semibold", children: "Top Gaining Projects" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 46,
+          columnNumber: 52
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { onClick: () => setModal({ title: "Top Gaining Projects", description: "Open the full project leaderboard with growth movement, community momentum, and creator support." }), className: "text-purple-300", children: "View All" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 46,
+          columnNumber: 115
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+        lineNumber: 46,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "grid gap-4 md:grid-cols-2 xl:grid-cols-5", children: projects.slice(0, 5).map((project) => /* @__PURE__ */ jsxDEV("div", { className: "relative", children: [
+        /* @__PURE__ */ jsxDEV(ProjectCard, { project, onClick: () => navigate(`/projects/${toSlug(project.name)}`) }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 47,
+          columnNumber: 151
+        }, this),
+        watchedProjects.includes(project.name) && /* @__PURE__ */ jsxDEV("span", { className: "absolute right-3 top-3 rounded-full bg-mint/15 px-2 py-1 text-xs text-mint", children: "Watching" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 47,
+          columnNumber: 289
+        }, this)
+      ] }, project.name, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+        lineNumber: 47,
+        columnNumber: 106
+      }, this)) }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+        lineNumber: 47,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+      lineNumber: 45,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("section", { className: "mt-5 grid gap-5 lg:grid-cols-[.8fr_1.2fr]", children: [
+      /* @__PURE__ */ jsxDEV(GlassCard, { className: "p-5", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "mb-4 flex justify-between", children: [
+          /* @__PURE__ */ jsxDEV("h2", { className: "text-xl font-semibold", children: "Featured Projects" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 52,
+            columnNumber: 54
+          }, this),
+          /* @__PURE__ */ jsxDEV("button", { onClick: () => setModal({ title: "Filters", description: "Advanced filters organize projects by category, market activity, creator support, and campaign stage." }), className: "rounded-lg border border-white/10 px-3 py-1 text-sm", children: [
+            /* @__PURE__ */ jsxDEV(Filter, { className: "mr-1 inline h-4 w-4" }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 52,
+              columnNumber: 351
+            }, this),
+            "Filters"
+          ] }, void 0, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 52,
+            columnNumber: 114
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 52,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "grid gap-3", children: projects.slice(0, 5).map((project) => /* @__PURE__ */ jsxDEV("button", { onClick: () => navigate(`/projects/${toSlug(project.name)}`), className: "interactive-glow grid grid-cols-[1fr_auto_90px] items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-3 text-left", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "min-w-0 font-semibold", children: [
+            project.name,
+            /* @__PURE__ */ jsxDEV("div", { className: "text-xs text-slate-400", children: [
+              project.category,
+              " powered ecosystem"
+            ] }, void 0, true, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 53,
+              columnNumber: 358
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 53,
+            columnNumber: 305
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDEV("b", { children: project.cap }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 53,
+              columnNumber: 451
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "text-mint", children: project.growth }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 53,
+              columnNumber: 471
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 53,
+            columnNumber: 446
+          }, this),
+          /* @__PURE__ */ jsxDEV(MiniLine, { data: project.data, color: "#20f29b", height: 42 }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 53,
+            columnNumber: 526
+          }, this)
+        ] }, project.name, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 53,
+          columnNumber: 78
+        }, this)) }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 53,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { onClick: () => setModal({ title: "More Projects", description: "A complete project directory would open here." }), className: "mt-4 w-full rounded-xl bg-neon/15 py-3", children: "View More Projects" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 54,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+        lineNumber: 51,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "grid gap-5", children: [
+        /* @__PURE__ */ jsxDEV(GlassCard, { className: "relative overflow-hidden p-7", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "flex flex-wrap justify-between gap-4", children: [
+            /* @__PURE__ */ jsxDEV("div", { className: "flex flex-wrap gap-5", children: [
+              /* @__PURE__ */ jsxDEV("span", { className: "grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-neon to-cyan", children: /* @__PURE__ */ jsxDEV(Icon, { className: "h-10 w-10" }, void 0, false, {
+                fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+                lineNumber: 60,
+                columnNumber: 154
+              }, this) }, void 0, false, {
+                fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+                lineNumber: 60,
+                columnNumber: 53
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { children: [
+                /* @__PURE__ */ jsxDEV("h2", { className: "text-3xl font-bold", children: featured.name }, void 0, false, {
+                  fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+                  lineNumber: 60,
+                  columnNumber: 196
+                }, this),
+                /* @__PURE__ */ jsxDEV("p", { className: "mt-2 max-w-xl text-slate-300", children: "AI-powered on-chain intelligence network that predicts market trends in real-time." }, void 0, false, {
+                  fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+                  lineNumber: 60,
+                  columnNumber: 251
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+                lineNumber: 60,
+                columnNumber: 191
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 60,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV("button", { onClick: () => watchProject(featured.name), className: "purple-button h-fit rounded-lg px-8 py-3", children: watchedProjects.includes(featured.name) ? "Watching" : "Follow" }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 61,
+              columnNumber: 15
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 59,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "mt-6 grid gap-3 sm:grid-cols-4", children: [featured.cap, "12.4K Predictors", featured.growth, "86.2K Community"].map((item) => /* @__PURE__ */ jsxDEV(GlassCard, { className: "interactive-glow p-4 text-center font-semibold", children: item }, item, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 63,
+            columnNumber: 147
+          }, this)) }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 63,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("button", { onClick: () => joinCampaign(featured.name), className: "interactive-glow mt-4 w-full rounded-xl border border-neon/30 bg-neon/15 py-3 font-semibold", children: joinedCampaigns.includes(featured.name) ? "Campaign Joined" : "Join Campaign" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 64,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 58,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(GlassCard, { className: "p-5", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "flex justify-between", children: [
+            /* @__PURE__ */ jsxDEV("h2", { className: "text-xl font-semibold", children: "Project Growth" }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 66,
+              columnNumber: 76
+            }, this),
+            /* @__PURE__ */ jsxDEV("button", { onClick: () => setModal({ title: "Project Analytics", description: "Analytics connect prediction volume, active participants, campaign progress, and creator distribution." }), className: "text-purple-300", children: "View Analytics" }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 66,
+              columnNumber: 133
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 66,
+            columnNumber: 38
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "mt-4 grid gap-3 md:grid-cols-4", children: ["Prediction Volume $24.58M", "Active Participants 28,450", "Total Predictions 156,230", "Win Rate 62.7%"].map((item, i) => /* @__PURE__ */ jsxDEV(GlassCard, { className: "interactive-glow p-4", children: [
+            /* @__PURE__ */ jsxDEV("div", { className: "font-semibold", children: item }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 66,
+              columnNumber: 602
+            }, this),
+            /* @__PURE__ */ jsxDEV(MiniLine, { data: projects[i].data, color: i === 1 ? "#0ea5e9" : "#a855f7", height: 70 }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 66,
+              columnNumber: 645
+            }, this)
+          ] }, item, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 66,
+            columnNumber: 547
+          }, this)) }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 66,
+            columnNumber: 374
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "mt-5 grid grid-cols-2 gap-2 text-center text-sm sm:grid-cols-4", children: ["Launch Completed", "Growth In Progress", "Expansion Locked", "Leadership Locked"].map((s, i) => /* @__PURE__ */ jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDEV(CheckCircle2, { className: `mx-auto ${i < 2 ? "text-mint" : "text-slate-500"}` }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 66,
+              columnNumber: 945
+            }, this),
+            s
+          ] }, s, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 66,
+            columnNumber: 932
+          }, this)) }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 66,
+            columnNumber: 753
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 66,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+        lineNumber: 57,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+      lineNumber: 50,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("section", { className: "mt-5 grid gap-5 lg:grid-cols-3", children: [
+      /* @__PURE__ */ jsxDEV(GlassCard, { className: "p-5", children: [
+        /* @__PURE__ */ jsxDEV("h2", { className: "text-xl font-semibold", children: "Active Campaigns" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 71,
+          columnNumber: 36
+        }, this),
+        ["Predict & Earn", "Invite & Grow", "Creator Boost"].map((name, i) => /* @__PURE__ */ jsxDEV("button", { onClick: () => joinCampaign(`${featured.name} ${name}`), className: "interactive-glow mt-4 w-full rounded-xl border border-white/10 bg-white/5 p-4 text-left", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "flex justify-between", children: [
+            /* @__PURE__ */ jsxDEV("b", { children: name }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 71,
+              columnNumber: 380
+            }, this),
+            /* @__PURE__ */ jsxDEV("span", { className: "text-purple-300", children: [
+              "+",
+              [1250, 800, 2e3][i],
+              " NS"
+            ] }, void 0, true, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 71,
+              columnNumber: 393
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 71,
+            columnNumber: 342
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "mt-3 h-2 rounded-full bg-white/10", children: /* @__PURE__ */ jsxDEV("span", { className: "block h-full rounded-full bg-neon", style: { width: `${joinedCampaigns.includes(`${featured.name} ${name}`) ? [75, 50, 88][i] : [65, 40, 78][i]}%` } }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 71,
+            columnNumber: 517
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 71,
+            columnNumber: 466
+          }, this)
+        ] }, name, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 71,
+          columnNumber: 166
+        }, this))
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+        lineNumber: 71,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(GlassCard, { className: "p-5", children: [
+        /* @__PURE__ */ jsxDEV("h2", { className: "text-xl font-semibold", children: "Top Creators Promoting" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 72,
+          columnNumber: 36
+        }, this),
+        creators.map((creator) => /* @__PURE__ */ jsxDEV("div", { className: "flex items-center justify-between border-t border-white/10 py-3", children: [
+          /* @__PURE__ */ jsxDEV("span", { className: "flex items-center gap-3", children: [
+            /* @__PURE__ */ jsxDEV("img", { src: creator.avatar, className: "h-10 w-10 rounded-full", alt: "" }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 72,
+              columnNumber: 270
+            }, this),
+            creator.name
+          ] }, void 0, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 72,
+            columnNumber: 228
+          }, this),
+          /* @__PURE__ */ jsxDEV("button", { onClick: () => followCreator(creator.name), className: "rounded-lg bg-neon/20 px-4 py-2", children: followedCreators.includes(creator.name) ? "Following" : "Follow" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 72,
+            columnNumber: 361
+          }, this)
+        ] }, creator.name, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 72,
+          columnNumber: 128
+        }, this))
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+        lineNumber: 72,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(GlassCard, { className: "p-5", children: [
+        /* @__PURE__ */ jsxDEV("h2", { className: "text-xl font-semibold", children: "Project Tasks" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 73,
+          columnNumber: 36
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "text-slate-300", children: "Complete tasks to support growth and earn rewards." }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 73,
+          columnNumber: 92
+        }, this),
+        tasks.slice(0, 4).map((task) => /* @__PURE__ */ jsxDEV("div", { className: "mt-3 flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3", children: [
+          /* @__PURE__ */ jsxDEV("span", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxDEV(task.icon, { className: "h-5 w-5 text-cyan" }, void 0, false, {
+              fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+              lineNumber: 73,
+              columnNumber: 373
+            }, this),
+            task.label
+          ] }, void 0, true, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 73,
+            columnNumber: 331
+          }, this),
+          /* @__PURE__ */ jsxDEV("button", { onClick: () => claimTask(`Project: ${task.label}`, task.reward), className: "rounded-lg bg-neon px-4 py-2", children: "Go" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 73,
+            columnNumber: 435
+          }, this)
+        ] }, task.label, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 73,
+          columnNumber: 209
+        }, this))
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+        lineNumber: 73,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+      lineNumber: 70,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(GlassCard, { className: "mt-5 flex flex-wrap items-center justify-between gap-5 p-8", children: [
+      /* @__PURE__ */ jsxDEV("div", { children: [
+        /* @__PURE__ */ jsxDEV("h2", { className: "text-3xl font-bold", children: "Bring Your Project to Millions" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 76,
+          columnNumber: 94
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "mt-2 text-slate-300", children: "List your project on NEXNS and connect with a global audience of predictors, creators and investors." }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 76,
+          columnNumber: 164
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+        lineNumber: 76,
+        columnNumber: 89
+      }, this),
+      /* @__PURE__ */ jsxDEV("button", { onClick: () => joinCampaign("Project Listing Waitlist"), className: "purple-button rounded-xl px-8 py-4 font-semibold", children: "List Your Project Now" }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+        lineNumber: 76,
+        columnNumber: 309
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "flex flex-wrap gap-6 text-sm text-purple-200", children: [
+        /* @__PURE__ */ jsxDEV("span", { children: [
+          /* @__PURE__ */ jsxDEV(Users, { className: "inline" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+            lineNumber: 76,
+            columnNumber: 533
+          }, this),
+          " Increase Visibility"
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 76,
+          columnNumber: 527
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { children: "Boost Growth" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 76,
+          columnNumber: 588
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { children: "Community Power" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 76,
+          columnNumber: 613
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { children: "Data & Analytics" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+          lineNumber: 76,
+          columnNumber: 641
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+        lineNumber: 76,
+        columnNumber: 465
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+      lineNumber: 76,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(PreviewModal, { open: !!modal, title: modal?.title ?? "", description: modal?.description, onClose: () => setModal(null), children: /* @__PURE__ */ jsxDEV("div", { className: "rounded-2xl border border-cyan/20 bg-cyan/10 p-4 text-sm text-slate-200", children: "Project growth, campaigns, and rewards reflect NEXNS ecosystem activity." }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+      lineNumber: 79,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+      lineNumber: 78,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/pages/ProjectPage.tsx",
+    lineNumber: 26,
+    columnNumber: 5
+  }, this);
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIlByb2plY3RQYWdlLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBDaGVja0NpcmNsZTIsIEZpbHRlciwgUm9ja2V0LCBTZWFyY2gsIFVzZXJzIH0gZnJvbSBcImx1Y2lkZS1yZWFjdFwiO1xuaW1wb3J0IHsgdXNlU3RhdGUgfSBmcm9tIFwicmVhY3RcIjtcbmltcG9ydCB7IHVzZU5hdmlnYXRlIH0gZnJvbSBcInJlYWN0LXJvdXRlci1kb21cIjtcbmltcG9ydCB7IFByb2plY3RDYXJkIH0gZnJvbSBcIi4uL2NvbXBvbmVudHMvY2FyZHMvUHJvamVjdENhcmRcIjtcbmltcG9ydCB7IE1pbmlMaW5lIH0gZnJvbSBcIi4uL2NvbXBvbmVudHMvY2hhcnRzL01pbmlMaW5lXCI7XG5pbXBvcnQgeyBBcHBTaGVsbCB9IGZyb20gXCIuLi9jb21wb25lbnRzL2xheW91dC9BcHBTaGVsbFwiO1xuaW1wb3J0IHsgUHJldmlld01vZGFsIH0gZnJvbSBcIi4uL2NvbXBvbmVudHMvdWkvUHJldmlld01vZGFsXCI7XG5pbXBvcnQgeyBHbGFzc0NhcmQgfSBmcm9tIFwiLi4vY29tcG9uZW50cy91aS9HbGFzc0NhcmRcIjtcbmltcG9ydCB7IE1hc2NvdCB9IGZyb20gXCIuLi9jb21wb25lbnRzL3VpL01hc2NvdFwiO1xuaW1wb3J0IHsgdGFza3MgfSBmcm9tIFwiLi4vZGF0YS9wcmV2aWV3RGF0YVwiO1xuaW1wb3J0IHsgdXNlTGl2ZVByZXZpZXdEYXRhIH0gZnJvbSBcIi4uL2hvb2tzL3VzZUxpdmVQcmV2aWV3RGF0YVwiO1xuaW1wb3J0IHsgdXNlUHJvZHVjdFN0YXRlIH0gZnJvbSBcIi4uL3N0YXRlL3Byb2R1Y3RTdGF0ZVwiO1xuaW1wb3J0IHsgdG9TbHVnIH0gZnJvbSBcIi4uL3V0aWxzL3NsdWdcIjtcblxuY29uc3QgY2F0ZWdvcmllcyA9IFtcIkFsbCBDYXRlZ29yaWVzXCIsIFwiQUlcIiwgXCJHYW1lRmlcIiwgXCJEZUZpXCIsIFwiUldBXCIsIFwiTWVtZVwiLCBcIlNvY2lhbEZpXCIsIFwiSW5mcmFcIiwgXCJORlRcIiwgXCJNb3JlXCJdO1xuXG5leHBvcnQgZnVuY3Rpb24gUHJvamVjdFBhZ2UoKSB7XG4gIGNvbnN0IHsgcHJvamVjdHMsIGNyZWF0b3JzIH0gPSB1c2VMaXZlUHJldmlld0RhdGEoKTtcbiAgY29uc3QgeyB3YXRjaGVkUHJvamVjdHMsIGpvaW5lZENhbXBhaWducywgd2F0Y2hQcm9qZWN0LCBqb2luQ2FtcGFpZ24sIGNsYWltVGFzaywgZm9sbG93Q3JlYXRvciwgZm9sbG93ZWRDcmVhdG9ycyB9ID0gdXNlUHJvZHVjdFN0YXRlKCk7XG4gIGNvbnN0IG5hdmlnYXRlID0gdXNlTmF2aWdhdGUoKTtcbiAgY29uc3QgZmVhdHVyZWQgPSBwcm9qZWN0c1swXTtcbiAgY29uc3QgSWNvbiA9IGZlYXR1cmVkLmljb247XG4gIGNvbnN0IFttb2RhbCwgc2V0TW9kYWxdID0gdXNlU3RhdGU8eyB0aXRsZTogc3RyaW5nOyBkZXNjcmlwdGlvbjogc3RyaW5nIH0gfCBudWxsPihudWxsKTtcblxuICByZXR1cm4gKFxuICAgIDxBcHBTaGVsbD5cbiAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZ3JpZCBpdGVtcy1jZW50ZXIgZ2FwLTYgbGc6Z3JpZC1jb2xzLVsxZnJfLjlmcl1cIj5cbiAgICAgICAgPGRpdj5cbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImdsYXNzIG1iLTYgZmxleCBtYXgtdy1tZCBpdGVtcy1jZW50ZXIgZ2FwLTMgcm91bmRlZC14bCBweC00IHB5LTMgdGV4dC1zbGF0ZS00MDBcIj48U2VhcmNoIGNsYXNzTmFtZT1cImgtNSB3LTVcIiAvPlNlYXJjaCBwcm9qZWN0cywgY2F0ZWdvcmllcywgdG9rZW4uLi48L2Rpdj5cbiAgICAgICAgICA8aDEgY2xhc3NOYW1lPVwidGV4dC00eGwgZm9udC1ibGFjayBtZDp0ZXh0LTV4bFwiPlByb2plY3QgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC1ncmFkaWVudFwiPkh1Yjwvc3Bhbj48L2gxPlxuICAgICAgICAgIDxwIGNsYXNzTmFtZT1cIm10LTMgdGV4dC14bCBmb250LXNlbWlib2xkXCI+RGlzY292ZXIgUHJvbWlzaW5nIFByb2plY3RzLiBBY2NlbGVyYXRlIEdyb3d0aC48L3A+XG4gICAgICAgICAgPHAgY2xhc3NOYW1lPVwibXQtMyBtYXgtdy14bCB0ZXh0LXNsYXRlLTMwMFwiPk5FWE5TIGNvbm5lY3RzIGlubm92YXRpdmUgcHJvamVjdHMgd2l0aCBhIGdsb2JhbCBuZXR3b3JrIG9mIHByZWRpY3RvcnMsIGNyZWF0b3JzIGFuZCBjb21tdW5pdGllcy48L3A+XG4gICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJtdC03IGZsZXggZmxleC13cmFwIGdhcC00XCI+PGJ1dHRvbiBvbkNsaWNrPXsoKSA9PiBzZXRNb2RhbCh7IHRpdGxlOiBcIkxpc3QgWW91ciBQcm9qZWN0XCIsIGRlc2NyaXB0aW9uOiBcIlByb2plY3Qgb25ib2FyZGluZyBpbnRyb2R1Y2VzIGNhbXBhaWduIHNldHVwLCBjcmVhdG9yIHN1cHBvcnQsIGNvbW11bml0eSB0YXNrcywgYW5kIGdyb3d0aCBhbmFseXRpY3MuIE5vIHBheW1lbnQgb3IgY29udHJhY3QgaW50ZXJhY3Rpb24gaXMgcGVyZm9ybWVkLlwiIH0pfSBjbGFzc05hbWU9XCJwdXJwbGUtYnV0dG9uIHJvdW5kZWQteGwgcHgtNiBweS0zXCI+TGlzdCBZb3VyIFByb2plY3Q8L2J1dHRvbj48YnV0dG9uIG9uQ2xpY2s9eygpID0+IHNldE1vZGFsKHsgdGl0bGU6IFwiSG93IEl0IFdvcmtzXCIsIGRlc2NyaXB0aW9uOiBcIlByb2plY3RzIGxhdW5jaCBwcmVkaWN0aW9uIG1hcmtldHMsIGFjdGl2YXRlIGNyZWF0b3JzLCBvcmdhbml6ZSBjb21tdW5pdHkgdGFza3MsIGFuZCB0cmFjayBncm93dGggc2lnbmFscy5cIiB9KX0gY2xhc3NOYW1lPVwicm91bmRlZC14bCBib3JkZXIgYm9yZGVyLXdoaXRlLzEwIGJnLXdoaXRlLzUgcHgtNiBweS0zXCI+SG93IEl0IFdvcmtzPC9idXR0b24+PC9kaXY+XG4gICAgICAgIDwvZGl2PlxuICAgICAgICA8R2xhc3NDYXJkIGNsYXNzTmFtZT1cInNvZnQtZ3JpZCByZWxhdGl2ZSBtaW4taC02MCBvdmVyZmxvdy1oaWRkZW4gcC02XCI+XG4gICAgICAgICAgPFJvY2tldCBjbGFzc05hbWU9XCJhYnNvbHV0ZSByaWdodC04IHRvcC04IGgtMTYgdy0xNiB0ZXh0LWN5YW4gZHJvcC1zaGFkb3ctWzBfMF8yOHB4X3JnYmEoMzQsMjExLDIzOCwuOCldXCIgLz5cbiAgICAgICAgICA8TWFzY290IHZhcmlhbnQ9XCJwcm9qZWN0XCIgY2xhc3NOYW1lPVwiYWJzb2x1dGUgYm90dG9tLTAgbGVmdC0xLzIgdy02NCAtdHJhbnNsYXRlLXgtMS8yXCIgLz5cbiAgICAgICAgPC9HbGFzc0NhcmQ+XG4gICAgICA8L2Rpdj5cblxuICAgICAgPGRpdiBjbGFzc05hbWU9XCJtdC01IGdyaWQgZ3JpZC1jb2xzLTIgZ2FwLTIgcm91bmRlZC0yeGwgYm9yZGVyIGJvcmRlci13aGl0ZS8xMCBiZy13aGl0ZS81IHAtMiBtZDpncmlkLWNvbHMtNSBsZzpncmlkLWNvbHMtMTBcIj5cbiAgICAgICAge2NhdGVnb3JpZXMubWFwKChjYXQsIGkpID0+IDxidXR0b24ga2V5PXtjYXR9IG9uQ2xpY2s9eygpID0+IHNldE1vZGFsKHsgdGl0bGU6IGNhdCwgZGVzY3JpcHRpb246IFwiRXhwbG9yZSBwcm9qZWN0cyBieSBzZWN0b3IsIGNhbXBhaWduIGFjdGl2aXR5LCBjcmVhdG9yIHN1cHBvcnQsIGFuZCBjb21tdW5pdHkgbW9tZW50dW0uXCIgfSl9IGNsYXNzTmFtZT17YGludGVyYWN0aXZlLWdsb3cgcm91bmRlZC14bCBweS0zIHRleHQtc20gJHtpID09PSAwID8gXCJiZy1uZW9uXCIgOiBcImhvdmVyOmJnLXdoaXRlLzVcIn1gfT57Y2F0fTwvYnV0dG9uPil9XG4gICAgICA8L2Rpdj5cblxuICAgICAgPEdsYXNzQ2FyZCBjbGFzc05hbWU9XCJtdC01IHAtNVwiPlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cIm1iLTQgZmxleCBqdXN0aWZ5LWJldHdlZW5cIj48aDIgY2xhc3NOYW1lPVwidGV4dC14bCBmb250LXNlbWlib2xkXCI+VG9wIEdhaW5pbmcgUHJvamVjdHM8L2gyPjxidXR0b24gb25DbGljaz17KCkgPT4gc2V0TW9kYWwoeyB0aXRsZTogXCJUb3AgR2FpbmluZyBQcm9qZWN0c1wiLCBkZXNjcmlwdGlvbjogXCJPcGVuIHRoZSBmdWxsIHByb2plY3QgbGVhZGVyYm9hcmQgd2l0aCBncm93dGggbW92ZW1lbnQsIGNvbW11bml0eSBtb21lbnR1bSwgYW5kIGNyZWF0b3Igc3VwcG9ydC5cIiB9KX0gY2xhc3NOYW1lPVwidGV4dC1wdXJwbGUtMzAwXCI+VmlldyBBbGw8L2J1dHRvbj48L2Rpdj5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJncmlkIGdhcC00IG1kOmdyaWQtY29scy0yIHhsOmdyaWQtY29scy01XCI+e3Byb2plY3RzLnNsaWNlKDAsIDUpLm1hcCgocHJvamVjdCkgPT4gPGRpdiBrZXk9e3Byb2plY3QubmFtZX0gY2xhc3NOYW1lPVwicmVsYXRpdmVcIj48UHJvamVjdENhcmQgcHJvamVjdD17cHJvamVjdH0gb25DbGljaz17KCkgPT4gbmF2aWdhdGUoYC9wcm9qZWN0cy8ke3RvU2x1Zyhwcm9qZWN0Lm5hbWUpfWApfSAvPnt3YXRjaGVkUHJvamVjdHMuaW5jbHVkZXMocHJvamVjdC5uYW1lKSAmJiA8c3BhbiBjbGFzc05hbWU9XCJhYnNvbHV0ZSByaWdodC0zIHRvcC0zIHJvdW5kZWQtZnVsbCBiZy1taW50LzE1IHB4LTIgcHktMSB0ZXh0LXhzIHRleHQtbWludFwiPldhdGNoaW5nPC9zcGFuPn08L2Rpdj4pfTwvZGl2PlxuICAgICAgPC9HbGFzc0NhcmQ+XG5cbiAgICAgIDxzZWN0aW9uIGNsYXNzTmFtZT1cIm10LTUgZ3JpZCBnYXAtNSBsZzpncmlkLWNvbHMtWy44ZnJfMS4yZnJdXCI+XG4gICAgICAgIDxHbGFzc0NhcmQgY2xhc3NOYW1lPVwicC01XCI+XG4gICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJtYi00IGZsZXgganVzdGlmeS1iZXR3ZWVuXCI+PGgyIGNsYXNzTmFtZT1cInRleHQteGwgZm9udC1zZW1pYm9sZFwiPkZlYXR1cmVkIFByb2plY3RzPC9oMj48YnV0dG9uIG9uQ2xpY2s9eygpID0+IHNldE1vZGFsKHsgdGl0bGU6IFwiRmlsdGVyc1wiLCBkZXNjcmlwdGlvbjogXCJBZHZhbmNlZCBmaWx0ZXJzIG9yZ2FuaXplIHByb2plY3RzIGJ5IGNhdGVnb3J5LCBtYXJrZXQgYWN0aXZpdHksIGNyZWF0b3Igc3VwcG9ydCwgYW5kIGNhbXBhaWduIHN0YWdlLlwiIH0pfSBjbGFzc05hbWU9XCJyb3VuZGVkLWxnIGJvcmRlciBib3JkZXItd2hpdGUvMTAgcHgtMyBweS0xIHRleHQtc21cIj48RmlsdGVyIGNsYXNzTmFtZT1cIm1yLTEgaW5saW5lIGgtNCB3LTRcIiAvPkZpbHRlcnM8L2J1dHRvbj48L2Rpdj5cbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImdyaWQgZ2FwLTNcIj57cHJvamVjdHMuc2xpY2UoMCwgNSkubWFwKChwcm9qZWN0KSA9PiA8YnV0dG9uIGtleT17cHJvamVjdC5uYW1lfSBvbkNsaWNrPXsoKSA9PiBuYXZpZ2F0ZShgL3Byb2plY3RzLyR7dG9TbHVnKHByb2plY3QubmFtZSl9YCl9IGNsYXNzTmFtZT1cImludGVyYWN0aXZlLWdsb3cgZ3JpZCBncmlkLWNvbHMtWzFmcl9hdXRvXzkwcHhdIGl0ZW1zLWNlbnRlciBnYXAtMyByb3VuZGVkLXhsIGJvcmRlciBib3JkZXItd2hpdGUvMTAgYmctd2hpdGUvNSBwLTMgdGV4dC1sZWZ0XCI+PGRpdiBjbGFzc05hbWU9XCJtaW4tdy0wIGZvbnQtc2VtaWJvbGRcIj57cHJvamVjdC5uYW1lfTxkaXYgY2xhc3NOYW1lPVwidGV4dC14cyB0ZXh0LXNsYXRlLTQwMFwiPntwcm9qZWN0LmNhdGVnb3J5fSBwb3dlcmVkIGVjb3N5c3RlbTwvZGl2PjwvZGl2PjxkaXY+PGI+e3Byb2plY3QuY2FwfTwvYj48ZGl2IGNsYXNzTmFtZT1cInRleHQtbWludFwiPntwcm9qZWN0Lmdyb3d0aH08L2Rpdj48L2Rpdj48TWluaUxpbmUgZGF0YT17cHJvamVjdC5kYXRhfSBjb2xvcj1cIiMyMGYyOWJcIiBoZWlnaHQ9ezQyfSAvPjwvYnV0dG9uPil9PC9kaXY+XG4gICAgICAgICAgPGJ1dHRvbiBvbkNsaWNrPXsoKSA9PiBzZXRNb2RhbCh7IHRpdGxlOiBcIk1vcmUgUHJvamVjdHNcIiwgZGVzY3JpcHRpb246IFwiQSBjb21wbGV0ZSBwcm9qZWN0IGRpcmVjdG9yeSB3b3VsZCBvcGVuIGhlcmUuXCIgfSl9IGNsYXNzTmFtZT1cIm10LTQgdy1mdWxsIHJvdW5kZWQteGwgYmctbmVvbi8xNSBweS0zXCI+VmlldyBNb3JlIFByb2plY3RzPC9idXR0b24+XG4gICAgICAgIDwvR2xhc3NDYXJkPlxuXG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZ3JpZCBnYXAtNVwiPlxuICAgICAgICAgIDxHbGFzc0NhcmQgY2xhc3NOYW1lPVwicmVsYXRpdmUgb3ZlcmZsb3ctaGlkZGVuIHAtN1wiPlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGZsZXgtd3JhcCBqdXN0aWZ5LWJldHdlZW4gZ2FwLTRcIj5cbiAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGZsZXgtd3JhcCBnYXAtNVwiPjxzcGFuIGNsYXNzTmFtZT1cImdyaWQgaC0yMCB3LTIwIHBsYWNlLWl0ZW1zLWNlbnRlciByb3VuZGVkLWZ1bGwgYmctZ3JhZGllbnQtdG8tYnIgZnJvbS1uZW9uIHRvLWN5YW5cIj48SWNvbiBjbGFzc05hbWU9XCJoLTEwIHctMTBcIiAvPjwvc3Bhbj48ZGl2PjxoMiBjbGFzc05hbWU9XCJ0ZXh0LTN4bCBmb250LWJvbGRcIj57ZmVhdHVyZWQubmFtZX08L2gyPjxwIGNsYXNzTmFtZT1cIm10LTIgbWF4LXcteGwgdGV4dC1zbGF0ZS0zMDBcIj5BSS1wb3dlcmVkIG9uLWNoYWluIGludGVsbGlnZW5jZSBuZXR3b3JrIHRoYXQgcHJlZGljdHMgbWFya2V0IHRyZW5kcyBpbiByZWFsLXRpbWUuPC9wPjwvZGl2PjwvZGl2PlxuICAgICAgICAgICAgICA8YnV0dG9uIG9uQ2xpY2s9eygpID0+IHdhdGNoUHJvamVjdChmZWF0dXJlZC5uYW1lKX0gY2xhc3NOYW1lPVwicHVycGxlLWJ1dHRvbiBoLWZpdCByb3VuZGVkLWxnIHB4LTggcHktM1wiPnt3YXRjaGVkUHJvamVjdHMuaW5jbHVkZXMoZmVhdHVyZWQubmFtZSkgPyBcIldhdGNoaW5nXCIgOiBcIkZvbGxvd1wifTwvYnV0dG9uPlxuICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cIm10LTYgZ3JpZCBnYXAtMyBzbTpncmlkLWNvbHMtNFwiPntbZmVhdHVyZWQuY2FwLCBcIjEyLjRLIFByZWRpY3RvcnNcIiwgZmVhdHVyZWQuZ3Jvd3RoLCBcIjg2LjJLIENvbW11bml0eVwiXS5tYXAoKGl0ZW0pID0+IDxHbGFzc0NhcmQga2V5PXtpdGVtfSBjbGFzc05hbWU9XCJpbnRlcmFjdGl2ZS1nbG93IHAtNCB0ZXh0LWNlbnRlciBmb250LXNlbWlib2xkXCI+e2l0ZW19PC9HbGFzc0NhcmQ+KX08L2Rpdj5cbiAgICAgICAgICAgIDxidXR0b24gb25DbGljaz17KCkgPT4gam9pbkNhbXBhaWduKGZlYXR1cmVkLm5hbWUpfSBjbGFzc05hbWU9XCJpbnRlcmFjdGl2ZS1nbG93IG10LTQgdy1mdWxsIHJvdW5kZWQteGwgYm9yZGVyIGJvcmRlci1uZW9uLzMwIGJnLW5lb24vMTUgcHktMyBmb250LXNlbWlib2xkXCI+e2pvaW5lZENhbXBhaWducy5pbmNsdWRlcyhmZWF0dXJlZC5uYW1lKSA/IFwiQ2FtcGFpZ24gSm9pbmVkXCIgOiBcIkpvaW4gQ2FtcGFpZ25cIn08L2J1dHRvbj5cbiAgICAgICAgICA8L0dsYXNzQ2FyZD5cbiAgICAgICAgICA8R2xhc3NDYXJkIGNsYXNzTmFtZT1cInAtNVwiPjxkaXYgY2xhc3NOYW1lPVwiZmxleCBqdXN0aWZ5LWJldHdlZW5cIj48aDIgY2xhc3NOYW1lPVwidGV4dC14bCBmb250LXNlbWlib2xkXCI+UHJvamVjdCBHcm93dGg8L2gyPjxidXR0b24gb25DbGljaz17KCkgPT4gc2V0TW9kYWwoeyB0aXRsZTogXCJQcm9qZWN0IEFuYWx5dGljc1wiLCBkZXNjcmlwdGlvbjogXCJBbmFseXRpY3MgY29ubmVjdCBwcmVkaWN0aW9uIHZvbHVtZSwgYWN0aXZlIHBhcnRpY2lwYW50cywgY2FtcGFpZ24gcHJvZ3Jlc3MsIGFuZCBjcmVhdG9yIGRpc3RyaWJ1dGlvbi5cIiB9KX0gY2xhc3NOYW1lPVwidGV4dC1wdXJwbGUtMzAwXCI+VmlldyBBbmFseXRpY3M8L2J1dHRvbj48L2Rpdj48ZGl2IGNsYXNzTmFtZT1cIm10LTQgZ3JpZCBnYXAtMyBtZDpncmlkLWNvbHMtNFwiPntbXCJQcmVkaWN0aW9uIFZvbHVtZSAkMjQuNThNXCIsIFwiQWN0aXZlIFBhcnRpY2lwYW50cyAyOCw0NTBcIiwgXCJUb3RhbCBQcmVkaWN0aW9ucyAxNTYsMjMwXCIsIFwiV2luIFJhdGUgNjIuNyVcIl0ubWFwKChpdGVtLCBpKSA9PiA8R2xhc3NDYXJkIGtleT17aXRlbX0gY2xhc3NOYW1lPVwiaW50ZXJhY3RpdmUtZ2xvdyBwLTRcIj48ZGl2IGNsYXNzTmFtZT1cImZvbnQtc2VtaWJvbGRcIj57aXRlbX08L2Rpdj48TWluaUxpbmUgZGF0YT17cHJvamVjdHNbaV0uZGF0YX0gY29sb3I9e2kgPT09IDEgPyBcIiMwZWE1ZTlcIiA6IFwiI2E4NTVmN1wifSBoZWlnaHQ9ezcwfSAvPjwvR2xhc3NDYXJkPil9PC9kaXY+PGRpdiBjbGFzc05hbWU9XCJtdC01IGdyaWQgZ3JpZC1jb2xzLTIgZ2FwLTIgdGV4dC1jZW50ZXIgdGV4dC1zbSBzbTpncmlkLWNvbHMtNFwiPntbXCJMYXVuY2ggQ29tcGxldGVkXCIsIFwiR3Jvd3RoIEluIFByb2dyZXNzXCIsIFwiRXhwYW5zaW9uIExvY2tlZFwiLCBcIkxlYWRlcnNoaXAgTG9ja2VkXCJdLm1hcCgocywgaSkgPT4gPGRpdiBrZXk9e3N9PjxDaGVja0NpcmNsZTIgY2xhc3NOYW1lPXtgbXgtYXV0byAke2kgPCAyID8gXCJ0ZXh0LW1pbnRcIiA6IFwidGV4dC1zbGF0ZS01MDBcIn1gfSAvPntzfTwvZGl2Pil9PC9kaXY+PC9HbGFzc0NhcmQ+XG4gICAgICAgIDwvZGl2PlxuICAgICAgPC9zZWN0aW9uPlxuXG4gICAgICA8c2VjdGlvbiBjbGFzc05hbWU9XCJtdC01IGdyaWQgZ2FwLTUgbGc6Z3JpZC1jb2xzLTNcIj5cbiAgICAgICAgPEdsYXNzQ2FyZCBjbGFzc05hbWU9XCJwLTVcIj48aDIgY2xhc3NOYW1lPVwidGV4dC14bCBmb250LXNlbWlib2xkXCI+QWN0aXZlIENhbXBhaWduczwvaDI+e1tcIlByZWRpY3QgJiBFYXJuXCIsIFwiSW52aXRlICYgR3Jvd1wiLCBcIkNyZWF0b3IgQm9vc3RcIl0ubWFwKChuYW1lLCBpKSA9PiA8YnV0dG9uIGtleT17bmFtZX0gb25DbGljaz17KCkgPT4gam9pbkNhbXBhaWduKGAke2ZlYXR1cmVkLm5hbWV9ICR7bmFtZX1gKX0gY2xhc3NOYW1lPVwiaW50ZXJhY3RpdmUtZ2xvdyBtdC00IHctZnVsbCByb3VuZGVkLXhsIGJvcmRlciBib3JkZXItd2hpdGUvMTAgYmctd2hpdGUvNSBwLTQgdGV4dC1sZWZ0XCI+PGRpdiBjbGFzc05hbWU9XCJmbGV4IGp1c3RpZnktYmV0d2VlblwiPjxiPntuYW1lfTwvYj48c3BhbiBjbGFzc05hbWU9XCJ0ZXh0LXB1cnBsZS0zMDBcIj4re1sxMjUwLCA4MDAsIDIwMDBdW2ldfSBOUzwvc3Bhbj48L2Rpdj48ZGl2IGNsYXNzTmFtZT1cIm10LTMgaC0yIHJvdW5kZWQtZnVsbCBiZy13aGl0ZS8xMFwiPjxzcGFuIGNsYXNzTmFtZT1cImJsb2NrIGgtZnVsbCByb3VuZGVkLWZ1bGwgYmctbmVvblwiIHN0eWxlPXt7IHdpZHRoOiBgJHtqb2luZWRDYW1wYWlnbnMuaW5jbHVkZXMoYCR7ZmVhdHVyZWQubmFtZX0gJHtuYW1lfWApID8gWzc1LCA1MCwgODhdW2ldIDogWzY1LCA0MCwgNzhdW2ldfSVgIH19IC8+PC9kaXY+PC9idXR0b24+KX08L0dsYXNzQ2FyZD5cbiAgICAgICAgPEdsYXNzQ2FyZCBjbGFzc05hbWU9XCJwLTVcIj48aDIgY2xhc3NOYW1lPVwidGV4dC14bCBmb250LXNlbWlib2xkXCI+VG9wIENyZWF0b3JzIFByb21vdGluZzwvaDI+e2NyZWF0b3JzLm1hcCgoY3JlYXRvcikgPT4gPGRpdiBrZXk9e2NyZWF0b3IubmFtZX0gY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1iZXR3ZWVuIGJvcmRlci10IGJvcmRlci13aGl0ZS8xMCBweS0zXCI+PHNwYW4gY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTNcIj48aW1nIHNyYz17Y3JlYXRvci5hdmF0YXJ9IGNsYXNzTmFtZT1cImgtMTAgdy0xMCByb3VuZGVkLWZ1bGxcIiBhbHQ9XCJcIiAvPntjcmVhdG9yLm5hbWV9PC9zcGFuPjxidXR0b24gb25DbGljaz17KCkgPT4gZm9sbG93Q3JlYXRvcihjcmVhdG9yLm5hbWUpfSBjbGFzc05hbWU9XCJyb3VuZGVkLWxnIGJnLW5lb24vMjAgcHgtNCBweS0yXCI+e2ZvbGxvd2VkQ3JlYXRvcnMuaW5jbHVkZXMoY3JlYXRvci5uYW1lKSA/IFwiRm9sbG93aW5nXCIgOiBcIkZvbGxvd1wifTwvYnV0dG9uPjwvZGl2Pil9PC9HbGFzc0NhcmQ+XG4gICAgICAgIDxHbGFzc0NhcmQgY2xhc3NOYW1lPVwicC01XCI+PGgyIGNsYXNzTmFtZT1cInRleHQteGwgZm9udC1zZW1pYm9sZFwiPlByb2plY3QgVGFza3M8L2gyPjxwIGNsYXNzTmFtZT1cInRleHQtc2xhdGUtMzAwXCI+Q29tcGxldGUgdGFza3MgdG8gc3VwcG9ydCBncm93dGggYW5kIGVhcm4gcmV3YXJkcy48L3A+e3Rhc2tzLnNsaWNlKDAsIDQpLm1hcCgodGFzaykgPT4gPGRpdiBrZXk9e3Rhc2subGFiZWx9IGNsYXNzTmFtZT1cIm10LTMgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1iZXR3ZWVuIHJvdW5kZWQteGwgYm9yZGVyIGJvcmRlci13aGl0ZS8xMCBiZy13aGl0ZS81IHAtM1wiPjxzcGFuIGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0yXCI+PHRhc2suaWNvbiBjbGFzc05hbWU9XCJoLTUgdy01IHRleHQtY3lhblwiIC8+e3Rhc2subGFiZWx9PC9zcGFuPjxidXR0b24gb25DbGljaz17KCkgPT4gY2xhaW1UYXNrKGBQcm9qZWN0OiAke3Rhc2subGFiZWx9YCwgdGFzay5yZXdhcmQpfSBjbGFzc05hbWU9XCJyb3VuZGVkLWxnIGJnLW5lb24gcHgtNCBweS0yXCI+R288L2J1dHRvbj48L2Rpdj4pfTwvR2xhc3NDYXJkPlxuICAgICAgPC9zZWN0aW9uPlxuXG4gICAgICA8R2xhc3NDYXJkIGNsYXNzTmFtZT1cIm10LTUgZmxleCBmbGV4LXdyYXAgaXRlbXMtY2VudGVyIGp1c3RpZnktYmV0d2VlbiBnYXAtNSBwLThcIj48ZGl2PjxoMiBjbGFzc05hbWU9XCJ0ZXh0LTN4bCBmb250LWJvbGRcIj5CcmluZyBZb3VyIFByb2plY3QgdG8gTWlsbGlvbnM8L2gyPjxwIGNsYXNzTmFtZT1cIm10LTIgdGV4dC1zbGF0ZS0zMDBcIj5MaXN0IHlvdXIgcHJvamVjdCBvbiBORVhOUyBhbmQgY29ubmVjdCB3aXRoIGEgZ2xvYmFsIGF1ZGllbmNlIG9mIHByZWRpY3RvcnMsIGNyZWF0b3JzIGFuZCBpbnZlc3RvcnMuPC9wPjwvZGl2PjxidXR0b24gb25DbGljaz17KCkgPT4gam9pbkNhbXBhaWduKFwiUHJvamVjdCBMaXN0aW5nIFdhaXRsaXN0XCIpfSBjbGFzc05hbWU9XCJwdXJwbGUtYnV0dG9uIHJvdW5kZWQteGwgcHgtOCBweS00IGZvbnQtc2VtaWJvbGRcIj5MaXN0IFlvdXIgUHJvamVjdCBOb3c8L2J1dHRvbj48ZGl2IGNsYXNzTmFtZT1cImZsZXggZmxleC13cmFwIGdhcC02IHRleHQtc20gdGV4dC1wdXJwbGUtMjAwXCI+PHNwYW4+PFVzZXJzIGNsYXNzTmFtZT1cImlubGluZVwiIC8+IEluY3JlYXNlIFZpc2liaWxpdHk8L3NwYW4+PHNwYW4+Qm9vc3QgR3Jvd3RoPC9zcGFuPjxzcGFuPkNvbW11bml0eSBQb3dlcjwvc3Bhbj48c3Bhbj5EYXRhICYgQW5hbHl0aWNzPC9zcGFuPjwvZGl2PjwvR2xhc3NDYXJkPlxuXG4gICAgICA8UHJldmlld01vZGFsIG9wZW49eyEhbW9kYWx9IHRpdGxlPXttb2RhbD8udGl0bGUgPz8gXCJcIn0gZGVzY3JpcHRpb249e21vZGFsPy5kZXNjcmlwdGlvbn0gb25DbG9zZT17KCkgPT4gc2V0TW9kYWwobnVsbCl9PlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInJvdW5kZWQtMnhsIGJvcmRlciBib3JkZXItY3lhbi8yMCBiZy1jeWFuLzEwIHAtNCB0ZXh0LXNtIHRleHQtc2xhdGUtMjAwXCI+UHJvamVjdCBncm93dGgsIGNhbXBhaWducywgYW5kIHJld2FyZHMgcmVmbGVjdCBORVhOUyBlY29zeXN0ZW0gYWN0aXZpdHkuPC9kaXY+XG4gICAgICA8L1ByZXZpZXdNb2RhbD5cbiAgICA8L0FwcFNoZWxsPlxuICApO1xufVxuIl0sIm1hcHBpbmdzIjoiQUE0QjJHO0FBNUIzRyxTQUFTLGNBQWMsUUFBUSxRQUFRLFFBQVEsYUFBYTtBQUM1RCxTQUFTLGdCQUFnQjtBQUN6QixTQUFTLG1CQUFtQjtBQUM1QixTQUFTLG1CQUFtQjtBQUM1QixTQUFTLGdCQUFnQjtBQUN6QixTQUFTLGdCQUFnQjtBQUN6QixTQUFTLG9CQUFvQjtBQUM3QixTQUFTLGlCQUFpQjtBQUMxQixTQUFTLGNBQWM7QUFDdkIsU0FBUyxhQUFhO0FBQ3RCLFNBQVMsMEJBQTBCO0FBQ25DLFNBQVMsdUJBQXVCO0FBQ2hDLFNBQVMsY0FBYztBQUV2QixNQUFNLGFBQWEsQ0FBQyxrQkFBa0IsTUFBTSxVQUFVLFFBQVEsT0FBTyxRQUFRLFlBQVksU0FBUyxPQUFPLE1BQU07QUFFeEcsZ0JBQVMsY0FBYztBQUM1QixRQUFNLEVBQUUs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

@@ -35,7 +35,7 @@ export function CreatorPage() {
         </GlassCard>
       </div>
 
-      <div className="mt-5 flex flex-wrap gap-3">{["All", "Top", "Following", "BTC", "ETH", "SOL", "AI", "Meme", "RWA", "GameFi", "DeFi"].map((tab, i) => <button key={tab} onClick={() => setModal({ title: `${tab} Creators`, description: "Creator filters are interactive visual controls in this Preview Environment." })} className={`interactive-glow rounded-lg border border-white/10 px-5 py-2 ${i === 0 ? "bg-neon" : "bg-white/5"}`}>{tab}</button>)}</div>
+      <div className="mt-5 flex flex-wrap gap-3">{["All", "Top", "Following", "BTC", "ETH", "SOL", "AI", "Meme", "RWA", "GameFi", "DeFi"].map((tab, i) => <button key={tab} onClick={() => setModal({ title: `${tab} Creators`, description: "Creator filters help you explore ranked insights, communities, and market specialists." })} className={`interactive-glow rounded-lg border border-white/10 px-5 py-2 ${i === 0 ? "bg-neon" : "bg-white/5"}`}>{tab}</button>)}</div>
 
       <GlassCard className="mt-5 p-5">
         <div className="mb-4 flex justify-between"><h2 className="text-xl font-semibold">Featured Creators</h2><button onClick={() => setModal({ title: "All Creators", description: "This would open the complete creator leaderboard with simulated rankings and ROI." })} className="text-purple-300">View All</button></div>
@@ -54,7 +54,7 @@ export function CreatorPage() {
             <button onClick={() => joinCreatorCommunity(lead.name)} className="interactive-glow rounded-xl border border-white/10 bg-white/5 py-3 font-semibold">Join Community</button>
           </div>
           <div className="mt-6 grid gap-3">
-            {markets.slice(0, 4).map((market) => <button key={market.symbol} onClick={() => setModal({ title: `${market.symbol} Creator Call`, description: `A Live Preview creator prediction detail for ${market.pair}. No real prediction is executed.` })} className="interactive-glow flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-4 text-left"><div><b>{market.pair}</b><p className="text-sm text-slate-400">Will {market.symbol} price go UP in the next 4 hours?</p></div><div className="text-right"><div className="font-bold text-mint">UP</div><span className="rounded-full bg-mint/10 px-3 py-1 text-xs text-mint">Won</span></div></button>)}
+            {markets.slice(0, 4).map((market) => <button key={market.symbol} onClick={() => setModal({ title: `${market.symbol} Creator Call`, description: `${market.pair} creator insight with confidence, timing, and community response. This action does not initiate external financial activity.` })} className="interactive-glow flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-4 text-left"><div><b>{market.pair}</b><p className="text-sm text-slate-400">Will {market.symbol} price go UP in the next 4 hours?</p></div><div className="text-right"><div className="font-bold text-mint">UP</div><span className="rounded-full bg-mint/10 px-3 py-1 text-xs text-mint">Won</span></div></button>)}
           </div>
         </GlassCard>
         <div className="grid gap-5">
@@ -65,10 +65,10 @@ export function CreatorPage() {
       </section>
 
       <GlassCard className="mt-5 p-6"><h2 className="text-xl font-semibold">Community <span className="ml-3 text-sm text-slate-400">12.3K Members · 532 Online</span></h2><div className="mt-4 grid gap-3 md:grid-cols-3">{["Great analysis on BTC macro trend.", "Your ETH call was spot on!", "Can you share more about SOL prediction model?"].map((text) => <GlassCard key={text} className="interactive-glow p-4"><MessageCircle className="mb-3 text-cyan" />{text}</GlassCard>)}</div></GlassCard>
-      <GlassCard className="mt-5 flex flex-wrap items-center justify-between gap-5 p-8"><div><h2 className="text-3xl font-bold">Become a Creator</h2><p className="mt-2 text-slate-300">Share insights. Build influence. Earn rewards.</p></div><button onClick={() => setModal({ title: "Become a Creator", description: "This opens a Investor Preview onboarding flow. No account, payment, or wallet is created." })} className="purple-button rounded-xl px-8 py-4 font-semibold">Start Your Journey</button><MiniLine data={roiData} color="#8b5cf6" /></GlassCard>
+      <GlassCard className="mt-5 flex flex-wrap items-center justify-between gap-5 p-8"><div><h2 className="text-3xl font-bold">Become a Creator</h2><p className="mt-2 text-slate-300">Share insights. Build influence. Earn rewards.</p></div><button onClick={() => setModal({ title: "Become a Creator", description: "Creator onboarding introduces publishing, community, and campaign paths. No payment or wallet action is initiated." })} className="purple-button rounded-xl px-8 py-4 font-semibold">Start Your Journey</button><MiniLine data={roiData} color="#8b5cf6" /></GlassCard>
 
       <PreviewModal open={!!modal} title={modal?.title ?? ""} description={modal?.description} onClose={() => setModal(null)}>
-        <div className="rounded-2xl border border-neon/20 bg-neon/10 p-4 text-sm text-slate-200">Creator data and earnings use Simulated Market Data only.</div>
+        <div className="rounded-2xl border border-neon/20 bg-neon/10 p-4 text-sm text-slate-200">Creator data reflects NEXNS market intelligence and ecosystem activity.</div>
       </PreviewModal>
     </AppShell>
   );

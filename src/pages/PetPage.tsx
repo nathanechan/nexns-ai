@@ -67,8 +67,8 @@ export function PetPage() {
             <GlassCard className="interactive-glow p-5">
               <Brain className="h-9 w-9 text-cyan" />
               <h3 className="mt-3 text-xl font-semibold">Training Zone</h3>
-              <p className="mt-2 text-sm text-slate-300">Analyze Simulated Market Data to earn pet EXP and unlock evolution traits.</p>
-              <button onClick={() => petAction("Training complete", "+8 pet EXP. Energy spent inside the Preview Environment companion loop.", { exp: pet.exp + 8, energy: pet.energy - 8, mood: "Focused" })} className="purple-button mt-5 block w-full rounded-xl py-3 text-center font-semibold">Train Pet</button>
+              <p className="mt-2 text-sm text-slate-300">Analyze market signals to earn pet EXP and unlock evolution traits.</p>
+              <button onClick={() => petAction("Training complete", "+8 pet EXP. Energy spent inside the NEX companion loop.", { exp: pet.exp + 8, energy: pet.energy - 8, mood: "Focused" })} className="purple-button mt-5 block w-full rounded-xl py-3 text-center font-semibold">Train Pet</button>
             </GlassCard>
             <GlassCard className="interactive-glow p-5">
               <Bed className="h-9 w-9 text-purple-300" />
@@ -111,7 +111,7 @@ export function PetPage() {
             ))}
           </div>
           <div className="mt-5 h-2 rounded-full bg-white/10"><span className="block h-full rounded-full bg-gradient-to-r from-neon to-cyan" style={{ width: `${pet.evolution}%` }} /></div>
-          <p className="mt-3 text-sm text-slate-300">Complete 3 more pet tasks to unlock the Nexus trait preview.</p>
+          <p className="mt-3 text-sm text-slate-300">Complete 3 more pet tasks to unlock the Nexus trait.</p>
         </GlassCard>
         <GlassCard className="p-5">
           <h2 className="text-xl font-semibold">Rewards</h2>
@@ -127,7 +127,7 @@ export function PetPage() {
       <GlassCard className="mt-5 flex flex-wrap items-center justify-between gap-5 p-6">
         <div>
           <h2 className="text-2xl font-bold">Companion Growth Loop</h2>
-          <p className="mt-2 text-slate-300">Predict, train, rest, evolve. Everything here is simulated for the Investor Preview.</p>
+          <p className="mt-2 text-slate-300">Predict, train, rest, and evolve with NEX as your growth companion.</p>
         </div>
         <div className="flex gap-3">
           <span className="rounded-xl bg-mint/10 px-4 py-3 text-mint"><Zap className="mr-2 inline h-5 w-5" />Pet EXP {pet.exp}</span>

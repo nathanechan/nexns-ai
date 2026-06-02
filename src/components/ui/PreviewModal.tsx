@@ -26,7 +26,7 @@ export function PreviewModal({ title, description, open, onClose, children }: Pr
           <X className="h-5 w-5" />
         </button>
         <div className="pr-12">
-          <div className="nex-label">Preview Environment</div>
+          <div className="nex-label">NEXNS</div>
           <h2 className="nex-title mt-2 text-2xl">{title}</h2>
           {description && <p className="mt-3 leading-7 text-slate-300">{description}</p>}
         </div>

@@ -44,7 +44,7 @@ export function ActivityFeed({ compact = false }: { compact?: boolean }) {
     <GlassCard className="p-4">
       <div className="mb-3 flex items-center justify-between">
         <h2 className="nex-title font-semibold">Live Activity</h2>
-        <span className="rounded-full bg-mint/10 px-2 py-1 text-xs text-mint">Live Preview</span>
+        <span className="rounded-full bg-mint/10 px-2 py-1 text-xs text-mint">Live Network</span>
       </div>
       {visible.map((event) => <ActivityRow key={event.id} event={event} />)}
     </GlassCard>

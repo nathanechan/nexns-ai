@@ -84,7 +84,7 @@ const initialState: ProductState = {
     {
       id: "seed-activity",
       title: "NEXNS network online",
-      detail: "Live Preview activity is now tracking predictions, follows, rewards, and pet growth.",
+      detail: "The activity layer is tracking predictions, follows, rewards, and pet growth.",
       createdAt: new Date().toISOString(),
       type: "system",
     },
@@ -175,7 +175,7 @@ export function ProductStateProvider({ children }: PropsWithChildren) {
     },
     joinCreatorCommunity: (name) => {
       if (state.joinedCreatorCommunities.includes(name)) {
-        pushEvent({ type: "creator", title: `${name} community already joined`, detail: "You are already receiving Preview Environment community updates." });
+        pushEvent({ type: "creator", title: `${name} community already joined`, detail: "You are already receiving community updates." });
         return;
       }
       setState((current) => ({
@@ -212,11 +212,11 @@ export function ProductStateProvider({ children }: PropsWithChildren) {
     },
     claimTask: (task, reward) => {
       if (state.claimedTasks.includes(task)) {
-        pushEvent({ type: "reward", title: `${task} already claimed`, detail: "This Preview Environment task reward has already been collected." });
+        pushEvent({ type: "reward", title: `${task} already claimed`, detail: "This task reward has already been collected." });
         return;
       }
       const amount = parseReward(reward);
-      const rewardEvent = makeEvent({ type: "reward", title: `${task} reward claimed`, detail: `+${amount} NS and +10 EXP added to your Preview Environment growth journey.` });
+      const rewardEvent = makeEvent({ type: "reward", title: `${task} reward claimed`, detail: `+${amount} NS and +10 EXP added to your growth journey.` });
       setState((current) => ({
         ...current,
         claimedTasks: [task, ...current.claimedTasks],
@@ -244,7 +244,7 @@ export function ProductStateProvider({ children }: PropsWithChildren) {
         seasonPoints: current.seasonPoints + 5,
         pet: { ...current.pet, exp: Math.min(100, current.pet.exp + 8), energy: Math.max(0, current.pet.energy - 4), mood: "Focused" },
       }));
-      pushEvent({ type: "prediction", title: `${input.market} ${input.direction} prediction created`, detail: `${input.amount} NS preview entry. Reward preview: ${prediction.rewardPreview} NS.` });
+      pushEvent({ type: "prediction", title: `${input.market} ${input.direction} prediction created`, detail: `${input.amount} NS entry recorded. Potential reward: ${prediction.rewardPreview} NS.` });
       return prediction;
     },
     settlePrediction: (id, won = true) => {
@@ -255,7 +255,7 @@ export function ProductStateProvider({ children }: PropsWithChildren) {
           settled = { ...prediction, status: won ? "won" : "lost" };
           return settled;
         });
-        const rewardEvent = settled && won ? makeEvent({ type: "reward", title: `${settled.market} prediction won`, detail: `+${settled.rewardPreview} NS preview reward settled.` }) : null;
+        const rewardEvent = settled && won ? makeEvent({ type: "reward", title: `${settled.market} prediction won`, detail: `+${settled.rewardPreview} NS reward settled.` }) : null;
         return {
           ...current,
           predictions,
@@ -267,7 +267,7 @@ export function ProductStateProvider({ children }: PropsWithChildren) {
           pet: { ...current.pet, exp: Math.min(100, current.pet.exp + (won ? 12 : 4)), bond: Math.min(100, current.pet.bond + 2), mood: won ? "Excited" : "Learning" },
         };
       });
-      pushEvent({ type: "prediction", title: won ? "Prediction settled: win" : "Prediction settled: learning moment", detail: won ? "Preview rewards, EXP, and pet bond increased." : "EXP still increased because every prediction grows the journey." });
+      pushEvent({ type: "prediction", title: won ? "Prediction settled: win" : "Prediction settled: learning moment", detail: won ? "Rewards, EXP, and pet bond increased." : "EXP still increased because every prediction grows the journey." });
     },
     petAction: (action, detail, effect = {}) => {
       boostPet(effect);

@@ -1,0 +1,406 @@
+import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=cd2ce4b3"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import { ArrowLeft, ArrowRight, BarChart3, Coins, Rocket, Sparkles, Star, Users, Zap } from "/node_modules/.vite/deps/lucide-react.js?v=7fe346c5";
+import { Link } from "/node_modules/.vite/deps/react-router-dom.js?v=092495c6";
+import { MiniLine } from "/src/components/charts/MiniLine.tsx";
+import { GlassCard } from "/src/components/ui/GlassCard.tsx";
+import { Logo } from "/src/components/ui/Logo.tsx";
+import { Mascot } from "/src/components/ui/Mascot.tsx";
+import { roiData } from "/src/data/previewData.ts";
+export const investorMetrics = [
+  { label: "Users", value: "82,360", delta: "+42.7%", icon: Users },
+  { label: "Predictions", value: "12.45M", delta: "+38.6%", icon: BarChart3 },
+  { label: "Creators", value: "15,287", delta: "+35.3%", icon: Star },
+  { label: "Projects", value: "468", delta: "+28.9%", icon: Rocket },
+  { label: "Ecosystem TVL", value: "$24.8M", delta: "+45.3%", icon: Coins }
+];
+export const investorPages = [
+  { title: "Why NEXNS", path: "/investor/why-nexns", copy: "Understand the market, users, problem, growth model, and differentiation.", icon: Sparkles },
+  { title: "Growth Journey", path: "/investor/growth-journey", copy: "From joining NEXNS to leadership and ecosystem influence.", icon: Rocket },
+  { title: "Growth Flywheel", path: "/investor/flywheel", copy: "The compounding loop that turns predictions into ecosystem growth.", icon: Zap },
+  { title: "Value Flow", path: "/investor/value-flow", copy: "How users, creators, projects, NEX, and the ecosystem exchange value.", icon: Coins },
+  { title: "Ecosystem Map", path: "/investor/ecosystem", copy: "The full PredictionFi, creator, pet, community, and technology map.", icon: Users },
+  { title: "Investor One Pager", path: "/investor/one-page", copy: "A complete investor summary of the NEXNS growth thesis.", icon: BarChart3 }
+];
+export function InvestorShell({ children, title, subtitle }) {
+  return /* @__PURE__ */ jsxDEV("div", { className: "min-h-screen bg-space-radial px-4 py-5 text-white sm:px-6", children: [
+    /* @__PURE__ */ jsxDEV("header", { className: "mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-4", children: [
+      /* @__PURE__ */ jsxDEV(Logo, {}, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 31,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("nav", { className: "flex flex-wrap gap-3 text-sm", children: [
+        /* @__PURE__ */ jsxDEV(Link, { className: "interactive-glow rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-slate-200", to: "/app", children: "App" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 33,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(Link, { className: "interactive-glow rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-slate-200", to: "/investor", children: "Investor Center" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 34,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(Link, { className: "interactive-glow rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-slate-200", to: "/presentation", children: "Presentation" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 35,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(Link, { className: "purple-button interactive-glow rounded-xl px-4 py-2 font-semibold", to: "/investor/one-page", children: "One Pager" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 36,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 32,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 30,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("main", { className: "mx-auto mt-8 max-w-[1500px]", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "mb-6 flex flex-wrap items-end justify-between gap-4", children: [
+        /* @__PURE__ */ jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "nex-label", children: "NEXNS Investor Center" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+            lineNumber: 42,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("h1", { className: "nex-title mt-2 text-4xl md:text-6xl", children: title }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+            lineNumber: 43,
+            columnNumber: 13
+          }, this),
+          subtitle && /* @__PURE__ */ jsxDEV("p", { className: "mt-3 max-w-3xl text-lg leading-8 text-slate-300", children: subtitle }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+            lineNumber: 44,
+            columnNumber: 26
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 41,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(Link, { to: "/investor", className: "interactive-glow flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-200", children: [
+          /* @__PURE__ */ jsxDEV(ArrowLeft, { className: "h-5 w-5" }, void 0, false, {
+            fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+            lineNumber: 47,
+            columnNumber: 13
+          }, this),
+          " Investor Center"
+        ] }, void 0, true, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 46,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 40,
+        columnNumber: 9
+      }, this),
+      children
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 39,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+    lineNumber: 29,
+    columnNumber: 5
+  }, this);
+}
+export function InvestorMetricStrip() {
+  return /* @__PURE__ */ jsxDEV(GlassCard, { className: "grid gap-3 p-4 md:grid-cols-5", children: investorMetrics.map((metric) => /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-4 border-white/10 px-2 md:border-r last:md:border-r-0", children: [
+    /* @__PURE__ */ jsxDEV("span", { className: "nex-icon h-12 w-12", children: /* @__PURE__ */ jsxDEV(metric.icon, { className: "h-6 w-6" }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 61,
+      columnNumber: 48
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 61,
+      columnNumber: 11
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "nex-label text-slate-400", children: metric.label }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 63,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "nex-metric text-2xl", children: metric.value }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 64,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "text-xs text-mint", children: metric.delta }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 65,
+        columnNumber: 13
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 62,
+      columnNumber: 11
+    }, this)
+  ] }, metric.label, true, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+    lineNumber: 60,
+    columnNumber: 9
+  }, this)) }, void 0, false, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+    lineNumber: 58,
+    columnNumber: 5
+  }, this);
+}
+export function InvestorNavCard({ page }) {
+  const Icon = page.icon;
+  return /* @__PURE__ */ jsxDEV(Link, { to: page.path, className: "block h-full", children: /* @__PURE__ */ jsxDEV(GlassCard, { className: "interactive-glow h-full p-6", children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "flex items-start justify-between gap-4", children: [
+      /* @__PURE__ */ jsxDEV("span", { className: "nex-icon h-12 w-12", children: /* @__PURE__ */ jsxDEV(Icon, { className: "h-6 w-6" }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 79,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 79,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV(ArrowRight, { className: "h-5 w-5 text-purple-300" }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 80,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 78,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("h2", { className: "nex-title mt-5 text-2xl", children: page.title }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 82,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("p", { className: "mt-3 leading-7 text-slate-300", children: page.copy }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 83,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+    lineNumber: 77,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+    lineNumber: 76,
+    columnNumber: 5
+  }, this);
+}
+export function NeonNode({ title, copy, icon: Icon, index }) {
+  const IconComponent = typeof Icon === "string" ? Sparkles : Icon;
+  return /* @__PURE__ */ jsxDEV(GlassCard, { className: "interactive-glow p-5", children: /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-4", children: [
+    /* @__PURE__ */ jsxDEV("span", { className: "nex-icon h-12 w-12", children: index ? /* @__PURE__ */ jsxDEV("b", { children: index }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 95,
+      columnNumber: 55
+    }, this) : /* @__PURE__ */ jsxDEV(IconComponent, { className: "h-6 w-6" }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 95,
+      columnNumber: 72
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 95,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { children: [
+      /* @__PURE__ */ jsxDEV("h3", { className: "nex-title text-lg", children: title }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 97,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV("p", { className: "mt-1 text-sm leading-6 text-slate-300", children: copy }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 98,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 96,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+    lineNumber: 94,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+    lineNumber: 93,
+    columnNumber: 5
+  }, this);
+}
+export function MascotCenter({ label = "NEXNS" }) {
+  return /* @__PURE__ */ jsxDEV("div", { className: "relative mx-auto grid min-h-[420px] place-items-center", children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "absolute h-[360px] w-[360px] rounded-full bg-neon/20 blur-3xl" }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 108,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "absolute bottom-16 h-24 w-[420px] rounded-[50%] border border-neon/50 nex-platform" }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 109,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Mascot, { variant: "investor", className: "relative z-10 w-[min(430px,80vw)]" }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 110,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "absolute bottom-10 z-20 rounded-xl border border-neon/50 bg-slate-950/80 px-6 py-2 text-xl font-black shadow-glow", children: label }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 111,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+    lineNumber: 107,
+    columnNumber: 5
+  }, this);
+}
+export function MiniMetricCard({ label, value, icon: Icon }) {
+  const IconComponent = typeof Icon === "string" ? Sparkles : Icon;
+  return /* @__PURE__ */ jsxDEV(GlassCard, { className: "interactive-glow p-5", children: [
+    /* @__PURE__ */ jsxDEV("span", { className: "nex-icon mb-3 h-12 w-12", children: /* @__PURE__ */ jsxDEV(IconComponent, { className: "h-7 w-7" }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 121,
+      columnNumber: 49
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 121,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "text-sm text-slate-400", children: label }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 122,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "nex-metric mt-1 text-3xl", children: value }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 123,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(MiniLine, { data: roiData, color: "#8b5cf6", height: 54 }, void 0, false, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 124,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+    lineNumber: 120,
+    columnNumber: 5
+  }, this);
+}
+export function ExpandableProofNode({ node, active, onClick, index }) {
+  const Icon = node.icon;
+  return /* @__PURE__ */ jsxDEV("button", { type: "button", onClick, className: "h-full text-left", children: /* @__PURE__ */ jsxDEV(GlassCard, { className: `interactive-glow h-full p-5 transition ${active ? "border-neon/70 bg-neon/15 shadow-glow" : ""}`, children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "flex items-start gap-4", children: [
+      /* @__PURE__ */ jsxDEV("span", { className: "nex-icon h-12 w-12 shrink-0", children: index ? /* @__PURE__ */ jsxDEV("b", { children: index }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 145,
+        columnNumber: 66
+      }, this) : /* @__PURE__ */ jsxDEV(Icon, { className: "h-6 w-6" }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 145,
+        columnNumber: 83
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 145,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { children: [
+        /* @__PURE__ */ jsxDEV("h3", { className: "nex-title text-lg", children: node.title }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 147,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "mt-1 text-sm leading-6 text-slate-300", children: node.copy }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 148,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 146,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 144,
+      columnNumber: 9
+    }, this),
+    active && /* @__PURE__ */ jsxDEV("div", { className: "mt-4 grid gap-3 border-t border-white/10 pt-4 text-sm", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "rounded-xl bg-white/5 p-3", children: [
+        /* @__PURE__ */ jsxDEV("b", { className: "text-cyan", children: "Supporting Metric" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 153,
+          columnNumber: 56
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "mt-1 text-slate-300", children: node.metric }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 153,
+          columnNumber: 102
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 153,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "rounded-xl bg-white/5 p-3", children: [
+        /* @__PURE__ */ jsxDEV("b", { className: "text-purple-200", children: "Core Assumption" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 154,
+          columnNumber: 56
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "mt-1 text-slate-300", children: node.assumption }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 154,
+          columnNumber: 106
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 154,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "rounded-xl bg-white/5 p-3", children: [
+        /* @__PURE__ */ jsxDEV("b", { className: "text-mint", children: "Ecosystem Relationship" }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 155,
+          columnNumber: 56
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "mt-1 text-slate-300", children: node.relationship }, void 0, false, {
+          fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+          lineNumber: 155,
+          columnNumber: 107
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+        lineNumber: 155,
+        columnNumber: 13
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+      lineNumber: 152,
+      columnNumber: 11
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+    lineNumber: 143,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/User/Documents/nexns domo/src/components/investor/InvestorShared.tsx",
+    lineNumber: 142,
+    columnNumber: 5
+  }, this);
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkludmVzdG9yU2hhcmVkLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBBcnJvd0xlZnQsIEFycm93UmlnaHQsIEJhckNoYXJ0MywgQ29pbnMsIEx1Y2lkZUljb24sIFJvY2tldCwgU3BhcmtsZXMsIFN0YXIsIFVzZXJzLCBaYXAgfSBmcm9tIFwibHVjaWRlLXJlYWN0XCI7XG5pbXBvcnQgdHlwZSB7IFJlYWN0Tm9kZSB9IGZyb20gXCJyZWFjdFwiO1xuaW1wb3J0IHsgTGluayB9IGZyb20gXCJyZWFjdC1yb3V0ZXItZG9tXCI7XG5pbXBvcnQgeyBNaW5pTGluZSB9IGZyb20gXCIuLi9jaGFydHMvTWluaUxpbmVcIjtcbmltcG9ydCB7IEdsYXNzQ2FyZCB9IGZyb20gXCIuLi91aS9HbGFzc0NhcmRcIjtcbmltcG9ydCB7IExvZ28gfSBmcm9tIFwiLi4vdWkvTG9nb1wiO1xuaW1wb3J0IHsgTWFzY290IH0gZnJvbSBcIi4uL3VpL01hc2NvdFwiO1xuaW1wb3J0IHsgcm9pRGF0YSB9IGZyb20gXCIuLi8uLi9kYXRhL3ByZXZpZXdEYXRhXCI7XG5cbmV4cG9ydCBjb25zdCBpbnZlc3Rvck1ldHJpY3MgPSBbXG4gIHsgbGFiZWw6IFwiVXNlcnNcIiwgdmFsdWU6IFwiODIsMzYwXCIsIGRlbHRhOiBcIis0Mi43JVwiLCBpY29uOiBVc2VycyB9LFxuICB7IGxhYmVsOiBcIlByZWRpY3Rpb25zXCIsIHZhbHVlOiBcIjEyLjQ1TVwiLCBkZWx0YTogXCIrMzguNiVcIiwgaWNvbjogQmFyQ2hhcnQzIH0sXG4gIHsgbGFiZWw6IFwiQ3JlYXRvcnNcIiwgdmFsdWU6IFwiMTUsMjg3XCIsIGRlbHRhOiBcIiszNS4zJVwiLCBpY29uOiBTdGFyIH0sXG4gIHsgbGFiZWw6IFwiUHJvamVjdHNcIiwgdmFsdWU6IFwiNDY4XCIsIGRlbHRhOiBcIisyOC45JVwiLCBpY29uOiBSb2NrZXQgfSxcbiAgeyBsYWJlbDogXCJFY29zeXN0ZW0gVFZMXCIsIHZhbHVlOiBcIiQyNC44TVwiLCBkZWx0YTogXCIrNDUuMyVcIiwgaWNvbjogQ29pbnMgfSxcbl07XG5cbmV4cG9ydCBjb25zdCBpbnZlc3RvclBhZ2VzID0gW1xuICB7IHRpdGxlOiBcIldoeSBORVhOU1wiLCBwYXRoOiBcIi9pbnZlc3Rvci93aHktbmV4bnNcIiwgY29weTogXCJVbmRlcnN0YW5kIHRoZSBtYXJrZXQsIHVzZXJzLCBwcm9ibGVtLCBncm93dGggbW9kZWwsIGFuZCBkaWZmZXJlbnRpYXRpb24uXCIsIGljb246IFNwYXJrbGVzIH0sXG4gIHsgdGl0bGU6IFwiR3Jvd3RoIEpvdXJuZXlcIiwgcGF0aDogXCIvaW52ZXN0b3IvZ3Jvd3RoLWpvdXJuZXlcIiwgY29weTogXCJGcm9tIGpvaW5pbmcgTkVYTlMgdG8gbGVhZGVyc2hpcCBhbmQgZWNvc3lzdGVtIGluZmx1ZW5jZS5cIiwgaWNvbjogUm9ja2V0IH0sXG4gIHsgdGl0bGU6IFwiR3Jvd3RoIEZseXdoZWVsXCIsIHBhdGg6IFwiL2ludmVzdG9yL2ZseXdoZWVsXCIsIGNvcHk6IFwiVGhlIGNvbXBvdW5kaW5nIGxvb3AgdGhhdCB0dXJucyBwcmVkaWN0aW9ucyBpbnRvIGVjb3N5c3RlbSBncm93dGguXCIsIGljb246IFphcCB9LFxuICB7IHRpdGxlOiBcIlZhbHVlIEZsb3dcIiwgcGF0aDogXCIvaW52ZXN0b3IvdmFsdWUtZmxvd1wiLCBjb3B5OiBcIkhvdyB1c2VycywgY3JlYXRvcnMsIHByb2plY3RzLCBORVgsIGFuZCB0aGUgZWNvc3lzdGVtIGV4Y2hhbmdlIHZhbHVlLlwiLCBpY29uOiBDb2lucyB9LFxuICB7IHRpdGxlOiBcIkVjb3N5c3RlbSBNYXBcIiwgcGF0aDogXCIvaW52ZXN0b3IvZWNvc3lzdGVtXCIsIGNvcHk6IFwiVGhlIGZ1bGwgUHJlZGljdGlvbkZpLCBjcmVhdG9yLCBwZXQsIGNvbW11bml0eSwgYW5kIHRlY2hub2xvZ3kgbWFwLlwiLCBpY29uOiBVc2VycyB9LFxuICB7IHRpdGxlOiBcIkludmVzdG9yIE9uZSBQYWdlclwiLCBwYXRoOiBcIi9pbnZlc3Rvci9vbmUtcGFnZVwiLCBjb3B5OiBcIkEgY29tcGxldGUgaW52ZXN0b3Igc3VtbWFyeSBvZiB0aGUgTkVYTlMgZ3Jvd3RoIHRoZXNpcy5cIiwgaWNvbjogQmFyQ2hhcnQzIH0sXG5dO1xuXG5leHBvcnQgZnVuY3Rpb24gSW52ZXN0b3JTaGVsbCh7IGNoaWxkcmVuLCB0aXRsZSwgc3VidGl0bGUgfTogeyBjaGlsZHJlbjogUmVhY3ROb2RlOyB0aXRsZTogc3RyaW5nOyBzdWJ0aXRsZT86IHN0cmluZyB9KSB7XG4gIHJldHVybiAoXG4gICAgPGRpdiBjbGFzc05hbWU9XCJtaW4taC1zY3JlZW4gYmctc3BhY2UtcmFkaWFsIHB4LTQgcHktNSB0ZXh0LXdoaXRlIHNtOnB4LTZcIj5cbiAgICAgIDxoZWFkZXIgY2xhc3NOYW1lPVwibXgtYXV0byBmbGV4IG1heC13LVsxNTAwcHhdIGZsZXgtd3JhcCBpdGVtcy1jZW50ZXIganVzdGlmeS1iZXR3ZWVuIGdhcC00XCI+XG4gICAgICAgIDxMb2dvIC8+XG4gICAgICAgIDxuYXYgY2xhc3NOYW1lPVwiZmxleCBmbGV4LXdyYXAgZ2FwLTMgdGV4dC1zbVwiPlxuICAgICAgICAgIDxMaW5rIGNsYXNzTmFtZT1cImludGVyYWN0aXZlLWdsb3cgcm91bmRlZC14bCBib3JkZXIgYm9yZGVyLXdoaXRlLzEwIGJnLXdoaXRlLzUgcHgtNCBweS0yIHRleHQtc2xhdGUtMjAwXCIgdG89XCIvYXBwXCI+QXBwPC9MaW5rPlxuICAgICAgICAgIDxMaW5rIGNsYXNzTmFtZT1cImludGVyYWN0aXZlLWdsb3cgcm91bmRlZC14bCBib3JkZXIgYm9yZGVyLXdoaXRlLzEwIGJnLXdoaXRlLzUgcHgtNCBweS0yIHRleHQtc2xhdGUtMjAwXCIgdG89XCIvaW52ZXN0b3JcIj5JbnZlc3RvciBDZW50ZXI8L0xpbms+XG4gICAgICAgICAgPExpbmsgY2xhc3NOYW1lPVwiaW50ZXJhY3RpdmUtZ2xvdyByb3VuZGVkLXhsIGJvcmRlciBib3JkZXItd2hpdGUvMTAgYmctd2hpdGUvNSBweC00IHB5LTIgdGV4dC1zbGF0ZS0yMDBcIiB0bz1cIi9wcmVzZW50YXRpb25cIj5QcmVzZW50YXRpb248L0xpbms+XG4gICAgICAgICAgPExpbmsgY2xhc3NOYW1lPVwicHVycGxlLWJ1dHRvbiBpbnRlcmFjdGl2ZS1nbG93IHJvdW5kZWQteGwgcHgtNCBweS0yIGZvbnQtc2VtaWJvbGRcIiB0bz1cIi9pbnZlc3Rvci9vbmUtcGFnZVwiPk9uZSBQYWdlcjwvTGluaz5cbiAgICAgICAgPC9uYXY+XG4gICAgICA8L2hlYWRlcj5cbiAgICAgIDxtYWluIGNsYXNzTmFtZT1cIm14LWF1dG8gbXQtOCBtYXgtdy1bMTUwMHB4XVwiPlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cIm1iLTYgZmxleCBmbGV4LXdyYXAgaXRlbXMtZW5kIGp1c3RpZnktYmV0d2VlbiBnYXAtNFwiPlxuICAgICAgICAgIDxkaXY+XG4gICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cIm5leC1sYWJlbFwiPk5FWE5TIEludmVzdG9yIENlbnRlcjwvZGl2PlxuICAgICAgICAgICAgPGgxIGNsYXNzTmFtZT1cIm5leC10aXRsZSBtdC0yIHRleHQtNHhsIG1kOnRleHQtNnhsXCI+e3RpdGxlfTwvaDE+XG4gICAgICAgICAgICB7c3VidGl0bGUgJiYgPHAgY2xhc3NOYW1lPVwibXQtMyBtYXgtdy0zeGwgdGV4dC1sZyBsZWFkaW5nLTggdGV4dC1zbGF0ZS0zMDBcIj57c3VidGl0bGV9PC9wPn1cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICA8TGluayB0bz1cIi9pbnZlc3RvclwiIGNsYXNzTmFtZT1cImludGVyYWN0aXZlLWdsb3cgZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTIgcm91bmRlZC14bCBib3JkZXIgYm9yZGVyLXdoaXRlLzEwIGJnLXdoaXRlLzUgcHgtNCBweS0zIHRleHQtc2xhdGUtMjAwXCI+XG4gICAgICAgICAgICA8QXJyb3dMZWZ0IGNsYXNzTmFtZT1cImgtNSB3LTVcIiAvPiBJbnZlc3RvciBDZW50ZXJcbiAgICAgICAgICA8L0xpbms+XG4gICAgICAgIDwvZGl2PlxuICAgICAgICB7Y2hpbGRyZW59XG4gICAgICA8L21haW4+XG4gICAgPC9kaXY+XG4gICk7XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBJbnZlc3Rvck1ldHJpY1N0cmlwKCkge1xuICByZXR1cm4gKFxuICAgIDxHbGFzc0NhcmQgY2xhc3NOYW1lPVwiZ3JpZCBnYXAtMyBwLTQgbWQ6Z3JpZC1jb2xzLTVcIj5cbiAgICAgIHtpbnZlc3Rvck1ldHJpY3MubWFwKChtZXRyaWMpID0+IChcbiAgICAgICAgPGRpdiBrZXk9e21ldHJpYy5sYWJlbH0gY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTQgYm9yZGVyLXdoaXRlLzEwIHB4LTIgbWQ6Ym9yZGVyLXIgbGFzdDptZDpib3JkZXItci0wXCI+XG4gICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwibmV4LWljb24gaC0xMiB3LTEyXCI+PG1ldHJpYy5pY29uIGNsYXNzTmFtZT1cImgtNiB3LTZcIiAvPjwvc3Bhbj5cbiAgICAgICAgICA8ZGl2PlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJuZXgtbGFiZWwgdGV4dC1zbGF0ZS00MDBcIj57bWV0cmljLmxhYmVsfTwvZGl2PlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJuZXgtbWV0cmljIHRleHQtMnhsXCI+e21ldHJpYy52YWx1ZX08L2Rpdj5cbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidGV4dC14cyB0ZXh0LW1pbnRcIj57bWV0cmljLmRlbHRhfTwvZGl2PlxuICAgICAgICAgIDwvZGl2PlxuICAgICAgICA8L2Rpdj5cbiAgICAgICkpfVxuICAgIDwvR2xhc3NDYXJkPlxuICApO1xufVxuXG5leHBvcnQgZnVuY3Rpb24gSW52ZXN0b3JOYXZDYXJkKHsgcGFnZSB9OiB7IHBhZ2U6ICh0eXBlb2YgaW52ZXN0b3JQYWdlcylbbnVtYmVyXSB9KSB7XG4gIGNvbnN0IEljb24gPSBwYWdlLmljb247XG4gIHJldHVybiAoXG4gICAgPExpbmsgdG89e3BhZ2UucGF0aH0gY2xhc3NOYW1lPVwiYmxvY2sgaC1mdWxsXCI+XG4gICAgICA8R2xhc3NDYXJkIGNsYXNzTmFtZT1cImludGVyYWN0aXZlLWdsb3cgaC1mdWxsIHAtNlwiPlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtc3RhcnQganVzdGlmeS1iZXR3ZWVuIGdhcC00XCI+XG4gICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwibmV4LWljb24gaC0xMiB3LTEyXCI+PEljb24gY2xhc3NOYW1lPVwiaC02IHctNlwiIC8+PC9zcGFuPlxuICAgICAgICAgIDxBcnJvd1JpZ2h0IGNsYXNzTmFtZT1cImgtNSB3LTUgdGV4dC1wdXJwbGUtMzAwXCIgLz5cbiAgICAgICAgPC9kaXY+XG4gICAgICAgIDxoMiBjbGFzc05hbWU9XCJuZXgtdGl0bGUgbXQtNSB0ZXh0LTJ4bFwiPntwYWdlLnRpdGxlfTwvaDI+XG4gICAgICAgIDxwIGNsYXNzTmFtZT1cIm10LTMgbGVhZGluZy03IHRleHQtc2xhdGUtMzAwXCI+e3BhZ2UuY29weX08L3A+XG4gICAgICA8L0dsYXNzQ2FyZD5cbiAgICA8L0xpbms+XG4gICk7XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBOZW9uTm9kZSh7IHRpdGxlLCBjb3B5LCBpY29uOiBJY29uLCBpbmRleCB9OiB7IHRpdGxlOiBzdHJpbmc7IGNvcHk6IHN0cmluZzsgaWNvbjogTHVjaWRlSWNvbiB8IHN0cmluZzsgaW5kZXg/OiBudW1iZXIgfSkge1xuICBjb25zdCBJY29uQ29tcG9uZW50ID0gdHlwZW9mIEljb24gPT09IFwic3RyaW5nXCIgPyBTcGFya2xlcyA6IEljb247XG5cbiAgcmV0dXJuIChcbiAgICA8R2xhc3NDYXJkIGNsYXNzTmFtZT1cImludGVyYWN0aXZlLWdsb3cgcC01XCI+XG4gICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC00XCI+XG4gICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cIm5leC1pY29uIGgtMTIgdy0xMlwiPntpbmRleCA/IDxiPntpbmRleH08L2I+IDogPEljb25Db21wb25lbnQgY2xhc3NOYW1lPVwiaC02IHctNlwiIC8+fTwvc3Bhbj5cbiAgICAgICAgPGRpdj5cbiAgICAgICAgICA8aDMgY2xhc3NOYW1lPVwibmV4LXRpdGxlIHRleHQtbGdcIj57dGl0bGV9PC9oMz5cbiAgICAgICAgICA8cCBjbGFzc05hbWU9XCJtdC0xIHRleHQtc20gbGVhZGluZy02IHRleHQtc2xhdGUtMzAwXCI+e2NvcHl9PC9wPlxuICAgICAgICA8L2Rpdj5cbiAgICAgIDwvZGl2PlxuICAgIDwvR2xhc3NDYXJkPlxuICApO1xufVxuXG5leHBvcnQgZnVuY3Rpb24gTWFzY290Q2VudGVyKHsgbGFiZWwgPSBcIk5FWE5TXCIgfTogeyBsYWJlbD86IHN0cmluZyB9KSB7XG4gIHJldHVybiAoXG4gICAgPGRpdiBjbGFzc05hbWU9XCJyZWxhdGl2ZSBteC1hdXRvIGdyaWQgbWluLWgtWzQyMHB4XSBwbGFjZS1pdGVtcy1jZW50ZXJcIj5cbiAgICAgIDxkaXYgY2xhc3NOYW1lPVwiYWJzb2x1dGUgaC1bMzYwcHhdIHctWzM2MHB4XSByb3VuZGVkLWZ1bGwgYmctbmVvbi8yMCBibHVyLTN4bFwiIC8+XG4gICAgICA8ZGl2IGNsYXNzTmFtZT1cImFic29sdXRlIGJvdHRvbS0xNiBoLTI0IHctWzQyMHB4XSByb3VuZGVkLVs1MCVdIGJvcmRlciBib3JkZXItbmVvbi81MCBuZXgtcGxhdGZvcm1cIiAvPlxuICAgICAgPE1hc2NvdCB2YXJpYW50PVwiaW52ZXN0b3JcIiBjbGFzc05hbWU9XCJyZWxhdGl2ZSB6LTEwIHctW21pbig0MzBweCw4MHZ3KV1cIiAvPlxuICAgICAgPGRpdiBjbGFzc05hbWU9XCJhYnNvbHV0ZSBib3R0b20tMTAgei0yMCByb3VuZGVkLXhsIGJvcmRlciBib3JkZXItbmVvbi81MCBiZy1zbGF0ZS05NTAvODAgcHgtNiBweS0yIHRleHQteGwgZm9udC1ibGFjayBzaGFkb3ctZ2xvd1wiPntsYWJlbH08L2Rpdj5cbiAgICA8L2Rpdj5cbiAgKTtcbn1cblxuZXhwb3J0IGZ1bmN0aW9uIE1pbmlNZXRyaWNDYXJkKHsgbGFiZWwsIHZhbHVlLCBpY29uOiBJY29uIH06IHsgbGFiZWw6IHN0cmluZzsgdmFsdWU6IHN0cmluZzsgaWNvbjogTHVjaWRlSWNvbiB8IHN0cmluZyB9KSB7XG4gIGNvbnN0IEljb25Db21wb25lbnQgPSB0eXBlb2YgSWNvbiA9PT0gXCJzdHJpbmdcIiA/IFNwYXJrbGVzIDogSWNvbjtcblxuICByZXR1cm4gKFxuICAgIDxHbGFzc0NhcmQgY2xhc3NOYW1lPVwiaW50ZXJhY3RpdmUtZ2xvdyBwLTVcIj5cbiAgICAgIDxzcGFuIGNsYXNzTmFtZT1cIm5leC1pY29uIG1iLTMgaC0xMiB3LTEyXCI+PEljb25Db21wb25lbnQgY2xhc3NOYW1lPVwiaC03IHctN1wiIC8+PC9zcGFuPlxuICAgICAgPGRpdiBjbGFzc05hbWU9XCJ0ZXh0LXNtIHRleHQtc2xhdGUtNDAwXCI+e2xhYmVsfTwvZGl2PlxuICAgICAgPGRpdiBjbGFzc05hbWU9XCJuZXgtbWV0cmljIG10LTEgdGV4dC0zeGxcIj57dmFsdWV9PC9kaXY+XG4gICAgICA8TWluaUxpbmUgZGF0YT17cm9pRGF0YX0gY29sb3I9XCIjOGI1Y2Y2XCIgaGVpZ2h0PXs1NH0gLz5cbiAgICA8L0dsYXNzQ2FyZD5cbiAgKTtcbn1cblxuZXhwb3J0IHR5cGUgUHJvb2ZOb2RlID0ge1xuICB0aXRsZTogc3RyaW5nO1xuICBjb3B5OiBzdHJpbmc7XG4gIG1ldHJpYzogc3RyaW5nO1xuICBhc3N1bXB0aW9uOiBzdHJpbmc7XG4gIHJlbGF0aW9uc2hpcDogc3RyaW5nO1xuICBpY29uOiBMdWNpZGVJY29uO1xufTtcblxuZXhwb3J0IGZ1bmN0aW9uIEV4cGFuZGFibGVQcm9vZk5vZGUoeyBub2RlLCBhY3RpdmUsIG9uQ2xpY2ssIGluZGV4IH06IHsgbm9kZTogUHJvb2ZOb2RlOyBhY3RpdmU6IGJvb2xlYW47IG9uQ2xpY2s6ICgpID0+IHZvaWQ7IGluZGV4PzogbnVtYmVyIH0pIHtcbiAgY29uc3QgSWNvbiA9IG5vZGUuaWNvbjtcblxuICByZXR1cm4gKFxuICAgIDxidXR0b24gdHlwZT1cImJ1dHRvblwiIG9uQ2xpY2s9e29uQ2xpY2t9IGNsYXNzTmFtZT1cImgtZnVsbCB0ZXh0LWxlZnRcIj5cbiAgICAgIDxHbGFzc0NhcmQgY2xhc3NOYW1lPXtgaW50ZXJhY3RpdmUtZ2xvdyBoLWZ1bGwgcC01IHRyYW5zaXRpb24gJHthY3RpdmUgPyBcImJvcmRlci1uZW9uLzcwIGJnLW5lb24vMTUgc2hhZG93LWdsb3dcIiA6IFwiXCJ9YH0+XG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1zdGFydCBnYXAtNFwiPlxuICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cIm5leC1pY29uIGgtMTIgdy0xMiBzaHJpbmstMFwiPntpbmRleCA/IDxiPntpbmRleH08L2I+IDogPEljb24gY2xhc3NOYW1lPVwiaC02IHctNlwiIC8+fTwvc3Bhbj5cbiAgICAgICAgICA8ZGl2PlxuICAgICAgICAgICAgPGgzIGNsYXNzTmFtZT1cIm5leC10aXRsZSB0ZXh0LWxnXCI+e25vZGUudGl0bGV9PC9oMz5cbiAgICAgICAgICAgIDxwIGNsYXNzTmFtZT1cIm10LTEgdGV4dC1zbSBsZWFkaW5nLTYgdGV4dC1zbGF0ZS0zMDBcIj57bm9kZS5jb3B5fTwvcD5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9kaXY+XG4gICAgICAgIHthY3RpdmUgJiYgKFxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwibXQtNCBncmlkIGdhcC0zIGJvcmRlci10IGJvcmRlci13aGl0ZS8xMCBwdC00IHRleHQtc21cIj5cbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwicm91bmRlZC14bCBiZy13aGl0ZS81IHAtM1wiPjxiIGNsYXNzTmFtZT1cInRleHQtY3lhblwiPlN1cHBvcnRpbmcgTWV0cmljPC9iPjxwIGNsYXNzTmFtZT1cIm10LTEgdGV4dC1zbGF0ZS0zMDBcIj57bm9kZS5tZXRyaWN9PC9wPjwvZGl2PlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJyb3VuZGVkLXhsIGJnLXdoaXRlLzUgcC0zXCI+PGIgY2xhc3NOYW1lPVwidGV4dC1wdXJwbGUtMjAwXCI+Q29yZSBBc3N1bXB0aW9uPC9iPjxwIGNsYXNzTmFtZT1cIm10LTEgdGV4dC1zbGF0ZS0zMDBcIj57bm9kZS5hc3N1bXB0aW9ufTwvcD48L2Rpdj5cbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwicm91bmRlZC14bCBiZy13aGl0ZS81IHAtM1wiPjxiIGNsYXNzTmFtZT1cInRleHQtbWludFwiPkVjb3N5c3RlbSBSZWxhdGlvbnNoaXA8L2I+PHAgY2xhc3NOYW1lPVwibXQtMSB0ZXh0LXNsYXRlLTMwMFwiPntub2RlLnJlbGF0aW9uc2hpcH08L3A+PC9kaXY+XG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgICl9XG4gICAgICA8L0dsYXNzQ2FyZD5cbiAgICA8L2J1dHRvbj5cbiAgKTtcbn1cbiJdLCJtYXBwaW5ncyI6IkFBOEJRO0FBOUJSLFNBQVMsV0FBVyxZQUFZLFdBQVcsT0FBbUIsUUFBUSxVQUFVLE1BQU0sT0FBTyxXQUFXO0FBRXhHLFNBQVMsWUFBWTtBQUNyQixTQUFTLGdCQUFnQjtBQUN6QixTQUFTLGlCQUFpQjtBQUMxQixTQUFTLFlBQVk7QUFDckIsU0FBUyxjQUFjO0FBQ3ZCLFNBQVMsZUFBZTtBQUVqQixhQUFNLGtCQUFrQjtBQUFBLEVBQzdCLEVBQUUsT0FBTyxTQUFTLE9BQU8sVUFBVSxPQUFPLFVBQVUsTUFBTSxNQUFNO0FBQUEsRUFDaEUsRUFBRSxPQUFPLGVBQWUsT0FBTyxVQUFVLE9BQU8sVUFBVSxNQUFNLFVBQVU7QUFBQSxFQUMxRSxFQUFFLE9BQU8sWUFBWSxPQUFPLFVBQVUsT0FBTyxVQUFVLE1BQU0sS0FBSztBQUFBLEVBQ2xFLEVBQUUsT0FBTyxZQUFZLE9BQU8sT0FBTyxPQUFPLFVBQVUsTUFBTSxPQUFPO0FBQUEsRUFDakUsRUFBRSxPQUFPLGlC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

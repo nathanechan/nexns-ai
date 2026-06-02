@@ -103,7 +103,7 @@ export function CreatorProfilePage() {
           <GlassCard className="p-5">
             <h2 className="text-xl font-semibold">Quick Actions</h2>
             <div className="mt-4 grid grid-cols-2 gap-3">
-              {[[Heart, followedCreators.includes(creator.name) ? "Following" : "Follow"], [MessageCircle, "Message"], [Share2, "Share"], [Bell, "Alerts"]].map(([Icon, label]) => <button key={String(label)} onClick={() => String(label).includes("Follow") ? followCreator(creator.name) : addActivity({ type: "creator", title: `${String(label)} ${creator.name}`, detail: "Preview creator action recorded in the activity feed." })} className="interactive-glow rounded-xl border border-white/10 bg-white/5 p-4"><Icon className="mx-auto mb-2 text-neon" />{String(label)}</button>)}
+              {[[Heart, followedCreators.includes(creator.name) ? "Following" : "Follow"], [MessageCircle, "Message"], [Share2, "Share"], [Bell, "Alerts"]].map(([Icon, label]) => <button key={String(label)} onClick={() => String(label).includes("Follow") ? followCreator(creator.name) : addActivity({ type: "creator", title: `${String(label)} ${creator.name}`, detail: "Creator action recorded in the activity feed." })} className="interactive-glow rounded-xl border border-white/10 bg-white/5 p-4"><Icon className="mx-auto mb-2 text-neon" />{String(label)}</button>)}
             </div>
           </GlassCard>
         </div>

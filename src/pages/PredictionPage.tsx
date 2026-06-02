@@ -27,7 +27,7 @@ export function PredictionPage() {
     <AppShell>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div><h1 className="text-4xl font-black">Prediction</h1><p className="mt-2 text-slate-300">Where insights become profit.</p></div>
-        <button onClick={() => setModal({ title: "How to Predict", description: "Choose a Simulated Market Data market, select a timeframe, then tap UP or DOWN to preview a simulated outcome. No real prediction, wallet, or transaction is created." })} className="interactive-glow flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3"><HelpCircle className="h-5 w-5 text-neon" />How to Predict</button>
+        <button onClick={() => setModal({ title: "How to Predict", description: "Choose a market, select a timeframe, then tap UP or DOWN to record a prediction signal. This does not initiate a wallet action, payment, or blockchain transaction." })} className="interactive-glow flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3"><HelpCircle className="h-5 w-5 text-neon" />How to Predict</button>
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
@@ -35,7 +35,7 @@ export function PredictionPage() {
       </div>
 
       <GlassCard className="mt-5 grid gap-5 overflow-hidden p-5 lg:grid-cols-[1.4fr_.7fr] lg:p-6">
-        <button type="button" onClick={() => setModal({ title: `${market.symbol} Market Detail`, description: `${market.symbol} is updating every 3 seconds with Simulated Market Data price, ratio, participants, and prize pool movement.` })} className="relative min-h-[300px] text-left">
+        <button type="button" onClick={() => setModal({ title: `${market.symbol} Market Detail`, description: `${market.symbol} updates with live-style price movement, sentiment ratios, participants, and prize pool activity.` })} className="relative min-h-[300px] text-left">
           <div className="relative z-10">
             <div className="text-2xl font-semibold">{market.symbol} <span className="text-slate-400">/ USDT</span></div>
             <div className="mt-4 text-4xl font-black sm:text-5xl">{market.price}</div>
@@ -63,7 +63,7 @@ export function PredictionPage() {
       </GlassCard>
 
       <GlassCard className="mt-5 p-5 sm:p-6">
-        <div className="flex flex-wrap justify-between gap-4"><h2 className="text-xl sm:text-2xl">Will <b className="text-orange-300">{market.symbol}</b> price go <b className="text-mint">UP</b> or <b className="text-danger">DOWN</b> in the next 1 hour?</h2><button onClick={() => setModal({ title: "Rules", description: "This Preview Environment shows a simulated reward preview. There is no real betting, settlement, payment, or wallet connection." })} className="rounded-xl border border-white/10 px-4">Rules</button></div>
+        <div className="flex flex-wrap justify-between gap-4"><h2 className="text-xl sm:text-2xl">Will <b className="text-orange-300">{market.symbol}</b> price go <b className="text-mint">UP</b> or <b className="text-danger">DOWN</b> in the next 1 hour?</h2><button onClick={() => setModal({ title: "Rules", description: "Prediction signals build progress, rewards, and companion growth inside NEXNS. No betting, payment, wallet connection, or blockchain transaction is initiated." })} className="rounded-xl border border-white/10 px-4">Rules</button></div>
         <div className="mt-7 grid items-center gap-5 lg:grid-cols-[1fr_auto_1fr]">
           <button onClick={() => setSelectedDirection("UP")} className={`interactive-glow rounded-[26px] border border-mint bg-mint/10 p-8 text-center ${selectedDirection === "UP" ? "shadow-cyan" : ""}`}><ArrowUp className="mx-auto h-16 w-16 rounded-full border border-mint p-3 text-mint" /><div className="mt-4 text-5xl font-black text-mint">UP</div><p>{market.up}% of users</p><div className="mt-5 border-t border-white/10 pt-4 text-xl">Odds 1.72x</div></button>
           <div className="text-center text-5xl font-black text-gradient lg:text-6xl">VS</div>
@@ -75,8 +75,8 @@ export function PredictionPage() {
           <GlassCard className="p-4"><div className="text-amber-300">You will receive (if correct)</div><div className="mt-2 text-3xl font-black text-mint">{Math.round(amount * (selectedDirection === "UP" ? 1.72 : 2.25))} NS <span className="text-base text-danger">({selectedDirection === "UP" ? "1.72x" : "2.25x"})</span></div></GlassCard>
         </div>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <button onClick={() => { const prediction = createPrediction({ market: market.symbol, direction: "UP", amount, odds: 1.72 }); setSelectedDirection("UP"); setModal({ title: "UP Prediction Created", description: `Pending preview ${market.symbol} UP prediction created. Reward preview: ${prediction.rewardPreview} NS.`, predictionId: prediction.id }); }} className="purple-button rounded-xl py-5 text-xl font-semibold">Confirm UP Prediction</button>
-          <button onClick={() => { const prediction = createPrediction({ market: market.symbol, direction: "DOWN", amount, odds: 2.25 }); setSelectedDirection("DOWN"); setModal({ title: "DOWN Prediction Created", description: `Pending preview ${market.symbol} DOWN prediction created. Reward preview: ${prediction.rewardPreview} NS.`, predictionId: prediction.id }); }} className="rounded-xl bg-gradient-to-r from-rose-500 to-pink-700 py-5 text-xl font-semibold">Confirm DOWN Prediction</button>
+          <button onClick={() => { const prediction = createPrediction({ market: market.symbol, direction: "UP", amount, odds: 1.72 }); setSelectedDirection("UP"); setModal({ title: "UP Prediction Created", description: `${market.symbol} UP prediction signal recorded. Potential reward: ${prediction.rewardPreview} NS.`, predictionId: prediction.id }); }} className="purple-button rounded-xl py-5 text-xl font-semibold">Confirm UP Prediction</button>
+          <button onClick={() => { const prediction = createPrediction({ market: market.symbol, direction: "DOWN", amount, odds: 2.25 }); setSelectedDirection("DOWN"); setModal({ title: "DOWN Prediction Created", description: `${market.symbol} DOWN prediction signal recorded. Potential reward: ${prediction.rewardPreview} NS.`, predictionId: prediction.id }); }} className="rounded-xl bg-gradient-to-r from-rose-500 to-pink-700 py-5 text-xl font-semibold">Confirm DOWN Prediction</button>
         </div>
       </GlassCard>
 
@@ -92,9 +92,9 @@ export function PredictionPage() {
 
       <PreviewModal open={!!modal} title={modal?.title ?? ""} description={modal?.description} onClose={() => setModal(null)}>
         <div className="rounded-2xl border border-neon/20 bg-neon/10 p-4 text-sm text-slate-200">
-          All values shown are Simulated Market Data for Investor Preview purposes.
+          Values shown reflect NEXNS market intelligence and product activity.
         </div>
-        {modal?.predictionId && <button onClick={() => { settlePrediction(modal.predictionId!, true); setModal({ title: "Prediction Settled", description: "Preview win settled. Rewards, EXP, activity feed, and pet bond updated." }); }} className="purple-button mt-4 w-full rounded-xl py-3 font-semibold">Simulate Settlement Win</button>}
+        {modal?.predictionId && <button onClick={() => { settlePrediction(modal.predictionId!, true); setModal({ title: "Prediction Settled", description: "Prediction outcome settled. Rewards, EXP, activity feed, and pet bond updated." }); }} className="purple-button mt-4 w-full rounded-xl py-3 font-semibold">Settle as Win</button>}
       </PreviewModal>
     </AppShell>
   );
