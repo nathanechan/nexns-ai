@@ -532,7 +532,7 @@ function InteractiveFlywheel() {
         <div className="absolute inset-24 rounded-full border border-violet-500/10" />
         <div className="flywheel-control-path absolute inset-[58px] rounded-full" />
         <div className="absolute left-1/2 top-1/2 grid h-32 w-32 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-violet-500/30 bg-black shadow-[0_0_48px_rgba(109,40,217,0.26)]">
-          <span className="text-center text-sm font-black uppercase tracking-[0.2em] text-white">NEXNS<br /><span className="text-violet-300">CORE</span></span>
+          <img src={nexLogoWhite} alt="NEXNS" className="h-12 w-auto object-contain" draggable={false} />
         </div>
 
         {flywheel.map((node, index) => {
@@ -559,6 +559,15 @@ function InteractiveFlywheel() {
             </button>
           );
         })}
+      </div>
+
+      <div className="mx-auto mt-8 max-w-3xl rounded-3xl border border-violet-500/20 bg-white/[0.025] p-6">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="rounded-full border border-violet-400/30 bg-violet-500/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-violet-100">
+            {flywheel[active].title}
+          </span>
+        </div>
+        <p className="mt-4 text-base leading-[1.75] text-white/82">{flywheel[active].copy}</p>
       </div>
 
       <div className="grid gap-3 sm:hidden">
@@ -729,6 +738,10 @@ function FocusAuditPanel({ pillar, onClose }: { pillar: (typeof ecosystemPillars
             <div className="mt-8 rounded-3xl border border-violet-500/20 bg-white/[0.018] p-5">
               <div className="mt-3 text-3xl font-black text-white">{pillar.metric}</div>
             </div>
+            <div className="mt-5 rounded-3xl border border-cyan-300/20 bg-cyan-300/[0.06] p-5">
+              <div className="text-xs font-black uppercase tracking-[0.18em] text-cyan-100">Technical Role</div>
+              <p className="mt-3 text-base leading-[1.75] text-white/82">{pillar.audit}</p>
+            </div>
           </div>
         ) : null}
       </motion.aside>
@@ -737,33 +750,112 @@ function FocusAuditPanel({ pillar, onClose }: { pillar: (typeof ecosystemPillars
 }
 
 function RoadmapTimeline() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activePhase = roadmap[activeIndex];
+
   return (
-    <div className="nex-panel overflow-hidden p-7">
-      <div className="relative grid gap-7 lg:grid-cols-4">
-        <div className="absolute left-0 top-8 hidden h-px w-full bg-violet-500/15 lg:block" />
-        {roadmap.map((item, index) => (
-          <motion.div
-            key={item.period}
-            initial={{ opacity: 0.35, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.65 }}
-            transition={{ duration: 0.7, delay: index * 0.08, ease: "easeInOut" }}
-            className="relative"
-          >
-            <div className="relative z-10 flex min-h-16 w-fit min-w-28 items-center justify-center rounded-full border border-violet-400/50 bg-black px-5 text-center text-xs font-black leading-tight text-violet-100 shadow-[0_0_24px_rgba(109,40,217,0.28)]">
-              {item.period}
-            </div>
-            <h3 className="mt-7 text-2xl font-black text-white">{item.title}</h3>
-            <p className="mt-3 text-sm font-semibold leading-[1.7] text-white/78">{item.objective}</p>
-            <div className="mt-5 grid gap-3">
-              {item.items.map((task) => (
-                <div key={task} className="rounded-2xl border border-violet-500/20 bg-white/[0.025] p-4 text-sm leading-[1.7] text-white/82">
-                  {task}
+    <div className="nex-panel relative overflow-hidden p-5 sm:p-7 lg:p-9">
+      <div className="pointer-events-none absolute inset-0 opacity-70">
+        <div className="absolute left-10 top-10 h-40 w-40 rounded-full bg-violet-500/10 blur-3xl" />
+        <div className="absolute bottom-8 right-12 h-48 w-48 rounded-full bg-cyan-300/10 blur-3xl" />
+      </div>
+      <div className="relative">
+        <div className="hidden lg:block">
+          <svg className="absolute left-0 top-[7.4rem] h-28 w-full overflow-visible" viewBox="0 0 1120 120" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M20 72 C180 10 300 110 440 62 C610 4 720 112 900 58 C990 32 1040 46 1100 22" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
+            <motion.path
+              d="M20 72 C180 10 300 110 440 62 C610 4 720 112 900 58 C990 32 1040 46 1100 22"
+              fill="none"
+              stroke="url(#roadmapPulse)"
+              strokeDasharray="90 950"
+              strokeLinecap="round"
+              strokeWidth="3"
+              animate={{ strokeDashoffset: [0, -1040] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            />
+            <defs>
+              <linearGradient id="roadmapPulse" x1="0" x2="1" y1="0" y2="0">
+                <stop offset="0%" stopColor="#00F0FF" stopOpacity="0" />
+                <stop offset="45%" stopColor="#00F0FF" stopOpacity="0.82" />
+                <stop offset="100%" stopColor="#8A2BE2" stopOpacity="0.9" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-4 lg:gap-6">
+          {roadmap.map((item, index) => {
+            const isActive = activeIndex === index;
+            return (
+              <motion.button
+                key={item.period}
+                type="button"
+                onClick={() => setActiveIndex(index)}
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.45 }}
+                transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className={`group relative min-h-[13rem] rounded-[2rem] border p-5 text-left transition duration-500 ${
+                  isActive
+                    ? "border-cyan-300/45 bg-cyan-300/[0.075] shadow-[0_0_42px_rgba(0,240,255,0.15)]"
+                    : "border-violet-500/18 bg-white/[0.018] hover:border-violet-300/36 hover:bg-white/[0.035]"
+                }`}
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <span className={`rounded-full border px-4 py-2 font-mono text-xs font-black tracking-[0.12em] transition ${isActive ? "border-cyan-200/40 text-cyan-100" : "border-violet-400/25 text-white/82"}`}>
+                    {item.period}
+                  </span>
+                  <span className={`grid h-9 w-9 place-items-center rounded-full border font-mono text-xs font-black transition ${isActive ? "border-cyan-200/50 bg-cyan-200/12 text-cyan-100" : "border-white/10 text-white/55 group-hover:text-white"}`}>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                 </div>
-              ))}
+                <div className="mt-8 lg:mt-14">
+                  <h3 className="text-xl font-black leading-tight text-white">{item.title}</h3>
+                  <p className="mt-3 text-sm font-semibold leading-[1.7] text-white/76">{item.objective}</p>
+                </div>
+                <div className={`absolute bottom-0 left-8 right-8 h-px transition ${isActive ? "bg-cyan-200/50" : "bg-violet-500/20"}`} />
+                <div className={`absolute -bottom-1 left-8 h-2 w-2 rounded-full transition ${isActive ? "bg-cyan-100 shadow-[0_0_18px_rgba(0,240,255,0.95)]" : "bg-violet-300/50"}`} />
+              </motion.button>
+            );
+          })}
+        </div>
+
+        <motion.div
+          key={activePhase.period}
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-8 grid gap-6 rounded-[2rem] border border-white/10 bg-black/45 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] lg:grid-cols-[0.82fr_1.18fr] lg:p-7"
+        >
+          <div className="relative overflow-hidden rounded-[1.5rem] border border-violet-500/20 bg-white/[0.02] p-6">
+            <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-cyan-300/10 blur-3xl" />
+            <div className="relative">
+              <div className="font-mono text-sm font-black tracking-[0.16em] text-cyan-100">{activePhase.period}</div>
+              <h3 className="mt-5 text-3xl font-black leading-tight text-white">{activePhase.title}</h3>
+              <p className="mt-4 text-base font-semibold leading-[1.75] text-white/82">{activePhase.objective}</p>
+              <div className="mt-8 flex items-center gap-3 text-xs font-black uppercase tracking-[0.18em] text-white/55">
+                <span className="h-px flex-1 bg-gradient-to-r from-cyan-200/70 to-violet-500/10" />
+                Time Phase
+              </div>
             </div>
-          </motion.div>
-        ))}
+          </div>
+          <div className="grid gap-3">
+            {activePhase.items.map((task, taskIndex) => (
+              <motion.div
+                key={task}
+                initial={{ opacity: 0, x: 16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.42, delay: taskIndex * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                className="group flex gap-4 rounded-2xl border border-violet-500/18 bg-white/[0.025] p-4 transition hover:border-cyan-200/30 hover:bg-cyan-300/[0.045]"
+              >
+                <div className="mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-violet-400/30 bg-black font-mono text-xs font-black text-cyan-100 group-hover:border-cyan-200/50">
+                  {taskIndex + 1}
+                </div>
+                <p className="text-sm leading-[1.75] text-white/84">{task}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </div>
   );
