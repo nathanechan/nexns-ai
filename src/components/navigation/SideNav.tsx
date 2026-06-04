@@ -12,16 +12,6 @@ export function SideNav() {
           const Icon = item.icon;
           const isActive = item.activePaths?.some((path) => location.pathname === path || location.pathname.startsWith(`${path}/`));
 
-          if (!item.to || item.soon) {
-            return (
-              <button key={item.label} type="button" className="mb-1 flex w-full flex-col items-center gap-1.5 rounded-xl px-2 py-3 text-xs font-semibold text-slate-500">
-                <Icon className="h-5 w-5" />
-                <span>{item.label}</span>
-                <span className="rounded-full border border-cyan/20 bg-cyan/10 px-2 py-0.5 text-[10px] uppercase tracking-wide text-cyan">Soon</span>
-              </button>
-            );
-          }
-
           return (
             <Link key={`${item.label}-${item.to}`} to={item.to} className={`mb-1 flex flex-col items-center gap-2 rounded-xl px-2 py-3 text-xs font-semibold ${isActive ? "bg-neon/35 text-white shadow-glow" : "text-slate-400 hover:text-white"}`}>
               <Icon className="h-6 w-6" />

@@ -30,7 +30,6 @@ export function InvestorShell({ children, title, subtitle }: { children: ReactNo
       <header className="mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-4">
         <div className="inline-flex flex-col">
           <img src={nexLogoWhite} alt="NEXNS" className="h-12 w-auto object-contain" draggable={false} />
-          <div className="mt-2 text-xs font-semibold leading-4 text-slate-300">The PredictionFi<br />Growth Network</div>
         </div>
         <nav className="flex flex-wrap gap-3 text-sm">
           <Link className="interactive-glow rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-slate-200" to="/app">App</Link>

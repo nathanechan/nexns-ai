@@ -31,6 +31,7 @@ export default function App() {
       <Route path="/projects" element={<ProjectPage />} />
       <Route path="/projects/:projectId" element={<ProjectProfilePage />} />
       <Route path="/my" element={<MyPage />} />
+      <Route path="/mypage" element={<MyPage />} />
       <Route path="/pet" element={<PetPage />} />
       <Route path="/pet/world" element={<PetWorldPage />} />
       <Route path="/presentation" element={<PresentationPage />} />

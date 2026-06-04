@@ -1,10 +1,14 @@
+import nexLogoWhite from "../../assets/logo/nex-logo-white.png";
+
 export function Logo({ compact = false }: { compact?: boolean }) {
+  void compact;
+
   return (
     <div className="leading-none">
-      <div className="text-3xl font-black tracking-[0.08em]">
-        NE<span className="text-gradient">X</span>NS
+      <div className="flex items-center gap-3">
+        <img src={nexLogoWhite} alt="NEXNS" className="h-9 w-auto object-contain" draggable={false} />
+        <span className="text-2xl font-black tracking-[0.14em] text-white">NEXNS</span>
       </div>
-      {!compact && <div className="mt-1 text-xs font-semibold leading-4 text-slate-300">The PredictionFi<br />Growth Network</div>}
     </div>
   );
 }

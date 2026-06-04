@@ -11,15 +11,6 @@ export function BottomNav() {
         const Icon = item.icon;
         const isActive = item.activePaths?.some((path) => location.pathname === path || location.pathname.startsWith(`${path}/`));
 
-        if (!item.to || item.soon) {
-          return (
-            <button key={item.label} type="button" className="flex min-w-[82px] flex-col items-center justify-center gap-1 rounded-xl px-2 py-3 text-xs font-semibold text-slate-500">
-              <Icon className="h-5 w-5" />
-              <span>{item.label}</span>
-            </button>
-          );
-        }
-
         return (
           <Link key={item.to} to={item.to} className={`flex min-w-[92px] flex-col items-center justify-center gap-1 rounded-xl px-2 py-3 text-xs font-semibold ${isActive ? "bg-neon/15 text-white shadow-glow" : "text-slate-400 hover:text-white"}`}>
             <Icon className="h-5 w-5" />
