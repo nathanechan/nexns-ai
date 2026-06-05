@@ -981,6 +981,23 @@
     }
   }
 
+  @keyframes nex-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .nex-marquee {
+    animation: nex-marquee 42s linear infinite;
+  }
+
+  .nex-marquee:hover {
+    animation-play-state: paused;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .companion-anchor,
     .flywheel-control-path,

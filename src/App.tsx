@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router-dom";
+import { CommunityPage } from "./pages/CommunityPage";
 import { CreatorPage } from "./pages/CreatorPage";
 import { CreatorProfilePage } from "./pages/CreatorProfilePage";
+import { CreatePage } from "./pages/CreatePage";
 import { CompanionPage } from "./pages/CompanionPage";
 import { HomePage } from "./pages/HomePage";
 import { InvestorCenterPage } from "./pages/investor/InvestorCenterPage";
@@ -11,6 +13,7 @@ import { InvestorOnePagePage } from "./pages/investor/InvestorOnePagePage";
 import { InvestorValueFlowPage } from "./pages/investor/InvestorValueFlowPage";
 import { InvestorWhyNexnsPage } from "./pages/investor/InvestorWhyNexnsPage";
 import { LandingPage } from "./pages/LandingPage";
+import { MorePage } from "./pages/MorePage";
 import { MyPage } from "./pages/MyPage";
 import { PetPage } from "./pages/PetPage";
 import { PetWorldPage } from "./pages/PetWorldPage";
@@ -25,11 +28,14 @@ export default function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/app" element={<HomePage />} />
       <Route path="/prediction" element={<PredictionPage />} />
+      <Route path="/community" element={<CommunityPage />} />
+      <Route path="/create" element={<CreatePage />} />
       <Route path="/creator" element={<CreatorPage />} />
       <Route path="/creator/:creatorId" element={<CreatorProfilePage />} />
       <Route path="/companion" element={<CompanionPage />} />
       <Route path="/projects" element={<ProjectPage />} />
       <Route path="/projects/:projectId" element={<ProjectProfilePage />} />
+      <Route path="/more" element={<MorePage />} />
       <Route path="/my" element={<MyPage />} />
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/pet" element={<PetPage />} />
