@@ -50,12 +50,23 @@ const fragmentShaderSource = `
     float t = time * speed;
     float n = fbm(vec2(uv.x * 2.2 + t, uv.y * 1.8 - t * 0.5));
     float curve = 0.5
-      + sin(uv.x * frequency + t * 2.0) * 0.12
-      + sin(uv.x * (frequency * 0.47) - t * 1.35) * 0.18
-      + (n - 0.5) * 0.22
+      + sin(uv.x * frequency + t * 1.2) * 0.05
+      + sin(uv.x * (frequency * 0.47) - t * 0.8) * 0.07
+      + (n - 0.5) * 0.08
       + offset;
 
     return smoothstep(width, 0.0, abs(uv.y - curve));
+  }
+
+  float star(vec2 uv, vec2 cell, float density) {
+    vec2 grid = floor(uv * cell);
+    vec2 local = fract(uv * cell) - 0.5;
+    float seed = hash(grid);
+    float size = mix(0.0025, 0.007, hash(grid + 8.31));
+    float sparkle = smoothstep(size, 0.0, length(local));
+    float gate = step(1.0 - density, seed);
+    float depth = 0.35 + 0.65 * sin(time * (0.22 + seed * 0.2) + seed * 6.2831);
+    return sparkle * gate * depth;
   }
 
   void main() {
@@ -68,32 +79,29 @@ const fragmentShaderSource = `
     vec3 purple = vec3(0.54, 0.17, 0.89);
     vec3 magenta = vec3(1.0, 0.0, 0.72);
 
-    float pulse = 0.72 + 0.28 * sin(time * 2.4);
-    float bottomBand = smoothstep(1.04, 0.55, uv.y);
-    float dataGrain = step(0.54, noise(floor(vec2(uv.x * 230.0, uv.y * 120.0)) + time * 0.25));
-    float scan = fbm(vec2(uv.x * 4.2 - time * 0.62, uv.y * 7.5 + time * 0.2));
+    float pulse = 0.72 + 0.28 * sin(time * 0.7);
+    float depthNoise = fbm(vec2(uv.x * 1.15 - time * 0.018, uv.y * 1.35 + time * 0.012));
+    float signalA = lineField(uv, -0.16, 0.0038, 6.2, 0.12);
+    float signalB = lineField(uv, 0.04, 0.0032, 7.4, 0.15);
+    float signalC = lineField(uv, 0.22, 0.0025, 5.6, 0.1);
+    float haloA = lineField(uv, -0.16, 0.038, 6.2, 0.12);
+    float haloB = lineField(uv, 0.04, 0.032, 7.4, 0.15);
+    float haloC = lineField(uv, 0.22, 0.028, 5.6, 0.1);
+    float microA = star(uv + vec2(time * 0.003, time * -0.001), vec2(82.0, 48.0), 0.035);
+    float microB = star(uv + vec2(time * -0.0015, time * 0.002), vec2(44.0, 30.0), 0.025);
 
-    float ribbonA = lineField(uv, -0.08, 0.014, 9.0, 0.48);
-    float ribbonB = lineField(uv, 0.02, 0.011, 11.0, 0.62);
-    float ribbonC = lineField(uv, 0.13, 0.008, 7.0, 0.72);
-    float haloA = lineField(uv, -0.08, 0.075, 9.0, 0.48);
-    float haloB = lineField(uv, 0.02, 0.065, 11.0, 0.62);
-    float haloC = lineField(uv, 0.13, 0.05, 7.0, 0.72);
+    float rightField = smoothstep(0.22, 0.88, uv.x);
+    float lowerFade = 1.0 - smoothstep(0.0, 0.14, uv.y) * 0.35;
+    float topFade = 1.0 - smoothstep(0.88, 1.0, uv.y) * 0.4;
+    float readability = mix(0.18, 1.0, smoothstep(0.34, 0.86, uv.x));
 
     vec3 color = vec3(0.0);
-    color += mix(purple, cyan, uv.x) * bottomBand * (0.16 + scan * 0.58);
-    color += mix(magenta, cyan, scan) * bottomBand * dataGrain * 0.09;
-    color += cyan * haloA * 0.16 * pulse;
-    color += purple * haloB * 0.22;
-    color += magenta * haloC * 0.14;
-    color += cyan * ribbonA * 1.25;
-    color += purple * ribbonB * 1.18;
-    color += magenta * ribbonC * 0.95;
-
-    float leftReadability = smoothstep(0.68, 0.24, uv.x);
-    color *= mix(1.0, 0.22, leftReadability);
-    color *= 1.0 - smoothstep(0.0, 0.22, uv.y) * 0.55;
-    color *= 1.0 - smoothstep(0.78, 1.0, uv.y) * 0.35;
+    color += mix(purple, teal, depthNoise) * depthNoise * 0.035 * rightField;
+    color += cyan * (signalA * 0.42 + haloA * 0.035) * pulse * readability;
+    color += purple * (signalB * 0.36 + haloB * 0.038) * readability;
+    color += mix(purple, magenta, 0.35) * (signalC * 0.22 + haloC * 0.026) * readability;
+    color += mix(cyan, purple, uv.y) * (microA * 0.12 + microB * 0.08) * rightField;
+    color *= lowerFade * topFade;
 
     gl_FragColor = vec4(color, 1.0);
   }

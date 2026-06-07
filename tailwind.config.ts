@@ -8,15 +8,15 @@ export default {
         sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       colors: {
-        void: "#030712",
-        panel: "#071426",
-        neon: "#8b5cf6",
-        violet: "#6d5dfc",
+        void: "#050507",
+        panel: "#0E1117",
+        neon: "#7C3AED",
+        violet: "#7C3AED",
         magenta: "#d946ef",
-        cyan: "#22d3ee",
+        cyan: "#00E5FF",
         blue: "#2563eb",
         mint: "#20f29b",
-        gold: "#f5b942",
+        gold: "#C8A96A",
         danger: "#ff4e6d",
       },
       boxShadow: {
@@ -26,7 +26,7 @@ export default {
       },
       backgroundImage: {
         "space-radial":
-          "radial-gradient(circle at 20% 15%, rgba(139,92,246,.28), transparent 26%), radial-gradient(circle at 78% 5%, rgba(34,211,238,.18), transparent 23%), radial-gradient(circle at 48% 70%, rgba(91,33,182,.22), transparent 34%)",
+          "radial-gradient(circle at 20% 15%, rgba(124,58,237,.18), transparent 28%), radial-gradient(circle at 78% 5%, rgba(0,229,255,.10), transparent 24%), radial-gradient(circle at 48% 70%, rgba(200,169,106,.05), transparent 34%)",
       },
     },
   },

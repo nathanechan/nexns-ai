@@ -449,11 +449,11 @@ export function LandingPage() {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="max-w-3xl pt-4 lg:pt-0">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-cyan/15 bg-white/[0.035] px-4 py-2 text-[0.68rem] font-black uppercase tracking-[0.24em] text-cyan/90">
+              <div className="mb-5 inline-flex max-w-full items-center gap-2 overflow-hidden rounded-full border border-cyan/15 bg-white/[0.035] px-4 py-2 text-[0.58rem] font-black uppercase tracking-[0.18em] text-cyan/90 sm:text-[0.68rem] sm:tracking-[0.24em]">
                 <span className="h-1.5 w-1.5 rounded-full bg-cyan shadow-[0_0_14px_rgba(34,211,238,0.9)]" />
-                Global Prediction Growth Infrastructure
+                <span className="truncate">Global Prediction Growth Infrastructure</span>
               </div>
-              <h1 className="max-w-5xl text-[3rem] font-black leading-[0.92] tracking-[-0.045em] text-white sm:text-6xl md:text-7xl xl:text-8xl">
+              <h1 className="max-w-5xl text-[2.72rem] font-black leading-[0.94] tracking-[-0.045em] text-white sm:text-6xl sm:leading-[0.92] md:text-7xl xl:text-8xl">
                 Prediction signals become network growth.
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-[1.75] tracking-[0.02em] text-white/84 sm:mt-8 sm:text-lg">
@@ -793,29 +793,45 @@ export function LandingPage() {
 }
 
 function HeroSignalNetwork() {
-  const nodes = [
-    { label: "Users", x: 14, y: 52, tone: "cyan" },
-    { label: "Signals", x: 34, y: 24, tone: "violet" },
-    { label: "Creators", x: 64, y: 23, tone: "cyan" },
-    { label: "Projects", x: 84, y: 52, tone: "violet" },
-    { label: "Community", x: 65, y: 78, tone: "cyan" },
-    { label: "Governance", x: 35, y: 78, tone: "violet" },
+  const particles = [
+    [14, 18, 0],
+    [28, 62, 1],
+    [44, 34, 2],
+    [58, 76, 3],
+    [72, 22, 4],
+    [86, 58, 5],
+    [38, 84, 6],
+    [64, 48, 7],
   ];
 
   return (
-    <div className="relative hidden min-h-[520px] items-center justify-center lg:flex">
-      <div className="absolute inset-8 rounded-[42px] border border-white/8 bg-white/[0.025] shadow-[0_0_80px_rgba(34,211,238,0.08)] backdrop-blur-sm" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_48%,rgba(34,211,238,0.16),transparent_24%),radial-gradient(circle_at_60%_62%,rgba(139,92,246,0.18),transparent_38%)]" />
-      <div className="relative h-[520px] w-full max-w-[680px]">
-        <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full overflow-visible" role="img" aria-label="NEXNS signal network diagram">
+    <div className="hero-atmosphere-field pointer-events-none relative hidden min-h-[520px] items-center justify-center lg:flex" aria-hidden="true">
+      <div className="hero-deep-space-layer absolute inset-0" />
+      <div className="hero-atmospheric-light absolute inset-0" />
+      <div className="hero-particle-field absolute inset-0">
+        {particles.map(([x, y, index]) => (
+          <span
+            key={`${x}-${y}`}
+            className="hero-micro-particle"
+            style={{
+              left: `${x}%`,
+              top: `${y}%`,
+              animationDelay: `${index * 0.9}s`,
+              animationDuration: `${10 + index * 1.4}s`,
+            }}
+          />
+        ))}
+      </div>
+      <div className="relative h-[520px] w-full max-w-[680px] opacity-70">
+        <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full overflow-visible">
           <defs>
             <linearGradient id="heroSignalGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.25" />
-              <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#22d3ee" stopOpacity="0.25" />
+              <stop offset="0%" stopColor="#00e5ff" stopOpacity="0.08" />
+              <stop offset="52%" stopColor="#7c3aed" stopOpacity="0.36" />
+              <stop offset="100%" stopColor="#00e5ff" stopOpacity="0.12" />
             </linearGradient>
             <filter id="heroSignalGlow">
-              <feGaussianBlur stdDeviation="1.6" result="blur" />
+              <feGaussianBlur stdDeviation="0.9" result="blur" />
               <feMerge>
                 <feMergeNode in="blur" />
                 <feMergeNode in="SourceGraphic" />
@@ -823,38 +839,23 @@ function HeroSignalNetwork() {
             </filter>
           </defs>
 
-          <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(255,255,255,0.13)" strokeWidth="0.35" />
-          <circle cx="50" cy="50" r="27" fill="none" stroke="rgba(34,211,238,0.18)" strokeWidth="0.25" strokeDasharray="2 3" />
-          <circle cx="50" cy="50" r="17" fill="none" stroke="rgba(139,92,246,0.22)" strokeWidth="0.3" />
+          <path className="hero-signal-path hero-signal-thread" d="M5 62 C24 38, 38 68, 54 43 S82 20, 96 48" fill="none" stroke="url(#heroSignalGradient)" strokeWidth="0.42" filter="url(#heroSignalGlow)" />
+          <path className="hero-signal-path hero-signal-path-slow hero-signal-thread" d="M10 78 C30 58, 44 82, 62 62 S82 44, 92 72" fill="none" stroke="rgba(0,229,255,0.24)" strokeWidth="0.32" strokeLinecap="round" />
+          <path className="hero-signal-path hero-signal-path-slow hero-signal-thread" d="M8 30 C28 20, 40 38, 55 30 S76 12, 94 24" fill="none" stroke="rgba(124,58,237,0.28)" strokeWidth="0.34" strokeLinecap="round" />
+          <path className="hero-signal-path hero-signal-thread" d="M22 14 C36 42, 58 42, 76 88" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="0.25" strokeLinecap="round" />
+          <path className="hero-signal-path hero-signal-thread" d="M18 88 C42 74, 48 28, 82 10" fill="none" stroke="rgba(0,229,255,0.13)" strokeWidth="0.24" strokeLinecap="round" />
 
-          <path className="hero-signal-path" d="M14 52 C26 26, 50 12, 64 23 S90 36, 84 52 S76 86, 65 78 S40 90, 35 78 S4 70, 14 52" fill="none" stroke="url(#heroSignalGradient)" strokeWidth="0.8" filter="url(#heroSignalGlow)" />
-          <path className="hero-signal-path hero-signal-path-slow" d="M20 65 C32 44, 39 33, 50 50 S69 68, 80 37" fill="none" stroke="rgba(34,211,238,0.52)" strokeWidth="0.45" strokeLinecap="round" />
-          <path className="hero-signal-path hero-signal-path-slow" d="M28 30 C38 54, 50 66, 73 69" fill="none" stroke="rgba(139,92,246,0.58)" strokeWidth="0.45" strokeLinecap="round" />
-
-          <g className="hero-signal-core">
-            <circle cx="50" cy="50" r="10" fill="rgba(3,7,18,0.88)" stroke="rgba(255,255,255,0.2)" strokeWidth="0.45" />
-            <circle cx="50" cy="50" r="6.5" fill="rgba(139,92,246,0.16)" stroke="rgba(34,211,238,0.26)" strokeWidth="0.35" />
-            <text x="50" y="48.8" textAnchor="middle" fill="white" fontSize="3.8" fontWeight="900" letterSpacing="0.12em">NEXNS</text>
-            <text x="50" y="54.3" textAnchor="middle" fill="rgba(255,255,255,0.55)" fontSize="1.65" fontWeight="700" letterSpacing="0.12em">SIGNAL LAYER</text>
-          </g>
-
-          {nodes.map((node) => (
-            <g key={node.label} className="hero-signal-node">
-              <circle cx={node.x} cy={node.y} r="3.2" fill={node.tone === "cyan" ? "rgba(34,211,238,0.16)" : "rgba(139,92,246,0.18)"} stroke={node.tone === "cyan" ? "#22d3ee" : "#8b5cf6"} strokeWidth="0.55" />
-              <circle cx={node.x} cy={node.y} r="1" fill="white" />
-              <text x={node.x} y={node.y + 7} textAnchor="middle" fill="rgba(255,255,255,0.74)" fontSize="2.2" fontWeight="800" letterSpacing="0.06em">{node.label}</text>
-            </g>
+          {particles.slice(0, 6).map(([x, y, index]) => (
+            <circle
+              key={`${x}-${y}-${index}`}
+              className="hero-signal-node"
+              cx={x}
+              cy={y}
+              r="0.72"
+              fill={index % 2 === 0 ? "rgba(0,229,255,0.58)" : "rgba(124,58,237,0.58)"}
+            />
           ))}
         </svg>
-
-        <div className="absolute left-10 top-12 rounded-2xl border border-white/10 bg-black/42 px-4 py-3 backdrop-blur-md">
-          <div className="text-[0.62rem] font-black uppercase tracking-[0.18em] text-cyan/70">Prediction Intent</div>
-          <div className="mt-1 font-mono text-lg font-black text-white">Live Signal Density</div>
-        </div>
-        <div className="absolute bottom-14 right-8 rounded-2xl border border-white/10 bg-black/42 px-4 py-3 backdrop-blur-md">
-          <div className="text-[0.62rem] font-black uppercase tracking-[0.18em] text-violet-300/80">Network Output</div>
-          <div className="mt-1 font-mono text-lg font-black text-white">Growth Routing</div>
-        </div>
       </div>
     </div>
   );
