@@ -36,12 +36,19 @@
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
+    overflow-x: hidden;
     color: rgba(255, 255, 255, 0.96);
     background: #000000;
     font-family: Inter, ui-sans-serif, system-ui, sans-serif;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     letter-spacing: 0.02em;
     line-height: 1.6;
+  }
+
+  html,
+  #root {
+    width: 100%;
+    overflow-x: hidden;
   }
 
   h1,
@@ -146,7 +153,7 @@
   }
 
   .growth-participant {
-    transform: rotate(var(--participant-angle)) translate(246px) rotate(calc(-1 * var(--participant-angle))) translate(-50%, -50%);
+    transform: rotate(var(--participant-angle)) translate(310px) rotate(calc(-1 * var(--participant-angle))) translate(-50%, -50%);
   }
 
   .nex-panel {
@@ -225,7 +232,7 @@
   }
 
   .ecosystem-canvas {
-    opacity: 0.92;
+    opacity: 0.6;
     transform: translateZ(0);
     will-change: transform;
   }

@@ -518,8 +518,8 @@ export function LandingPage() {
           <div className="nex-panel relative overflow-hidden p-5 sm:p-7 lg:p-9">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(139,92,246,0.16),transparent_28%),radial-gradient(circle_at_70%_70%,rgba(34,211,238,0.10),transparent_32%)]" />
             <div className="relative grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-              <div className="relative min-h-[520px] overflow-hidden rounded-[34px] border border-white/10 bg-black/26 p-5 sm:p-7">
-                <svg className="absolute inset-0 h-full w-full" viewBox="0 0 620 520" role="img" aria-label="NEXNS global infrastructure ecosystem map">
+              <div className="relative overflow-hidden rounded-[34px] border border-white/10 bg-black/26 p-5 sm:p-7">
+                <svg className="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-55" viewBox="0 0 620 620" role="img" aria-label="NEXNS global infrastructure ecosystem map">
                   <defs>
                     <linearGradient id="infrastructureOrbit" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.12" />
@@ -534,43 +534,70 @@ export function LandingPage() {
                       </feMerge>
                     </filter>
                   </defs>
-                  <ellipse cx="310" cy="260" rx="242" ry="172" fill="none" stroke="url(#infrastructureOrbit)" strokeWidth="1.2" />
-                  <ellipse cx="310" cy="260" rx="188" ry="234" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" strokeDasharray="8 12" />
-                  <ellipse cx="310" cy="260" rx="118" ry="118" fill="none" stroke="rgba(34,211,238,0.16)" strokeWidth="1" />
+                  <ellipse cx="310" cy="310" rx="242" ry="196" fill="none" stroke="url(#infrastructureOrbit)" strokeWidth="1.2" />
+                  <ellipse cx="310" cy="310" rx="188" ry="258" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" strokeDasharray="8 12" />
+                  <ellipse cx="310" cy="310" rx="118" ry="118" fill="none" stroke="rgba(34,211,238,0.16)" strokeWidth="1" />
                   {[
-                    [126, 151],
-                    [314, 66],
-                    [495, 151],
-                    [498, 363],
-                    [314, 455],
-                    [124, 364],
+                    [126, 172],
+                    [314, 82],
+                    [495, 172],
+                    [498, 448],
+                    [314, 540],
+                    [124, 448],
                   ].map(([x, y]) => (
-                    <path key={`${x}-${y}`} d={`M310 260 L${x} ${y}`} stroke="rgba(255,255,255,0.11)" strokeWidth="1" />
+                    <path key={`${x}-${y}`} d={`M310 310 L${x} ${y}`} stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
                   ))}
-                  <circle cx="310" cy="260" r="70" fill="rgba(10,10,11,0.92)" stroke="rgba(255,255,255,0.22)" strokeWidth="1.2" filter="url(#infrastructureCoreGlow)" />
-                  <circle cx="310" cy="260" r="42" fill="rgba(139,92,246,0.20)" stroke="rgba(34,211,238,0.24)" strokeWidth="1" />
-                  <text x="310" y="254" textAnchor="middle" fill="white" fontSize="21" fontWeight="900" letterSpacing="2.4">NEXNS</text>
-                  <text x="310" y="282" textAnchor="middle" fill="rgba(255,255,255,0.62)" fontSize="9.5" fontWeight="700" letterSpacing="1.8">NETWORK</text>
+                  <circle cx="310" cy="310" r="76" fill="rgba(10,10,11,0.72)" stroke="rgba(255,255,255,0.14)" strokeWidth="1.2" filter="url(#infrastructureCoreGlow)" />
                 </svg>
 
-                <div className="relative grid min-h-[470px] grid-cols-2 gap-3 sm:gap-4">
-                  {infrastructureCategories.map((category, index) => (
+                <div className="relative z-10 grid gap-5">
+                  <div className="pointer-events-none absolute left-1/2 top-8 hidden h-[calc(100%-4rem)] w-px -translate-x-1/2 bg-gradient-to-b from-cyan-300/0 via-cyan-300/22 to-violet-300/0 sm:block" />
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    {infrastructureCategories.slice(0, 2).map((category, index) => (
                     <div
                       key={category.title}
-                      className={[
-                        "rounded-2xl border border-white/10 bg-black/42 p-4 backdrop-blur-sm transition duration-300 hover:border-cyan-300/35 hover:bg-cyan-300/7",
-                        index === 0 ? "self-start" : "",
-                        index === 1 ? "self-start" : "",
-                        index === 2 ? "self-center" : "",
-                        index === 3 ? "self-center" : "",
-                        index === 4 ? "self-end" : "",
-                        index === 5 ? "self-end" : "",
-                      ].join(" ")}
+                      className="group relative min-h-[136px] overflow-hidden rounded-[26px] border border-white/10 bg-black/68 p-5 backdrop-blur-sm transition duration-300 hover:border-cyan-300/35 hover:bg-cyan-300/7"
                     >
-                      <h3 className="text-sm font-black text-white">{category.title}</h3>
-                      <p className="mt-2 text-xs leading-5 text-white/64">{category.description}</p>
+                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-cyan-300/0 via-cyan-300/35 to-violet-300/0 opacity-0 transition group-hover:opacity-100" />
+                      <div className="flex items-start justify-between gap-3">
+                        <h3 className="text-base font-black leading-tight text-white">{category.title}</h3>
+                        <span className="font-mono text-[10px] font-black text-cyan-100/70">{String(index + 1).padStart(2, "0")}</span>
+                      </div>
+                      <p className="mt-3 text-sm leading-6 text-white/70">{category.description}</p>
+                      <div className="mt-4 inline-flex rounded-full border border-white/8 bg-white/[0.035] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/50">
+                        {category.nodes.length} nodes
+                      </div>
                     </div>
                   ))}
+                  </div>
+
+                  <div className="relative mx-auto my-1 grid h-40 w-40 place-items-center rounded-full border border-cyan-300/35 bg-black/95 text-center shadow-[0_0_70px_rgba(0,240,255,0.18),inset_0_0_32px_rgba(139,92,246,0.12)] sm:h-48 sm:w-48">
+                    <div className="pointer-events-none absolute -inset-7 rounded-full border border-cyan-300/10" />
+                    <div className="pointer-events-none absolute -inset-14 rounded-full border border-violet-300/10 border-dashed" />
+                    <div className="px-5">
+                      <div className="text-2xl font-black tracking-[0.18em] text-white">NEXNS</div>
+                      <div className="mt-2 text-[10px] font-black uppercase tracking-[0.22em] text-white/62">Network Core</div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    {infrastructureCategories.slice(2).map((category, index) => (
+                      <div
+                        key={category.title}
+                        className="group relative min-h-[136px] overflow-hidden rounded-[26px] border border-white/10 bg-black/68 p-5 backdrop-blur-sm transition duration-300 hover:border-cyan-300/35 hover:bg-cyan-300/7"
+                      >
+                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-violet-300/0 via-violet-300/35 to-cyan-300/0 opacity-0 transition group-hover:opacity-100" />
+                        <div className="flex items-start justify-between gap-3">
+                          <h3 className="text-base font-black leading-tight text-white">{category.title}</h3>
+                          <span className="font-mono text-[10px] font-black text-cyan-100/70">{String(index + 3).padStart(2, "0")}</span>
+                        </div>
+                        <p className="mt-3 text-sm leading-6 text-white/70">{category.description}</p>
+                        <div className="mt-4 inline-flex rounded-full border border-white/8 bg-white/[0.035] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/50">
+                          {category.nodes.length} nodes
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -677,9 +704,10 @@ export function LandingPage() {
                 </div>
               </div>
 
+              <div className="grid gap-4">
               <div className="relative min-h-[430px] overflow-hidden rounded-[32px] border border-white/10 bg-black/24 p-5 sm:p-7">
-                <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.045),transparent_38%,rgba(34,211,238,0.035))]" />
-                <svg className="absolute inset-0 h-full w-full" viewBox="0 0 640 430" role="img" aria-label="Global NEXNS community network">
+                <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.035),transparent_38%,rgba(34,211,238,0.025))]" />
+                <svg className="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-80" viewBox="0 0 640 430" role="img" aria-label="Global NEXNS community network">
                   <defs>
                     <linearGradient id="communityNetworkLine" x1="0%" y1="0%" x2="100%" y2="0%">
                       <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.12" />
@@ -717,21 +745,22 @@ export function LandingPage() {
                   <text x="320" y="234" textAnchor="middle" fill="rgba(255,255,255,0.58)" fontSize="10" fontWeight="700" letterSpacing="2">GLOBAL NETWORK</text>
                 </svg>
 
-                <div className="relative flex h-full min-h-[380px] flex-col justify-between">
+                <div className="relative z-10 flex h-full min-h-[380px] flex-col justify-start">
                   <div className="ml-auto w-fit rounded-full border border-violet-300/20 bg-violet-300/8 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-violet-100">
                     Regional hubs / operators / contributors
                   </div>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {contributionPath.map((step, index) => (
-                      <div key={step} className="flex items-center gap-3 rounded-2xl border border-white/8 bg-black/36 px-4 py-3">
-                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-cyan-300/25 bg-cyan-300/8 font-mono text-[11px] font-bold text-cyan-100">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                        <span className="text-sm font-semibold text-white">{step}</span>
-                      </div>
-                    ))}
-                  </div>
                 </div>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {contributionPath.map((step, index) => (
+                  <div key={step} className="relative z-10 flex items-center gap-3 rounded-2xl border border-white/8 bg-black/44 px-4 py-3">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-cyan-300/25 bg-cyan-300/8 font-mono text-[11px] font-bold text-cyan-100">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-sm font-semibold text-white">{step}</span>
+                  </div>
+                ))}
+              </div>
               </div>
             </div>
 
@@ -1075,11 +1104,11 @@ function InteractiveFlywheel() {
           </div>
         </div>
 
-        <div className="relative min-h-[620px] rounded-[34px] border border-white/10 bg-white/[0.02] p-4 shadow-[0_0_90px_rgba(34,211,238,0.06)] sm:min-h-[680px]">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,211,238,0.13),transparent_24%),radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.16),transparent_46%)]" />
-          <div className="growth-engine-ring absolute left-1/2 top-1/2 h-[470px] w-[470px] -translate-x-1/2 -translate-y-1/2 rounded-full sm:h-[540px] sm:w-[540px]" />
-          <div className="growth-engine-ring growth-engine-ring-secondary absolute left-1/2 top-1/2 h-[340px] w-[340px] -translate-x-1/2 -translate-y-1/2 rounded-full sm:h-[405px] sm:w-[405px]" />
-          <svg viewBox="0 0 640 640" className="absolute inset-0 h-full w-full" aria-hidden="true">
+        <div className="relative min-h-[700px] rounded-[34px] border border-white/10 bg-white/[0.02] p-4 shadow-[0_0_90px_rgba(34,211,238,0.06)] sm:min-h-[760px]">
+          <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,211,238,0.10),transparent_24%),radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.12),transparent_46%)]" />
+          <div className="growth-engine-ring absolute left-1/2 top-1/2 z-0 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full sm:h-[610px] sm:w-[610px]" />
+          <div className="growth-engine-ring growth-engine-ring-secondary absolute left-1/2 top-1/2 z-0 h-[370px] w-[370px] -translate-x-1/2 -translate-y-1/2 rounded-full sm:h-[445px] sm:w-[445px]" />
+          <svg viewBox="0 0 640 640" className="pointer-events-none absolute inset-0 z-0 h-full w-full" aria-hidden="true">
             <defs>
               <linearGradient id="growthEnginePath" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.18" />
@@ -1104,7 +1133,7 @@ function InteractiveFlywheel() {
             })}
           </svg>
 
-          <div className="absolute left-1/2 top-1/2 grid h-36 w-36 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-cyan/20 bg-black/78 shadow-[0_0_70px_rgba(139,92,246,0.34)] backdrop-blur-xl sm:h-44 sm:w-44">
+          <div className="absolute left-1/2 top-1/2 z-40 grid h-36 w-36 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-cyan/20 bg-black/90 shadow-[0_0_70px_rgba(139,92,246,0.34)] backdrop-blur-xl sm:h-44 sm:w-44">
             <div className="text-center">
               <img src={nexLogoWhite} alt="NEXNS" className="mx-auto h-11 w-auto object-contain sm:h-14" draggable={false} />
             </div>
@@ -1113,7 +1142,7 @@ function InteractiveFlywheel() {
           {flywheel.map((node, index) => {
             const Icon = node.icon;
             const angle = (index / flywheel.length) * Math.PI * 2 - Math.PI / 2;
-            const radius = 38;
+            const radius = 42;
             const x = 50 + Math.cos(angle) * radius;
             const y = 50 + Math.sin(angle) * radius;
             const isActive = active === index;
@@ -1125,10 +1154,10 @@ function InteractiveFlywheel() {
                 onMouseEnter={() => setActive(index)}
                 onFocus={() => setActive(index)}
                 onClick={() => setActive(index)}
-                className={`growth-engine-step absolute w-[132px] -translate-x-1/2 -translate-y-1/2 rounded-2xl border p-3 text-left transition duration-300 ease-in-out sm:w-40 sm:p-4 ${
+                className={`growth-engine-step absolute z-30 w-[118px] -translate-x-1/2 -translate-y-1/2 rounded-2xl border p-3 text-left transition duration-300 ease-in-out sm:w-36 sm:p-4 ${
                   isActive ? "border-cyan/60 bg-cyan/10 text-white shadow-[0_0_34px_rgba(34,211,238,0.2)]" : "border-white/10 bg-black/40 text-white/72 hover:border-violet-300/40 hover:bg-white/[0.05]"
                 }`}
-                style={{ left: `${x}%`, top: `${y}%` }}
+                style={{ left: `clamp(78px, ${x}%, calc(100% - 78px))`, top: `clamp(64px, ${y}%, calc(100% - 64px))` }}
               >
                 <div className="flex items-center gap-2">
                   <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-cyan" : "text-violet-300"}`} />
@@ -1143,7 +1172,7 @@ function InteractiveFlywheel() {
             return (
               <div
                 key={participant.label}
-                className="growth-participant absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-full border border-white/10 bg-black/46 px-3 py-2 text-xs font-bold text-white/62 backdrop-blur-md md:flex"
+                className="growth-participant absolute left-1/2 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-full border border-white/10 bg-black/54 px-3 py-2 text-xs font-bold text-white/62 backdrop-blur-md xl:flex"
                 style={{ "--participant-angle": `${participant.angle}deg` } as Record<string, string>}
               >
                 <Icon className="h-3.5 w-3.5 text-cyan/75" />
@@ -1378,7 +1407,7 @@ function EcosystemParticipationMap() {
                 className={`absolute z-30 w-[145px] -translate-x-1/2 -translate-y-1/2 rounded-[22px] border p-3 text-left backdrop-blur-md transition duration-300 sm:w-[172px] sm:p-4 ${
                   isActive ? "border-cyan/60 bg-cyan/10 shadow-[0_0_34px_rgba(34,211,238,0.2)]" : "border-white/10 bg-black/56 hover:border-violet-300/40 hover:bg-white/[0.055]"
                 }`}
-                style={{ left: `${x}%`, top: `${y}%` }}
+                style={{ left: `clamp(96px, ${x}%, calc(100% - 96px))`, top: `clamp(84px, ${y}%, calc(100% - 84px))` }}
               >
                 <div className="flex items-center gap-2">
                   <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-cyan" : "text-violet-300"}`} />
@@ -1610,28 +1639,28 @@ function EcosystemMap({ onFocus }: { onFocus: (pillar: (typeof ecosystemPillars)
   }, []);
 
   return (
-    <div className="nex-panel relative overflow-hidden p-7">
-      <div>
-        <div className="relative min-h-[620px] overflow-hidden rounded-[28px] border border-violet-500/20 bg-black/20">
-          <canvas ref={canvasRef} className="ecosystem-canvas absolute inset-0 h-full w-full" aria-hidden="true" />
-          <div className="absolute left-1/2 top-1/2 z-20 grid h-44 w-44 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-cyan-300/35 bg-black/92 text-center shadow-[0_0_70px_rgba(0,240,255,0.16)]">
+      <div className="nex-panel relative overflow-hidden p-5 sm:p-7">
+        <div>
+        <div className="relative min-h-[720px] overflow-hidden rounded-[28px] border border-violet-500/20 bg-black/20">
+          <canvas ref={canvasRef} className="ecosystem-canvas absolute inset-0 z-0 h-full w-full opacity-60" aria-hidden="true" />
+          <div className="absolute left-1/2 top-1/2 z-40 grid h-52 w-52 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-cyan-300/35 bg-black/95 text-center shadow-[0_0_70px_rgba(0,240,255,0.16)]">
             <div>
-              <div className="px-5 text-base font-black leading-tight tracking-[0.08em] text-white">NEXNS: The Center of Value Creation and Growth.</div>
+              <div className="px-6 text-base font-black leading-tight tracking-[0.08em] text-white">NEXNS: The Center of Value Creation and Growth.</div>
             </div>
           </div>
 
           {ecosystemPillars.map((pillar, index) => {
             const Icon = pillar.icon;
             const angle = (index / ecosystemPillars.length) * Math.PI * 2 - Math.PI / 2;
-            const x = 50 + Math.cos(angle) * 34;
-            const y = 50 + Math.sin(angle) * 34;
+            const x = 50 + Math.cos(angle) * 40;
+            const y = 50 + Math.sin(angle) * 40;
 
             return (
               <button
                 key={pillar.title}
                 type="button"
                 onClick={() => onFocus(pillar)}
-                className="ecosystem-node absolute z-30 w-[min(220px,48vw)] -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-violet-500/25 bg-black/82 p-4 text-left backdrop-blur-md transition duration-300 hover:border-cyan-300/45 hover:shadow-[0_0_32px_rgba(0,240,255,0.16)]"
+                className="ecosystem-node absolute z-20 w-[min(190px,44vw)] -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-violet-500/25 bg-black/86 p-4 text-left backdrop-blur-md transition duration-300 hover:border-cyan-300/45 hover:shadow-[0_0_32px_rgba(0,240,255,0.16)]"
                 style={{ left: `${x}%`, top: `${y}%` }}
               >
                 <Icon className="h-5 w-5 text-cyan-200" />
@@ -1715,8 +1744,8 @@ function RoadmapTimeline() {
         <div className="relative overflow-hidden rounded-[34px] border border-white/10 bg-white/[0.02] p-5 shadow-[0_0_90px_rgba(34,211,238,0.06)] md:p-7">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(34,211,238,0.1),transparent_30%),radial-gradient(circle_at_50%_88%,rgba(139,92,246,0.15),transparent_34%)]" />
 
-          <div className="relative hidden min-h-[520px] lg:block">
-            <svg className="absolute inset-0 h-full w-full overflow-visible" viewBox="0 0 920 520" preserveAspectRatio="none" aria-hidden="true">
+          <div className="relative hidden lg:block">
+            <svg className="pointer-events-none absolute left-0 right-0 top-12 h-32 w-full overflow-visible opacity-70" viewBox="0 0 920 140" preserveAspectRatio="none" aria-hidden="true">
               <defs>
                 <linearGradient id="strategicRoadmapPath" x1="0" x2="1" y1="0" y2="0">
                   <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.12" />
@@ -1731,9 +1760,9 @@ function RoadmapTimeline() {
                   </feMerge>
                 </filter>
               </defs>
-              <path d="M42 366 C188 92 318 420 462 230 C604 44 690 354 878 144" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
+              <path d="M38 86 C190 20 332 118 468 70 C612 18 720 120 882 42" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
               <motion.path
-                d="M42 366 C188 92 318 420 462 230 C604 44 690 354 878 144"
+                d="M38 86 C190 20 332 118 468 70 C612 18 720 120 882 42"
                 fill="none"
                 stroke="url(#strategicRoadmapPath)"
                 strokeDasharray="120 820"
@@ -1745,14 +1774,8 @@ function RoadmapTimeline() {
               />
             </svg>
 
+            <div className="relative z-10 grid gap-5 xl:grid-cols-2 2xl:grid-cols-3">
             {roadmap.map((phase, index) => {
-              const positions = [
-                { left: "4%", top: "61%" },
-                { left: "22%", top: "21%" },
-                { left: "44%", top: "43%" },
-                { left: "63%", top: "15%" },
-                { left: "79%", top: "32%" },
-              ];
               const isActive = activeIndex === index;
 
               return (
@@ -1762,20 +1785,27 @@ function RoadmapTimeline() {
                   onMouseEnter={() => setActiveIndex(index)}
                   onFocus={() => setActiveIndex(index)}
                   onClick={() => setActiveIndex(index)}
-                  className={`absolute w-[210px] rounded-[26px] border p-4 text-left transition duration-300 ${
+                  className={`group relative min-h-[220px] overflow-hidden rounded-[28px] border p-5 text-left transition duration-300 ${
                     isActive ? "border-cyan/55 bg-cyan/10 shadow-[0_0_34px_rgba(34,211,238,0.2)]" : "border-white/10 bg-black/62 hover:border-violet-300/38 hover:bg-white/[0.05]"
                   }`}
-                  style={positions[index]}
                 >
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-cyan-300/0 via-cyan-300/45 to-violet-300/0 opacity-0 transition group-hover:opacity-100" />
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-mono text-xl font-black text-white">{phase.year}</span>
-                    <span className={`h-2.5 w-2.5 rounded-full ${isActive ? "bg-cyan shadow-[0_0_16px_rgba(34,211,238,0.9)]" : "bg-violet-300/55"}`} />
+                    <span className="font-mono text-2xl font-black text-white">{phase.year}</span>
+                    <span className={`grid h-8 w-8 place-items-center rounded-full border text-[10px] font-black ${isActive ? "border-cyan/45 bg-cyan/12 text-cyan shadow-[0_0_16px_rgba(34,211,238,0.45)]" : "border-white/10 bg-white/[0.035] text-violet-200/70"}`}>
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
                   </div>
-                  <div className="mt-4 text-base font-black leading-tight text-white">{phase.title}</div>
-                  <p className="mt-3 text-xs leading-5 text-white/62">{phase.mission}</p>
+                  <div className="mt-5 text-2xl font-black leading-tight text-white">{phase.title}</div>
+                  <p className="mt-4 text-sm leading-6 text-white/68">{phase.mission}</p>
+                  <div className="mt-5 rounded-2xl border border-white/8 bg-white/[0.025] p-4">
+                    <div className="text-[0.62rem] font-black uppercase tracking-[0.16em] text-white/42">Outcome</div>
+                    <p className="mt-2 text-sm font-semibold leading-6 text-white/66">{phase.emphasis}</p>
+                  </div>
                 </button>
               );
             })}
+            </div>
           </div>
 
           <div className="relative grid gap-4 lg:hidden">

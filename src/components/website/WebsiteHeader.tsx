@@ -1,6 +1,7 @@
 import { ChevronDown, Menu, X } from "lucide-react";
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import nexLogoWhite from "../../assets/logo/nex-logo-white.png";
 
@@ -47,6 +48,17 @@ const navItems: NavItem[] = [
       { label: "Contact", href: "/investor", route: true },
     ],
   },
+];
+
+const mobilePrimaryItems: NavItem[] = [
+  { label: "Home", href: "/", route: true },
+  { label: "Platform", href: "/#architecture" },
+  { label: "Ecosystem", href: "/#ecosystem" },
+  { label: "Governance", href: "/#governance" },
+  { label: "Roadmap", href: "/#roadmap" },
+  { label: "Community", href: "/#community" },
+  navItems.find((item) => item.label === "Investor Center")!,
+  navItems.find((item) => item.label === "Company")!,
 ];
 
 function SmartLink({
@@ -104,11 +116,25 @@ export function WebsiteHeader() {
     if (!mobileOpen) return;
 
     const previousOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
 
     return () => {
       document.body.style.overflow = previousOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
     };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMobileMenu();
+    };
+
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
   }, [mobileOpen]);
 
   const closeMobileMenu = () => {
@@ -117,7 +143,95 @@ export function WebsiteHeader() {
     setActiveDropdown(null);
   };
 
+  const mobileDrawer = (
+    <div
+      className={[
+        "fixed inset-0 z-[9999] lg:hidden",
+        mobileOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
+        "h-[100dvh] w-screen overflow-hidden bg-black transition-opacity duration-200",
+      ].join(" ")}
+      aria-hidden={!mobileOpen}
+    >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_82%_10%,rgba(0,240,255,0.10),transparent_28%),radial-gradient(circle_at_10%_88%,rgba(138,43,226,0.12),transparent_36%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-200/40 to-transparent" />
+
+      <div className="relative z-10 flex h-[100dvh] min-h-0 flex-col">
+        <div className="flex shrink-0 items-start justify-between border-b border-white/8 px-5 pb-5 pt-[max(1.25rem,env(safe-area-inset-top))]">
+          <div>
+            <Link to="/" onClick={closeMobileMenu} className="inline-flex items-center gap-3" aria-label="NEXNS home">
+              <img src={nexLogoWhite} alt="" className="h-8 w-auto object-contain" draggable={false} />
+              <span className="text-xl font-black tracking-[0.16em] text-white">NEXNS</span>
+            </Link>
+            <p className="mt-3 max-w-[280px] text-[11px] font-black uppercase leading-5 tracking-[0.18em] text-cyan-100/64">
+              Global Prediction Growth Infrastructure
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={closeMobileMenu}
+            className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[0.055] text-white transition active:scale-95"
+            aria-label="Close website navigation"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        <nav className="flex-1 overflow-y-auto overscroll-contain px-5 py-6" aria-label="Mobile official website navigation">
+          <div className="grid gap-3">
+            {mobilePrimaryItems.map((item) => {
+              const expanded = mobileExpanded === item.label;
+
+              if (item.dropdown) {
+                return (
+                  <div key={item.label} className="rounded-[28px] border border-white/8 bg-white/[0.035]">
+                    <button
+                      type="button"
+                      onClick={() => setMobileExpanded(expanded ? null : item.label)}
+                      className="flex min-h-[68px] w-full items-center justify-between px-5 text-left text-[18px] font-black text-white"
+                      aria-expanded={expanded}
+                    >
+                      <span>{item.label}</span>
+                      <ChevronDown className={`h-5 w-5 text-white/52 transition ${expanded ? "rotate-180" : ""}`} />
+                    </button>
+                    <div className={`${expanded ? "grid" : "hidden"} gap-1 border-t border-white/8 px-2 py-2`}>
+                      {item.dropdown.map((child) => (
+                        <SmartLink
+                          key={child.label}
+                          item={child}
+                          onClick={closeMobileMenu}
+                          className="block min-h-12 rounded-2xl px-4 py-3 text-sm font-semibold text-white/68 transition active:bg-white/[0.075]"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <SmartLink
+                  key={item.label}
+                  item={item}
+                  onClick={closeMobileMenu}
+                  className="flex min-h-[68px] items-center rounded-[28px] border border-white/8 bg-white/[0.035] px-5 text-[18px] font-black text-white transition active:bg-white/[0.075]"
+                />
+              );
+            })}
+          </div>
+
+          <Link
+            to="/app"
+            onClick={closeMobileMenu}
+            className="mt-7 flex min-h-14 w-full items-center justify-center rounded-full bg-white px-5 py-4 text-sm font-black uppercase tracking-[0.16em] text-black transition active:scale-[0.99]"
+          >
+            Launch App
+          </Link>
+        </nav>
+      </div>
+    </div>
+  );
+
   return (
+    <>
     <header
       ref={headerRef}
       className={[
@@ -205,87 +319,8 @@ export function WebsiteHeader() {
         </div>
       </div>
 
-      <div
-        className={[
-          "fixed inset-0 z-[1200] lg:hidden",
-          mobileOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
-          "bg-[#030712] transition-opacity duration-200",
-        ].join(" ")}
-        aria-hidden={!mobileOpen}
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_12%,rgba(0,240,255,0.10),transparent_28%),radial-gradient(circle_at_14%_78%,rgba(138,43,226,0.12),transparent_32%)]" />
-        <div className="relative z-10 flex h-full min-h-0 flex-col">
-          <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/8 px-5">
-            <Link to="/" onClick={closeMobileMenu} className="inline-flex items-center gap-3" aria-label="NEXNS home">
-              <img src={nexLogoWhite} alt="" className="h-7 w-auto object-contain" draggable={false} />
-              <span className="text-lg font-black tracking-[0.16em] text-white">NEXNS</span>
-            </Link>
-            <button
-              type="button"
-              onClick={closeMobileMenu}
-              className="grid h-11 w-11 place-items-center rounded-full border border-white/12 bg-white/[0.045] text-white transition hover:border-violet-300/40 hover:bg-violet-500/10"
-              aria-label="Close website navigation"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
-
-          <nav
-            className="flex-1 overflow-y-auto px-5 py-6"
-            aria-label="Mobile official website navigation"
-          >
-            <div className="grid gap-1">
-              {navItems.map((item) => {
-                const expanded = mobileExpanded === item.label;
-
-                if (item.dropdown) {
-                  return (
-                    <div key={item.label} className="border-b border-white/8 py-2">
-                      <button
-                        type="button"
-                        onClick={() => setMobileExpanded(expanded ? null : item.label)}
-                        className="flex w-full items-center justify-between py-4 text-left text-[17px] font-black text-white"
-                        aria-expanded={expanded}
-                      >
-                        <span>{item.label}</span>
-                        <ChevronDown className={`h-5 w-5 text-white/52 transition ${expanded ? "rotate-180" : ""}`} />
-                      </button>
-                      <div className={`${expanded ? "grid" : "hidden"} gap-1 pb-3`}>
-                        {item.dropdown.map((child) => (
-                          <SmartLink
-                            key={child.label}
-                            item={child}
-                            onClick={closeMobileMenu}
-                            className="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/68 transition hover:bg-white/[0.055] hover:text-white"
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  );
-                }
-
-                return (
-                  <div key={item.label} className="border-b border-white/8 py-2">
-                    <SmartLink
-                      item={item}
-                      onClick={closeMobileMenu}
-                      className="block py-4 text-[17px] font-black text-white transition hover:text-cyan-100"
-                    />
-                  </div>
-                );
-              })}
-            </div>
-
-            <Link
-              to="/app"
-              onClick={closeMobileMenu}
-              className="mt-8 flex w-full items-center justify-center rounded-full bg-white px-5 py-4 text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-violet-100"
-            >
-              Launch App
-            </Link>
-          </nav>
-        </div>
-      </div>
     </header>
+    {typeof document !== "undefined" ? createPortal(mobileDrawer, document.body) : mobileDrawer}
+    </>
   );
 }
