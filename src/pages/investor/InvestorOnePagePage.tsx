@@ -79,7 +79,7 @@ export function InvestorOnePagePage() {
       <section className="mt-6 grid gap-4 md:grid-cols-5">
         {[
           ["Market Opportunity", "$100B+", BrainCircuit],
-          ["PredictionFi First", "AI powered", Target],
+          ["Prediction Infrastructure", "Signal layer", Target],
           ["Creator Economy", "Influence", Users],
           ["Project Launchpad", "Impact", Rocket],
           ["Sustainable Growth", "Flywheel", Zap],
@@ -88,7 +88,7 @@ export function InvestorOnePagePage() {
       <GlassCard className="mt-6 p-8 text-center">
         <ShieldCheck className="mx-auto mb-3 h-10 w-10 text-cyan" />
         <h2 className="text-3xl font-black">Our Vision</h2>
-        <p className="mx-auto mt-3 max-w-3xl text-lg leading-8 text-slate-300">A world where everyone can predict, create, launch, play, and grow together. NEXNS is not just a platform. It is a movement.</p>
+        <p className="mx-auto mt-3 max-w-3xl text-lg leading-8 text-slate-300">NEXNS is Global Prediction Growth Infrastructure for prediction signals, creator influence, project activation, AI companions, and network value alignment.</p>
       </GlassCard>
     </InvestorShell>
   );

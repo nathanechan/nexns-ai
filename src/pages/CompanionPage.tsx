@@ -22,11 +22,11 @@ import { PreviewModal } from "../components/ui/PreviewModal";
 import { useProductState } from "../state/productState";
 
 const answerBook: Record<string, string> = {
-  "what is nexns?": "NEXNS is a PredictionFi Growth Network that connects prediction activity, creator influence, project campaigns, rewards, and AI companion guidance into one continuous growth loop.",
+  "what is nexns?": "NEXNS is Global Prediction Growth Infrastructure that connects prediction activity, creator influence, project campaigns, rewards, and AI companion guidance into one continuous growth loop.",
   "how do i grow in nexns?": "You grow by making predictions, following creators, joining project campaigns, completing daily tasks, and training your NEX companion. Each action can improve EXP, NS rewards, bond, streaks, and ecosystem reputation.",
   "what should i do next?": "Your next best action is to make one prediction, follow one high-performing creator, claim a daily task, and train NEX. That sequence creates visible progress across market activity, rewards, and companion growth.",
   "how does nex help me?": "NEX acts as your growth guide. It explains markets, tracks your journey, recommends next actions, connects creator and project signals, and helps you return to the most valuable product surface.",
-  "why is nexns different?": "Most prediction products stop at markets. NEXNS combines PredictionFi, creator distribution, project growth, rewards, and AI companion retention into a living product network.",
+  "why is nexns different?": "Most prediction products stop at markets. NEXNS combines prediction infrastructure, creator distribution, project growth, rewards, and AI companion retention into one coordinated ecosystem.",
   "how do projects grow here?": "Projects grow by launching campaigns, attracting creators, activating prediction markets, distributing community tasks, and measuring adoption through signal volume and participation.",
   "how do creators earn?": "Creators earn by publishing insight, growing followers, leading communities, supporting project campaigns, and building influence through prediction performance and engagement.",
   "why will users return every day?": "Daily markets, creator alerts, tasks, streaks, reward claims, and companion progression create recurring reasons to return. NEX turns product actions into a habit loop.",

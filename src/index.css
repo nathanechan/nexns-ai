@@ -85,6 +85,70 @@
     transform: translateZ(0);
   }
 
+  .hero-signal-path {
+    stroke-dasharray: 7 10;
+    animation: hero-signal-flow 8s linear infinite;
+    will-change: stroke-dashoffset;
+  }
+
+  .hero-signal-path-slow {
+    stroke-dasharray: 4 8;
+    animation-duration: 11s;
+    opacity: 0.75;
+  }
+
+  .hero-signal-core {
+    transform-origin: 50px 50px;
+    animation: hero-signal-core-pulse 5.5s ease-in-out infinite;
+  }
+
+  .hero-signal-node {
+    animation: hero-signal-node-pulse 4.8s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .growth-engine-ring {
+    border: 1px solid rgba(34, 211, 238, 0.12);
+    background:
+      conic-gradient(from 0deg, rgba(34, 211, 238, 0), rgba(34, 211, 238, 0.2), rgba(139, 92, 246, 0.28), rgba(34, 211, 238, 0.16), rgba(34, 211, 238, 0));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 18px), #000 calc(100% - 17px));
+    animation: growth-engine-ring-spin 28s linear infinite;
+    opacity: 0.92;
+    will-change: transform;
+  }
+
+  .growth-engine-ring-secondary {
+    animation-duration: 38s;
+    animation-direction: reverse;
+    opacity: 0.64;
+  }
+
+  .growth-engine-route {
+    stroke-dasharray: 18 16;
+    animation: growth-engine-route-flow 10s linear infinite;
+    will-change: stroke-dashoffset;
+  }
+
+  .growth-engine-route-slow {
+    stroke-dasharray: 8 14;
+    animation-duration: 14s;
+    opacity: 0.72;
+  }
+
+  .growth-engine-particle {
+    filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.7));
+    animation: growth-engine-particle-pulse 4.6s ease-in-out infinite;
+  }
+
+  .growth-engine-step {
+    backdrop-filter: blur(16px);
+  }
+
+  .growth-participant {
+    transform: rotate(var(--participant-angle)) translate(246px) rotate(calc(-1 * var(--participant-angle))) translate(-50%, -50%);
+  }
+
   .nex-panel {
     border-radius: 28px;
     border: 1px solid rgba(109, 40, 217, 0.2);
@@ -877,6 +941,60 @@
   @keyframes hero-flow-ribbon-dash {
     to {
       stroke-dashoffset: -760;
+    }
+  }
+
+  @keyframes hero-signal-flow {
+    to {
+      stroke-dashoffset: -180;
+    }
+  }
+
+  @keyframes hero-signal-core-pulse {
+    0%, 100% {
+      opacity: 0.88;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.035);
+    }
+  }
+
+  @keyframes hero-signal-node-pulse {
+    0%, 100% {
+      opacity: 0.68;
+      transform: scale(0.96);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+  }
+
+  @keyframes growth-engine-ring-spin {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+
+  @keyframes growth-engine-route-flow {
+    to {
+      stroke-dashoffset: -260;
+    }
+  }
+
+  @keyframes growth-engine-particle-pulse {
+    0%, 100% {
+      opacity: 0.35;
+      transform: scale(0.86);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.16);
     }
   }
 

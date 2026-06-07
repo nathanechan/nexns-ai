@@ -9,7 +9,7 @@ import { ToastHost } from "../components/ui/ToastHost";
 import { useProductState } from "../state/productState";
 
 const steps = [
-  { title: "What is NEXNS", route: "/investor/why-nexns", icon: Compass, copy: "A PredictionFi Growth Network where users predict, creators lead attention, projects launch campaigns, and AI companions keep growth personal." },
+  { title: "What is NEXNS", route: "/investor/why-nexns", icon: Compass, copy: "Global Prediction Growth Infrastructure where users predict, creators lead attention, projects launch campaigns, and AI companions keep growth personal." },
   { title: "Home Live Platform", route: "/app", icon: LineChart, copy: "The dashboard proves NEXNS is more than a site: live predictions, creator alerts, project momentum, rewards, and pet state all move together." },
   { title: "Prediction Lifecycle", route: "/prediction", icon: Target, copy: "Users choose a market, select UP or DOWN, record a prediction signal, settle outcomes, and feed EXP, rewards, and companion growth." },
   { title: "Creator Economy", route: "/creator", icon: Crown, copy: "Creators convert insight into distribution. Follows, communities, prediction calls, and revenue loops make market attention repeatable." },

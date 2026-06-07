@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, BarChart3, Coins, LucideIcon, Rocket, Sparkles, Star, Users, Zap } from "lucide-react";
+import { ArrowLeft, ArrowRight, BarChart3, Building2, Coins, LucideIcon, Network, Rocket, Sparkles, Star, UserRoundCheck, Users, Zap } from "lucide-react";
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { MiniLine } from "../charts/MiniLine";
@@ -16,11 +16,17 @@ export const investorMetrics = [
 ];
 
 export const investorPages = [
-  { title: "Why NEXNS", path: "/investor/why-nexns", copy: "Understand the market, users, problem, growth model, and differentiation.", icon: Sparkles },
+  { title: "Investment Thesis", path: "/investor/why-nexns", copy: "Understand the market, users, problem, growth model, and differentiation.", icon: Sparkles },
+  { title: "Platform Architecture", path: "/investor/ecosystem", copy: "Review the network layers, ecosystem structure, and operating architecture.", icon: Network },
+  { title: "NEX Economic Architecture", path: "/resources/nex", copy: "Read the long-form economic architecture for the NEX value layer.", icon: Coins },
+  { title: "NS Credits", path: "/resources/ns", copy: "Understand NS as the participation layer of Global Prediction Growth Infrastructure.", icon: Zap },
+  { title: "About NEXNS", path: "/company/about", copy: "Understand the company mission, prediction economy thesis, and infrastructure vision.", icon: Building2 },
+  { title: "Leadership & Contributors", path: "/company/leadership", copy: "Review the leadership system, research capability, and contributor network.", icon: UserRoundCheck },
+  { title: "Contact", path: "/investor", copy: "Connect with the NEXNS team for investor and institutional inquiries.", icon: ArrowRight },
   { title: "Growth Journey", path: "/investor/growth-journey", copy: "From joining NEXNS to leadership and ecosystem influence.", icon: Rocket },
   { title: "Growth Flywheel", path: "/investor/flywheel", copy: "The compounding loop that turns predictions into ecosystem growth.", icon: Zap },
   { title: "Value Flow", path: "/investor/value-flow", copy: "How users, creators, projects, NEX, and the ecosystem exchange value.", icon: Coins },
-  { title: "Ecosystem Map", path: "/investor/ecosystem", copy: "The full PredictionFi, creator, pet, community, and technology map.", icon: Users },
+  { title: "Ecosystem Map", path: "/investor/ecosystem", copy: "The full NEXNS map across users, creators, projects, communities, AI companions, and infrastructure layers.", icon: Users },
   { title: "Investor One Pager", path: "/investor/one-page", copy: "A complete investor summary of the NEXNS growth thesis.", icon: BarChart3 },
 ];
 

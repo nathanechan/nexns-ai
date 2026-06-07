@@ -1,5 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import { CommunityPage } from "./pages/CommunityPage";
+import { AboutNexnsPage } from "./pages/company/AboutNexnsPage";
+import { ContactPage } from "./pages/company/ContactPage";
+import { LeadershipContributorsPage } from "./pages/company/LeadershipContributorsPage";
+import { VisionPage } from "./pages/company/VisionPage";
 import { CreatorPage } from "./pages/CreatorPage";
 import { CreatorProfilePage } from "./pages/CreatorProfilePage";
 import { CreatePage } from "./pages/CreatePage";
@@ -13,8 +17,17 @@ import { InvestorOnePagePage } from "./pages/investor/InvestorOnePagePage";
 import { InvestorValueFlowPage } from "./pages/investor/InvestorValueFlowPage";
 import { InvestorWhyNexnsPage } from "./pages/investor/InvestorWhyNexnsPage";
 import { LandingPage } from "./pages/LandingPage";
+import {
+  CookiePolicyPage,
+  DisclaimerPage,
+  PrivacyPolicyPage,
+  RiskDisclosurePage,
+  TermsOfServicePage,
+} from "./pages/legal/LegalPages";
 import { MorePage } from "./pages/MorePage";
 import { MyPage } from "./pages/MyPage";
+import { NexValueLayerPage } from "./pages/resources/NexValueLayerPage";
+import { NsCreditsPage } from "./pages/resources/NsCreditsPage";
 import { PetPage } from "./pages/PetPage";
 import { PetWorldPage } from "./pages/PetWorldPage";
 import { PresentationPage } from "./pages/PresentationPage";
@@ -48,6 +61,17 @@ export default function App() {
       <Route path="/investor/value-flow" element={<InvestorValueFlowPage />} />
       <Route path="/investor/ecosystem" element={<InvestorEcosystemPage />} />
       <Route path="/investor/one-page" element={<InvestorOnePagePage />} />
+      <Route path="/company/about" element={<AboutNexnsPage />} />
+      <Route path="/company/contact" element={<ContactPage />} />
+      <Route path="/company/leadership" element={<LeadershipContributorsPage />} />
+      <Route path="/company/vision" element={<VisionPage />} />
+      <Route path="/resources/nex" element={<NexValueLayerPage />} />
+      <Route path="/resources/ns" element={<NsCreditsPage />} />
+      <Route path="/legal/terms" element={<TermsOfServicePage />} />
+      <Route path="/legal/privacy" element={<PrivacyPolicyPage />} />
+      <Route path="/legal/risk" element={<RiskDisclosurePage />} />
+      <Route path="/legal/cookies" element={<CookiePolicyPage />} />
+      <Route path="/legal/disclaimer" element={<DisclaimerPage />} />
     </Routes>
   );
 }
