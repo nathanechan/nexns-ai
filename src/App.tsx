@@ -8,6 +8,8 @@ import { CreatorPage } from "./pages/CreatorPage";
 import { CreatorProfilePage } from "./pages/CreatorProfilePage";
 import { CreatePage } from "./pages/CreatePage";
 import { CompanionPage } from "./pages/CompanionPage";
+import { GenesisAdminPage } from "./pages/genesis/GenesisAdminPage";
+import { GenesisPage } from "./pages/genesis/GenesisPage";
 import { HomePage } from "./pages/HomePage";
 import { InvestorCenterPage } from "./pages/investor/InvestorCenterPage";
 import { InvestorEcosystemPage } from "./pages/investor/InvestorEcosystemPage";
@@ -40,6 +42,8 @@ export default function App() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/app" element={<HomePage />} />
+      <Route path="/app/genesis" element={<GenesisPage />} />
+      <Route path="/app/genesis/admin" element={<GenesisAdminPage />} />
       <Route path="/prediction" element={<PredictionPage />} />
       <Route path="/community" element={<CommunityPage />} />
       <Route path="/create" element={<CreatePage />} />
