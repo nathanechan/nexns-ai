@@ -22,6 +22,8 @@ import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "../../components/layout/AppShell";
 import { GlassCard } from "../../components/ui/GlassCard";
+import { ProductWalletModal } from "../../components/wallet/ProductWalletButton";
+import { useSolanaWallet } from "../../lib/wallet/SolanaWalletProvider";
 import {
   fetchGenesisAnalyticsContributions,
   fetchGenesisContributions,
@@ -625,15 +627,18 @@ export function GenesisPage() {
   const [solAmount, setSolAmount] = useState("1");
   const [openFaq, setOpenFaq] = useState(0);
   const [walletModalOpen, setWalletModalOpen] = useState(false);
-  const [connectedWallet, setConnectedWallet] = useState<ConnectedWallet | null>(null);
-  const [balance, setBalance] = useState<number | null>(null);
-  const [walletMessage, setWalletMessage] = useState("");
-  const [isConnecting, setIsConnecting] = useState<WalletKey | null>(null);
-  const [isBalanceLoading, setIsBalanceLoading] = useState(false);
-  const [networkWarning, setNetworkWarning] = useState("");
   const [transactionStatus, setTransactionStatus] = useState<TransactionStatus>("idle");
   const [transactionError, setTransactionError] = useState("");
   const [receipt, setReceipt] = useState<ContributionReceipt | null>(null);
+  const {
+    connectedWallet,
+    balance,
+    isBalanceLoading,
+    walletMessage,
+    networkWarning,
+    disconnectWallet,
+    refreshBalance,
+  } = useSolanaWallet();
   const [contributionRecords, setContributionRecords] = useState<GenesisContributionRecord[]>(() => readGenesisContributionRecords());
   const [databaseMessage, setDatabaseMessage] = useState(
     isGenesisSupabaseConfigured()
@@ -694,19 +699,6 @@ export function GenesisPage() {
     [allocationRate, analyticsRecords, analyticsSummary, analyticsTotalSOL, daysRemaining, estimatedNexPrice],
   );
 
-  async function refreshBalance(address = connectedWallet?.address) {
-    if (!address) return;
-    setIsBalanceLoading(true);
-    try {
-      const nextBalance = await fetchSolBalance(address);
-      setBalance(nextBalance);
-    } catch {
-      setWalletMessage("Unable to read SOL balance from Solana Mainnet. Please try again.");
-    } finally {
-      setIsBalanceLoading(false);
-    }
-  }
-
   async function loadWalletContributionRecords(walletAddress: string) {
     setIsDatabaseLoading(true);
     const localRecords = readGenesisContributionRecords();
@@ -757,52 +749,6 @@ export function GenesisPage() {
       setAnalyticsMessage(result.message);
     } finally {
       setIsAnalyticsLoading(false);
-    }
-  }
-
-  async function connectWallet(wallet: WalletOption) {
-    const provider = getWalletProvider(wallet.key);
-    setWalletMessage("");
-    setNetworkWarning("");
-
-    if (!provider) {
-      setWalletMessage("Wallet not detected. Please install a supported Solana wallet.");
-      return;
-    }
-
-    setIsConnecting(wallet.key);
-    try {
-      const response = await provider.connect();
-      const publicKey = response?.publicKey ?? provider.publicKey;
-      const address = publicKey?.toString();
-
-      if (!address) {
-        setWalletMessage("Wallet connection did not return a public address.");
-        return;
-      }
-
-      setConnectedWallet({ key: wallet.key, name: wallet.name, address });
-      setWalletModalOpen(false);
-      setNetworkWarning(detectUnsupportedNetwork(provider) ? "Please connect to Solana Mainnet." : "");
-      await refreshBalance(address);
-      await loadWalletContributionRecords(address);
-    } catch {
-      setWalletMessage("Wallet connection was cancelled or could not be completed.");
-    } finally {
-      setIsConnecting(null);
-    }
-  }
-
-  async function disconnectWallet() {
-    try {
-      await activeProvider?.disconnect?.();
-    } finally {
-      setConnectedWallet(null);
-      setBalance(null);
-      setNetworkWarning("");
-      setWalletMessage("");
-      setTransactionStatus("idle");
-      setTransactionError("");
     }
   }
 
@@ -901,7 +847,7 @@ export function GenesisPage() {
         await loadPublicAnalytics();
       }
       setTransactionStatus("success");
-      await refreshBalance(connectedWallet.address);
+      await refreshBalance();
     } catch (error) {
       const message = error instanceof Error ? error.message : "Network Error";
       setTransactionStatus("failed");
@@ -921,14 +867,17 @@ export function GenesisPage() {
     if (!connectedWallet || !activeProvider?.on) return undefined;
 
     const handleDisconnect = () => {
-      setConnectedWallet(null);
-      setBalance(null);
-      setNetworkWarning("");
+      void disconnectWallet();
     };
 
     activeProvider.on("disconnect", handleDisconnect);
     return () => activeProvider.off?.("disconnect", handleDisconnect);
   }, [activeProvider, connectedWallet]);
+
+  useEffect(() => {
+    if (!connectedWallet?.address) return;
+    void loadWalletContributionRecords(connectedWallet.address);
+  }, [connectedWallet?.address]);
 
   useEffect(() => {
     void loadPublicAnalytics();
@@ -984,8 +933,12 @@ export function GenesisPage() {
                 networkWarning={networkWarning}
                 walletMessage={walletMessage}
                 onConnect={() => setWalletModalOpen(true)}
-                onDisconnect={disconnectWallet}
-                onRefresh={() => refreshBalance()}
+                onDisconnect={() => {
+                  void disconnectWallet();
+                  setTransactionStatus("idle");
+                  setTransactionError("");
+                }}
+                onRefresh={() => void refreshBalance()}
               />
             </div>
 
@@ -1356,12 +1309,11 @@ export function GenesisPage() {
         </GlassCard>
 
         {walletModalOpen && (
-          <WalletSelectorModal
-            connectedWallet={connectedWallet}
-            isConnecting={isConnecting}
-            walletMessage={walletMessage}
+          <ProductWalletModal
+            label="Genesis Wallet"
+            title="Connect a Solana wallet"
+            closeOnConnect
             onClose={() => setWalletModalOpen(false)}
-            onConnect={connectWallet}
           />
         )}
       </div>
@@ -1706,7 +1658,7 @@ function ContributionFlow({
   const amountInvalid = amount < 1;
   const insufficientBalance = connectedWallet && balance !== null && balance < amount + ESTIMATED_NETWORK_FEE_SOL;
   const isTransactionBusy = ["preparing", "signing", "broadcasting", "confirming", "recording"].includes(status);
-  const actionDisabled = !connectedWallet || amountInvalid || Boolean(networkWarning) || Boolean(insufficientBalance) || isTransactionBusy;
+  const actionDisabled = !connectedWallet || amountInvalid || Boolean(networkWarning) || isTransactionBusy;
   const statusLabel: Record<TransactionStatus, string> = {
     idle: "",
     review: "",
@@ -1742,7 +1694,7 @@ function ContributionFlow({
         {!connectedWallet && <ContributionAlert tone="gold" message="Connect a supported Solana wallet before contributing." />}
         {amountInvalid && <ContributionAlert tone="gold" message="Minimum Genesis contribution is 1 SOL." />}
         {networkWarning && <ContributionAlert tone="gold" message={networkWarning} />}
-        {insufficientBalance && <ContributionAlert tone="gold" message="Insufficient SOL balance for this contribution and estimated network fee." />}
+        {status === "review" && insufficientBalance && <ContributionAlert tone="gold" message="Insufficient SOL balance for this contribution and estimated network fee." />}
       </div>
 
       {status === "review" && connectedWallet && (

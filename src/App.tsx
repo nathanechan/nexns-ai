@@ -36,46 +36,49 @@ import { PresentationPage } from "./pages/PresentationPage";
 import { PredictionPage } from "./pages/PredictionPage";
 import { ProjectPage } from "./pages/ProjectPage";
 import { ProjectProfilePage } from "./pages/ProjectProfilePage";
+import { SolanaWalletProvider } from "./lib/wallet/SolanaWalletProvider";
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/app" element={<HomePage />} />
-      <Route path="/app/genesis" element={<GenesisPage />} />
-      <Route path="/app/genesis/admin" element={<GenesisAdminPage />} />
-      <Route path="/prediction" element={<PredictionPage />} />
-      <Route path="/community" element={<CommunityPage />} />
-      <Route path="/create" element={<CreatePage />} />
-      <Route path="/creator" element={<CreatorPage />} />
-      <Route path="/creator/:creatorId" element={<CreatorProfilePage />} />
-      <Route path="/companion" element={<CompanionPage />} />
-      <Route path="/projects" element={<ProjectPage />} />
-      <Route path="/projects/:projectId" element={<ProjectProfilePage />} />
-      <Route path="/more" element={<MorePage />} />
-      <Route path="/my" element={<MyPage />} />
-      <Route path="/mypage" element={<MyPage />} />
-      <Route path="/pet" element={<PetPage />} />
-      <Route path="/pet/world" element={<PetWorldPage />} />
-      <Route path="/presentation" element={<PresentationPage />} />
-      <Route path="/investor" element={<InvestorCenterPage />} />
-      <Route path="/investor/why-nexns" element={<InvestorWhyNexnsPage />} />
-      <Route path="/investor/growth-journey" element={<InvestorGrowthJourneyPage />} />
-      <Route path="/investor/flywheel" element={<InvestorFlywheelPage />} />
-      <Route path="/investor/value-flow" element={<InvestorValueFlowPage />} />
-      <Route path="/investor/ecosystem" element={<InvestorEcosystemPage />} />
-      <Route path="/investor/one-page" element={<InvestorOnePagePage />} />
-      <Route path="/company/about" element={<AboutNexnsPage />} />
-      <Route path="/company/contact" element={<ContactPage />} />
-      <Route path="/company/leadership" element={<LeadershipContributorsPage />} />
-      <Route path="/company/vision" element={<VisionPage />} />
-      <Route path="/resources/nex" element={<NexValueLayerPage />} />
-      <Route path="/resources/ns" element={<NsCreditsPage />} />
-      <Route path="/legal/terms" element={<TermsOfServicePage />} />
-      <Route path="/legal/privacy" element={<PrivacyPolicyPage />} />
-      <Route path="/legal/risk" element={<RiskDisclosurePage />} />
-      <Route path="/legal/cookies" element={<CookiePolicyPage />} />
-      <Route path="/legal/disclaimer" element={<DisclaimerPage />} />
-    </Routes>
+    <SolanaWalletProvider>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/app" element={<HomePage />} />
+        <Route path="/app/genesis" element={<GenesisPage />} />
+        <Route path="/app/genesis/admin" element={<GenesisAdminPage />} />
+        <Route path="/prediction" element={<PredictionPage />} />
+        <Route path="/community" element={<CommunityPage />} />
+        <Route path="/create" element={<CreatePage />} />
+        <Route path="/creator" element={<CreatorPage />} />
+        <Route path="/creator/:creatorId" element={<CreatorProfilePage />} />
+        <Route path="/companion" element={<CompanionPage />} />
+        <Route path="/projects" element={<ProjectPage />} />
+        <Route path="/projects/:projectId" element={<ProjectProfilePage />} />
+        <Route path="/more" element={<MorePage />} />
+        <Route path="/my" element={<MyPage />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/pet" element={<PetPage />} />
+        <Route path="/pet/world" element={<PetWorldPage />} />
+        <Route path="/presentation" element={<PresentationPage />} />
+        <Route path="/investor" element={<InvestorCenterPage />} />
+        <Route path="/investor/why-nexns" element={<InvestorWhyNexnsPage />} />
+        <Route path="/investor/growth-journey" element={<InvestorGrowthJourneyPage />} />
+        <Route path="/investor/flywheel" element={<InvestorFlywheelPage />} />
+        <Route path="/investor/value-flow" element={<InvestorValueFlowPage />} />
+        <Route path="/investor/ecosystem" element={<InvestorEcosystemPage />} />
+        <Route path="/investor/one-page" element={<InvestorOnePagePage />} />
+        <Route path="/company/about" element={<AboutNexnsPage />} />
+        <Route path="/company/contact" element={<ContactPage />} />
+        <Route path="/company/leadership" element={<LeadershipContributorsPage />} />
+        <Route path="/company/vision" element={<VisionPage />} />
+        <Route path="/resources/nex" element={<NexValueLayerPage />} />
+        <Route path="/resources/ns" element={<NsCreditsPage />} />
+        <Route path="/legal/terms" element={<TermsOfServicePage />} />
+        <Route path="/legal/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/legal/risk" element={<RiskDisclosurePage />} />
+        <Route path="/legal/cookies" element={<CookiePolicyPage />} />
+        <Route path="/legal/disclaimer" element={<DisclaimerPage />} />
+      </Routes>
+    </SolanaWalletProvider>
   );
 }

@@ -47,6 +47,40 @@ type SyncResult =
   | { status: "unconfigured"; message: string }
   | { status: "error"; message: string };
 
+export type GenesisDiagnosticEnvItem = {
+  name: string;
+  status: "configured" | "missing" | "invalid format";
+  configured: boolean;
+  maskedValue: string;
+  message: string;
+};
+
+export type GenesisDiagnosticEndpoint = {
+  path: string;
+  methodExpected: string;
+  reachable?: boolean;
+  statusCode?: number;
+  message?: string;
+};
+
+export type GenesisDiagnosticSection = {
+  status: string;
+  message: string;
+  error?: string;
+  recommendedFix?: string;
+  recordQuery?: string;
+  analyticsBuilder?: string;
+};
+
+export type GenesisRuntimeDiagnostics = {
+  checkedAt: string;
+  frontendEnv: GenesisDiagnosticEnvItem[];
+  serverEnv: GenesisDiagnosticEnvItem[];
+  supabase: GenesisDiagnosticSection;
+  solanaRpc: GenesisDiagnosticSection;
+  api: GenesisDiagnosticEndpoint[];
+};
+
 const GENESIS_TREASURY_WALLET = "Hei64jtQJLuxZ3dRCkmALqD4gdWAyCyA76wpxmWBrWTy";
 
 function normalizeRecord(record: ApiContributionRecord): GenesisContributionRecord {
@@ -74,6 +108,121 @@ async function readJson<T>(response: Response): Promise<T> {
 
 export function isGenesisSupabaseConfigured() {
   return true;
+}
+
+function maskValue(value: string) {
+  if (!value) return "";
+  if (value.length <= 8) return "****";
+  return `${value.slice(0, 4)}****${value.slice(-4)}`;
+}
+
+function isUrl(value: string) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
+function frontendEnvStatus(name: string, value: string | undefined, validator?: (value: string) => boolean): GenesisDiagnosticEnvItem {
+  if (!value) {
+    return {
+      name,
+      status: "missing",
+      configured: false,
+      maskedValue: "",
+      message: `${name} is missing.`,
+    };
+  }
+
+  const valid = validator ? validator(value) : true;
+  return {
+    name,
+    status: valid ? "configured" : "invalid format",
+    configured: valid,
+    maskedValue: maskValue(value),
+    message: valid ? `${name} is configured.` : `${name} is configured but does not match the expected format.`,
+  };
+}
+
+export function getGenesisFrontendEnvStatus(): GenesisDiagnosticEnvItem[] {
+  return [
+    frontendEnvStatus("VITE_SUPABASE_URL", import.meta.env.VITE_SUPABASE_URL, isUrl),
+    frontendEnvStatus("VITE_SUPABASE_ANON_KEY", import.meta.env.VITE_SUPABASE_ANON_KEY),
+  ];
+}
+
+async function checkEndpoint(path: string, methodExpected: string, init?: RequestInit): Promise<GenesisDiagnosticEndpoint> {
+  try {
+    const response = await fetch(path, {
+      ...init,
+      headers: {
+        "Content-Type": "application/json",
+        ...(init?.headers ?? {}),
+      },
+    });
+    const body = await response.json().catch(() => ({}));
+    const errorMessage = typeof body?.error === "string" ? body.error : typeof body?.message === "string" ? body.message : "";
+    return {
+      path,
+      methodExpected,
+      reachable: true,
+      statusCode: response.status,
+      message: response.ok ? "Reachable." : errorMessage || `Reachable, returned HTTP ${response.status}.`,
+    };
+  } catch (error) {
+    return {
+      path,
+      methodExpected,
+      reachable: false,
+      message: error instanceof Error ? error.message : "Endpoint request failed.",
+    };
+  }
+}
+
+export async function fetchGenesisRuntimeDiagnostics(password: string): Promise<GenesisRuntimeDiagnostics> {
+  const frontendEnv = getGenesisFrontendEnvStatus();
+  const [analytics, walletContributions, verifyContribution, adminEndpoint, diagnosticsResponse] = await Promise.all([
+    checkEndpoint("/api/genesis/analytics", "GET"),
+    checkEndpoint("/api/genesis/wallet-contributions?wallet_address=DiagnosticsWallet", "GET"),
+    checkEndpoint("/api/genesis/verify-contribution", "POST", {
+      method: "POST",
+      body: JSON.stringify({}),
+    }),
+    checkEndpoint("/api/genesis/admin", "POST", {
+      method: "POST",
+      body: JSON.stringify({ password }),
+    }),
+    fetch("/api/genesis/diagnostics", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password }),
+    }),
+  ]);
+
+  const diagnosticsBody = await readJson<{
+    checkedAt: string;
+    serverEnv: GenesisDiagnosticEnvItem[];
+    supabase: GenesisDiagnosticSection;
+    solanaRpc: GenesisDiagnosticSection;
+    api: GenesisDiagnosticEndpoint[];
+  }>(diagnosticsResponse);
+
+  const actualEndpointStatus = [analytics, walletContributions, verifyContribution, adminEndpoint];
+  const expectedEndpoints = diagnosticsBody.api.map((endpoint) => {
+    const actual = actualEndpointStatus.find((item) => item.path.split("?")[0] === endpoint.path);
+    return actual ? { ...endpoint, ...actual, path: endpoint.path } : endpoint;
+  });
+
+  return {
+    checkedAt: diagnosticsBody.checkedAt,
+    frontendEnv,
+    serverEnv: diagnosticsBody.serverEnv,
+    supabase: diagnosticsBody.supabase,
+    solanaRpc: diagnosticsBody.solanaRpc,
+    api: expectedEndpoints,
+  };
 }
 
 export async function fetchGenesisContributions(walletAddress: string): Promise<{

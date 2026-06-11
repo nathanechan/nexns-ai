@@ -11,7 +11,12 @@ import {
 import { useMemo, useState } from "react";
 import { AppShell } from "../../components/layout/AppShell";
 import { GlassCard } from "../../components/ui/GlassCard";
-import { fetchGenesisAdminContributions, type GenesisContributionRecord } from "./genesisSupabase";
+import {
+  fetchGenesisAdminContributions,
+  fetchGenesisRuntimeDiagnostics,
+  type GenesisContributionRecord,
+  type GenesisRuntimeDiagnostics,
+} from "./genesisSupabase";
 
 const GENESIS_POOL = 100_000_000;
 const GENESIS_HARD_CAP_SOL = 100_000;
@@ -110,6 +115,9 @@ export function GenesisAdminPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [diagnostics, setDiagnostics] = useState<GenesisRuntimeDiagnostics | null>(null);
+  const [diagnosticsMessage, setDiagnosticsMessage] = useState("");
+  const [isDiagnosticsLoading, setIsDiagnosticsLoading] = useState(false);
 
   async function loadRecords(password = passwordInput) {
     setIsLoading(true);
@@ -141,6 +149,22 @@ export function GenesisAdminPage() {
     setRecords(result.records);
     setLoadMessage(result.message);
     setIsUnlocked(true);
+    void loadDiagnostics(passwordInput);
+  }
+
+  async function loadDiagnostics(password = passwordInput) {
+    setIsDiagnosticsLoading(true);
+    setDiagnosticsMessage("");
+    try {
+      const result = await fetchGenesisRuntimeDiagnostics(password);
+      setDiagnostics(result);
+      setDiagnosticsMessage("Runtime health checked.");
+    } catch (error) {
+      setDiagnostics(null);
+      setDiagnosticsMessage(error instanceof Error ? error.message : "Unable to load Genesis runtime health.");
+    } finally {
+      setIsDiagnosticsLoading(false);
+    }
   }
 
   const filteredRecords = useMemo(() => {
@@ -246,6 +270,14 @@ export function GenesisAdminPage() {
                   </button>
                   <button
                     type="button"
+                    onClick={() => void loadDiagnostics()}
+                    className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.05] px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-white transition hover:border-cyan/40 hover:text-cyan"
+                  >
+                    <ShieldCheck className={`h-4 w-4 ${isDiagnosticsLoading ? "animate-pulse" : ""}`} />
+                    Runtime Health
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => downloadCsv(filteredRecords)}
                     className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-black transition hover:bg-cyan"
                   >
@@ -273,6 +305,13 @@ export function GenesisAdminPage() {
                 ))}
               </div>
             </GlassCard>
+
+            <RuntimeHealthPanel
+              diagnostics={diagnostics}
+              message={diagnosticsMessage}
+              isLoading={isDiagnosticsLoading}
+              onRefresh={() => void loadDiagnostics()}
+            />
 
             <GlassCard className="mt-5 p-6 md:p-8">
               <div className="nex-label">Search & Filter</div>
@@ -389,6 +428,129 @@ export function GenesisAdminPage() {
         )}
       </div>
     </AppShell>
+  );
+}
+
+function statusTone(status: string) {
+  const normalized = status.toLowerCase();
+  if (normalized.includes("connected") || normalized.includes("configured") || normalized === "ok") {
+    return "border-cyan/25 bg-cyan/8 text-cyan";
+  }
+  if (normalized.includes("missing") || normalized.includes("invalid") || normalized.includes("unavailable") || normalized.includes("error")) {
+    return "border-gold/25 bg-gold/10 text-gold";
+  }
+  return "border-white/10 bg-white/[0.04] text-slate-300";
+}
+
+function RuntimeHealthPanel({
+  diagnostics,
+  message,
+  isLoading,
+  onRefresh,
+}: {
+  diagnostics: GenesisRuntimeDiagnostics | null;
+  message: string;
+  isLoading: boolean;
+  onRefresh: () => void;
+}) {
+  return (
+    <GlassCard className="mt-5 p-6 md:p-8">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <div className="nex-label">Runtime Health</div>
+          <h2 className="mt-2 text-2xl font-black text-white">Genesis connectivity diagnostics</h2>
+          <p className="mt-2 text-sm leading-6 text-slate-400">
+            Server configuration, Supabase, Solana Mainnet RPC, and Genesis API reachability are checked without exposing secrets.
+          </p>
+          {message && <p className="mt-3 text-xs font-bold text-gold">{message}</p>}
+        </div>
+        <button
+          type="button"
+          onClick={onRefresh}
+          className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.05] px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-white transition hover:border-cyan/40 hover:text-cyan"
+        >
+          <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
+          Check Again
+        </button>
+      </div>
+
+      {!diagnostics ? (
+        <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.035] p-5 text-sm leading-6 text-slate-400">
+          Runtime health has not loaded yet. Unlock admin access, then run the diagnostic check.
+        </div>
+      ) : (
+        <div className="mt-6 grid gap-5">
+          <div className="grid gap-4 xl:grid-cols-2">
+            <DiagnosticEnvGroup title="Frontend ENV" items={diagnostics.frontendEnv} />
+            <DiagnosticEnvGroup title="Server ENV" items={diagnostics.serverEnv} />
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-2">
+            <DiagnosticStatusCard title="Supabase" status={diagnostics.supabase.status} message={diagnostics.supabase.message} detail={diagnostics.supabase.recommendedFix || diagnostics.supabase.error} />
+            <DiagnosticStatusCard title="Solana RPC" status={diagnostics.solanaRpc.status} message={diagnostics.solanaRpc.message} detail={diagnostics.solanaRpc.recommendedFix || diagnostics.solanaRpc.error} />
+          </div>
+
+          <div>
+            <div className="nex-label">API Endpoint Status</div>
+            <div className="mt-4 grid gap-3 lg:grid-cols-2">
+              {diagnostics.api.map((endpoint) => (
+                <div key={endpoint.path} className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="font-mono text-sm font-black text-white">{endpoint.path}</div>
+                    <span className={`rounded-full border px-3 py-1 text-[0.65rem] font-black uppercase tracking-[0.14em] ${statusTone(endpoint.reachable ? "connected" : "error")}`}>
+                      {endpoint.reachable ? "Reachable" : "Failed"}
+                    </span>
+                  </div>
+                  <div className="mt-2 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">{endpoint.methodExpected}</div>
+                  <div className="mt-2 text-sm leading-6 text-slate-400">
+                    {typeof endpoint.statusCode === "number" ? `HTTP ${endpoint.statusCode}. ` : ""}
+                    {endpoint.message || "No response message."}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="text-xs leading-6 text-slate-500">Last checked: {formatDate(diagnostics.checkedAt)}</div>
+        </div>
+      )}
+    </GlassCard>
+  );
+}
+
+function DiagnosticEnvGroup({ title, items }: { title: string; items: GenesisRuntimeDiagnostics["frontendEnv"] }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5">
+      <div className="nex-label">{title}</div>
+      <div className="mt-4 grid gap-3">
+        {items.map((item) => (
+          <div key={item.name} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/25 p-3">
+            <div>
+              <div className="font-mono text-sm font-black text-white">{item.name}</div>
+              <div className="mt-1 text-xs text-slate-500">{item.maskedValue || item.message}</div>
+            </div>
+            <span className={`rounded-full border px-3 py-1 text-[0.65rem] font-black uppercase tracking-[0.14em] ${statusTone(item.status)}`}>
+              {item.status}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DiagnosticStatusCard({ title, status, message, detail }: { title: string; status: string; message: string; detail?: string }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="text-lg font-black text-white">{title}</div>
+        <span className={`rounded-full border px-3 py-1 text-[0.65rem] font-black uppercase tracking-[0.14em] ${statusTone(status)}`}>
+          {status}
+        </span>
+      </div>
+      <p className="mt-3 text-sm leading-6 text-slate-300">{message}</p>
+      {detail && <p className="mt-3 text-xs leading-6 text-slate-500">{detail}</p>}
+    </div>
   );
 }
 

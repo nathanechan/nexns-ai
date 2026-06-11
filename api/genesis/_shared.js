@@ -1,3 +1,43 @@
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
+function parseEnvLine(line) {
+  const trimmed = line.trim();
+  if (!trimmed || trimmed.startsWith("#")) return null;
+  const equalsIndex = trimmed.indexOf("=");
+  if (equalsIndex <= 0) return null;
+
+  const key = trimmed.slice(0, equalsIndex).trim();
+  let value = trimmed.slice(equalsIndex + 1).trim();
+  if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+    value = value.slice(1, -1);
+  }
+  return { key, value };
+}
+
+function loadLocalEnv() {
+  const currentDir = dirname(fileURLToPath(import.meta.url));
+  const candidates = [
+    resolve(process.cwd(), ".env.local"),
+    resolve(currentDir, "..", "..", ".env.local"),
+  ];
+
+  for (const filePath of candidates) {
+    if (!existsSync(filePath)) continue;
+    const lines = readFileSync(filePath, "utf8").split(/\r?\n/);
+    for (const line of lines) {
+      const parsed = parseEnvLine(line);
+      if (parsed && process.env[parsed.key] === undefined) {
+        process.env[parsed.key] = parsed.value;
+      }
+    }
+    return;
+  }
+}
+
+loadLocalEnv();
+
 const GENESIS_POOL = 100_000_000;
 const GENESIS_HARD_CAP_SOL = 100_000;
 const GENESIS_TREASURY_WALLET = "Hei64jtQJLuxZ3dRCkmALqD4gdWAyCyA76wpxmWBrWTy";
