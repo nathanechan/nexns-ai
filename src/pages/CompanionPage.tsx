@@ -1,6 +1,6 @@
 import {
-  Bot,
   BrainCircuit,
+  ChevronDown,
   Check,
   Copy,
   Database,
@@ -17,10 +17,11 @@ import {
   Wand2,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppShell } from "../components/layout/AppShell";
 import { GlassCard } from "../components/ui/GlassCard";
+import { Mascot } from "../components/ui/Mascot";
 import { PreviewModal } from "../components/ui/PreviewModal";
 import { useSolanaWallet } from "../lib/wallet/SolanaWalletProvider";
 
@@ -41,7 +42,7 @@ const emptyPrompts = [
   "Explain NEX and NS.",
   "How does Genesis work?",
   "Help me create a prediction signal.",
-  "What is a Signal Creator?",
+  "Analyze a market signal.",
   "Write a community post about NEXNS.",
 ];
 
@@ -90,21 +91,13 @@ export function CompanionPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [mode, setMode] = useState<ChatMode>("Ask NEXNS");
+  const [modeOpen, setModeOpen] = useState(false);
   const [controlOpen, setControlOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [lastPrompt, setLastPrompt] = useState("");
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const { connectedWallet } = useSolanaWallet();
-
-  const apiMessages = useMemo(
-    () =>
-      messages.map((message) => ({
-        role: message.role,
-        content: message.content,
-      })),
-    [messages],
-  );
 
   useEffect(() => {
     scrollRef.current?.scrollTo({
@@ -176,30 +169,72 @@ export function CompanionPage() {
     <AppShell>
       <section className="mx-auto flex h-[calc(100vh-8.5rem)] min-h-[620px] w-full max-w-6xl flex-col overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/72 shadow-[0_0_60px_rgba(124,58,237,0.12)] backdrop-blur-xl max-md:h-[calc(100vh-7.2rem)] max-md:min-h-[560px]">
         <header className="shrink-0 border-b border-white/10 px-5 py-4 md:px-7">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="flex min-w-0 items-center gap-3">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-neon/20 text-cyan">
-                <Bot className="h-6 w-6" />
-              </span>
+              <span className="h-11 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-cyan via-violet-400 to-purple-700 shadow-[0_0_24px_rgba(0,229,255,0.24)]" />
               <div className="min-w-0">
                 <h1 className="truncate text-xl font-black text-white md:text-2xl">NEXNS AI Copilot</h1>
-                <p className="truncate text-sm text-slate-400">Product assistant for Global Prediction Growth Infrastructure.</p>
+                <div className="mt-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.12em]">
+                  <span className="inline-flex items-center gap-2 text-cyan">
+                    <span className="h-2 w-2 rounded-full bg-cyan shadow-[0_0_14px_rgba(0,229,255,0.8)]" />
+                    Online
+                  </span>
+                  <span className="text-slate-500">Powered by NEXNS Intelligence Layer</span>
+                </div>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
-              <select
-                value={mode}
-                onChange={(event) => setMode(event.target.value as ChatMode)}
-                className="rounded-full border border-white/10 bg-black/40 px-4 py-2 text-xs font-bold text-slate-100 outline-none transition focus:border-cyan/40"
-                aria-label="AI mode"
-              >
-                {chatModes.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <div className="nexns-ai-scrollbar flex max-w-full overflow-x-auto rounded-full border border-white/10 bg-black/35 p-1">
+                <button type="button" className="rounded-full bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-black">
+                  Copilot
+                </button>
+                <button type="button" disabled className="rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+                  Images <span className="ml-1 text-[0.58rem] text-gold">Coming Soon</span>
+                </button>
+                <button type="button" disabled className="rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+                  Videos <span className="ml-1 text-[0.58rem] text-gold">Coming Soon</span>
+                </button>
+              </div>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setModeOpen((value) => !value)}
+                  className="inline-flex min-w-40 items-center justify-between gap-3 rounded-full border border-cyan/20 bg-black/55 px-4 py-2 text-xs font-bold text-slate-100 shadow-[0_0_24px_rgba(0,229,255,0.08)] outline-none transition hover:border-cyan/45 hover:bg-cyan/10"
+                  aria-haspopup="listbox"
+                  aria-expanded={modeOpen}
+                  aria-label="AI mode"
+                >
+                  <span>{mode}</span>
+                  <ChevronDown className={`h-4 w-4 text-cyan transition ${modeOpen ? "rotate-180" : ""}`} />
+                </button>
+                {modeOpen && (
+                  <div
+                    className="nexns-ai-scrollbar absolute right-0 z-[80] mt-2 max-h-64 w-60 overflow-y-auto rounded-2xl border border-cyan/20 bg-slate-950/95 p-2 shadow-[0_22px_70px_rgba(0,0,0,0.46),0_0_34px_rgba(0,229,255,0.1)] backdrop-blur-xl"
+                    role="listbox"
+                  >
+                    {chatModes.map((item) => (
+                      <button
+                        key={item}
+                        type="button"
+                        role="option"
+                        aria-selected={item === mode}
+                        onClick={() => {
+                          setMode(item);
+                          setModeOpen(false);
+                        }}
+                        className={`w-full rounded-xl px-3 py-2.5 text-left text-xs font-bold transition ${
+                          item === mode
+                            ? "bg-cyan/14 text-cyan shadow-[inset_0_0_0_1px_rgba(0,229,255,0.22)]"
+                            : "text-slate-300 hover:bg-white/[0.06] hover:text-white"
+                        }`}
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
               <button
                 type="button"
                 onClick={() => setControlOpen(true)}
@@ -224,7 +259,7 @@ export function CompanionPage() {
           </div>
         </header>
 
-        <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-6 md:px-10">
+        <div ref={scrollRef} className="nexns-ai-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain scroll-smooth px-5 py-6 md:px-10">
           {messages.length === 0 ? (
             <EmptyChat onSelectPrompt={(prompt) => void sendPrompt(prompt)} />
           ) : (
@@ -262,7 +297,7 @@ export function CompanionPage() {
               onChange={(event) => setInput(event.target.value)}
               rows={1}
               placeholder="Ask NEXNS AI Copilot..."
-              className="max-h-32 min-h-12 min-w-0 flex-1 resize-none bg-transparent px-4 py-3 leading-6 text-white outline-none placeholder:text-slate-500"
+              className="nexns-ai-scrollbar max-h-32 min-h-12 min-w-0 flex-1 resize-none bg-transparent px-4 py-3 leading-6 text-white outline-none placeholder:text-slate-500"
               aria-label="Ask NEXNS AI Copilot"
               onKeyDown={(event) => {
                 if (event.key === "Enter" && !event.shiftKey) {
@@ -324,12 +359,13 @@ function EmptyChat({ onSelectPrompt }: { onSelectPrompt: (prompt: string) => voi
   return (
     <div className="mx-auto flex min-h-full max-w-4xl flex-col justify-center py-6">
       <div className="text-center">
-        <div className="mx-auto grid h-16 w-16 place-items-center rounded-3xl border border-cyan/25 bg-cyan/10 text-cyan shadow-[0_0_40px_rgba(0,229,255,0.12)]">
-          <Bot className="h-8 w-8" />
+        <div className="mx-auto grid h-28 w-28 place-items-center overflow-hidden rounded-[32px] border border-cyan/25 bg-[radial-gradient(circle_at_50%_25%,rgba(0,229,255,0.22),rgba(139,92,246,0.12),rgba(0,0,0,0.3))] shadow-[0_0_60px_rgba(0,229,255,0.12)] md:h-36 md:w-36">
+          <Mascot variant="guiding" className="h-32 w-32 object-contain md:h-40 md:w-40" alt="NEXNS AI Copilot" />
         </div>
-        <h2 className="mt-6 text-4xl font-black leading-tight text-white md:text-5xl">Ask NEXNS.</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-slate-300 md:text-lg">
-          Use NEXNS AI Copilot to understand prediction signals, Genesis, NEX, NS, creator growth, project activation, and community contribution.
+        <h2 className="mt-6 text-4xl font-black leading-tight text-white md:text-5xl">NEXNS AI Copilot</h2>
+        <p className="mt-3 text-sm font-black uppercase tracking-[0.18em] text-cyan">Your Intelligence Layer for the Global Prediction Growth Infrastructure</p>
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-300 md:text-lg">
+          Ask about NEXNS, Prediction Signals, Genesis, NEX, NS, Signal Creators, and Market Insights.
         </p>
       </div>
       <div className="mt-8 grid gap-3 md:grid-cols-2">
@@ -361,11 +397,11 @@ function ChatBubble({ role, text }: { role: ChatRole; text: string }) {
   return (
     <div className={`flex gap-4 ${isUser ? "justify-end" : "justify-start"}`}>
       {!isUser && (
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-neon/20 text-cyan">
-          <Bot className="h-5 w-5" />
+        <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-2xl border border-cyan/20 bg-cyan/10">
+          <Mascot variant="thinking" className="h-12 w-12 object-contain" alt="NEXNS AI Copilot" />
         </span>
       )}
-      <div className={`group min-w-0 ${isUser ? "max-w-[82%] rounded-[24px] bg-neon px-5 py-4 text-white" : "max-w-[88%] px-1 py-2 text-slate-100"}`}>
+      <div className={`group min-w-0 ${isUser ? "max-w-[82%] rounded-[24px] bg-neon px-5 py-4 text-white" : "max-w-[88%] rounded-[24px] border border-white/10 bg-white/[0.045] px-5 py-4 text-slate-100 shadow-[0_18px_60px_rgba(0,0,0,0.18)]"}`}>
         <div className="whitespace-pre-wrap break-words leading-8">{text}</div>
         {!isUser && (
           <button

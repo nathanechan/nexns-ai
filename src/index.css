@@ -89,6 +89,39 @@
   }
 }
 
+@layer utilities {
+  .nexns-ai-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 229, 255, 0.34) rgba(2, 6, 23, 0.66);
+  }
+
+  .nexns-ai-scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .nexns-ai-scrollbar::-webkit-scrollbar-track {
+    border-radius: 999px;
+    background: rgba(2, 6, 23, 0.66);
+  }
+
+  .nexns-ai-scrollbar::-webkit-scrollbar-thumb {
+    border: 2px solid rgba(2, 6, 23, 0.82);
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(0, 229, 255, 0.38), rgba(124, 58, 237, 0.36));
+    box-shadow: 0 0 14px rgba(0, 229, 255, 0.12);
+  }
+
+  .nexns-ai-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(0, 229, 255, 0.62), rgba(124, 58, 237, 0.58));
+    box-shadow: 0 0 18px rgba(0, 229, 255, 0.18);
+  }
+
+  .nexns-ai-scrollbar::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
 @layer components {
   .glass {
     border: 1px solid var(--nex-border);
