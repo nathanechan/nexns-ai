@@ -1,46 +1,48 @@
 import {
   Bot,
   BrainCircuit,
+  Check,
+  Copy,
   Database,
   Globe2,
+  Loader2,
   MessageCircle,
   PanelRight,
+  RefreshCw,
   Send,
   Settings,
   ShieldCheck,
   Sparkles,
-  Target,
+  Trash2,
   Wand2,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppShell } from "../components/layout/AppShell";
 import { GlassCard } from "../components/ui/GlassCard";
-import { Mascot } from "../components/ui/Mascot";
 import { PreviewModal } from "../components/ui/PreviewModal";
-import { useProductState } from "../state/productState";
+import { useSolanaWallet } from "../lib/wallet/SolanaWalletProvider";
 
-const answerBook: Record<string, string> = {
-  "what is nexns?": "NEXNS is Global Prediction Growth Infrastructure that connects prediction activity, creator influence, project campaigns, rewards, and AI companion guidance into one continuous growth loop.",
-  "how do i grow in nexns?": "You grow by making predictions, following creators, joining project campaigns, completing daily tasks, and training your NEX companion. Each action can improve EXP, NS rewards, bond, streaks, and ecosystem reputation.",
-  "what should i do next?": "Your next best action is to make one prediction, follow one high-performing creator, claim a daily task, and train NEX. That sequence creates visible progress across market activity, rewards, and companion growth.",
-  "how does nex help me?": "NEX acts as your growth guide. It explains markets, tracks your journey, recommends next actions, connects creator and project signals, and helps you return to the most valuable product surface.",
-  "why is nexns different?": "Most prediction products stop at markets. NEXNS combines prediction infrastructure, creator distribution, project growth, rewards, and AI companion retention into one coordinated ecosystem.",
-  "how do projects grow here?": "Projects grow by launching campaigns, attracting creators, activating prediction markets, distributing community tasks, and measuring adoption through signal volume and participation.",
-  "how do creators earn?": "Creators earn by publishing insight, growing followers, leading communities, supporting project campaigns, and building influence through prediction performance and engagement.",
-  "why will users return every day?": "Daily markets, creator alerts, tasks, streaks, reward claims, and companion progression create recurring reasons to return. NEX turns product actions into a habit loop.",
-  "why will creators stay?": "Creators stay because NEXNS turns insight into measurable influence, audience growth, campaign opportunities, and recurring ecosystem reward paths.",
-  "why will projects pay?": "Projects pay when NEXNS converts launch attention into prediction volume, creator distribution, task completion, and measurable community activation.",
-  "how does nexns create network effects?": "Users create prediction signals. Creators amplify those signals. Projects fund campaigns. Rewards drive retention. Communities add trust. NEX guides users back into the loop.",
-  "how does ai companion improve retention?": "The companion makes progress personal. It remembers actions, explains next steps, reacts to rewards, and links prediction, creator, project, task, and pet growth into one guided experience.",
+type ChatRole = "user" | "assistant";
+
+type ChatMessage = {
+  id: string;
+  role: ChatRole;
+  content: string;
 };
 
-const starterQuestions = [
-  "What should I do next?",
-  "How do I grow in NEXNS?",
-  "How does NEX help me?",
+type ChatMode = "Ask NEXNS" | "Market Signal" | "Create Prediction" | "Generate Content" | "Research Summary";
+
+const chatModes: ChatMode[] = ["Ask NEXNS", "Market Signal", "Create Prediction", "Generate Content", "Research Summary"];
+
+const emptyPrompts = [
   "What is NEXNS?",
+  "Explain NEX and NS.",
+  "How does Genesis work?",
+  "Help me create a prediction signal.",
+  "What is a Signal Creator?",
+  "Write a community post about NEXNS.",
 ];
 
 const aiControlSections = [
@@ -52,22 +54,22 @@ const aiControlSections = [
   {
     title: "Conversation",
     icon: MessageCircle,
-    items: ["Guided chat mode", "Concise responses", "Investor explanations", "Product action prompts"],
+    items: ["NEXNS Copilot mode", "Concise responses", "Product guidance", "Research-ready explanations"],
   },
   {
     title: "Memory & Data",
     icon: Database,
-    items: ["Local chat history", "Activity context", "Prediction records", "Growth progress signals"],
+    items: ["Wallet context when connected", "Current page context", "Session chat history", "Future activity signals"],
   },
   {
     title: "Companion Growth",
     icon: Sparkles,
-    items: ["Bond reactions", "Mood changes", "Energy reminders", "Evolution progress"],
+    items: ["NEX companion guidance", "Progress prompts", "Market signal support", "Community contribution ideas"],
   },
   {
     title: "Safety",
     icon: ShieldCheck,
-    items: ["No real AI API", "No wallet action", "No payment", "No blockchain transaction"],
+    items: ["No private keys", "No seed phrases", "No investment promises", "No guaranteed returns"],
   },
   {
     title: "Product Links",
@@ -76,111 +78,215 @@ const aiControlSections = [
   },
 ] satisfies { title: string; icon: LucideIcon; items: string[] }[];
 
-const fallbackAnswer = "I am still learning this part of NEXNS. For now, I can help explain predictions, creators, projects, growth, rewards, and your NEX companion.";
-
-function normalizeQuestion(value: string) {
-  return value.trim().toLowerCase();
+function createMessage(role: ChatRole, content: string): ChatMessage {
+  return {
+    id: `${role}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    role,
+    content,
+  };
 }
 
 export function CompanionPage() {
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
+  const [mode, setMode] = useState<ChatMode>("Ask NEXNS");
   const [controlOpen, setControlOpen] = useState(false);
-  const { companionMessages, sendCompanionMessage } = useProductState();
-  const growthRelatedWords = useMemo(() => ["grow", "growth", "return", "creator", "project", "network", "retention", "next", "earn"], []);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [lastPrompt, setLastPrompt] = useState("");
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const { connectedWallet } = useSolanaWallet();
 
-  function submitQuestion(question: string, keepInput = false) {
-    const clean = question.trim();
-    if (!clean) return;
-    const key = normalizeQuestion(clean);
-    const answer = answerBook[key] ?? fallbackAnswer;
-    const growthRelated = growthRelatedWords.some((word) => key.includes(word));
-    sendCompanionMessage(clean, answer, growthRelated);
-    if (!keepInput) setInput("");
+  const apiMessages = useMemo(
+    () =>
+      messages.map((message) => ({
+        role: message.role,
+        content: message.content,
+      })),
+    [messages],
+  );
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({
+      top: scrollRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [messages, isLoading]);
+
+  async function sendPrompt(prompt: string) {
+    const clean = prompt.trim();
+    if (!clean || isLoading) return;
+
+    const userMessage = createMessage("user", clean);
+    const nextMessages = [...messages, userMessage];
+    setMessages(nextMessages);
+    setInput("");
+    setError("");
+    setLastPrompt(clean);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/ai/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: nextMessages.map((message) => ({ role: message.role, content: message.content })),
+          walletAddress: connectedWallet?.address ?? null,
+          pageContext: "NEXNS product AI chat page",
+          mode,
+        }),
+      });
+      const body = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(typeof body?.error === "string" ? body.error : "AI response failed.");
+      }
+
+      const answer = typeof body?.message === "string" ? body.message : "NEXNS AI Copilot did not return a response.";
+      setMessages((current) => [...current, createMessage("assistant", answer)]);
+    } catch (requestError) {
+      const message = requestError instanceof Error ? requestError.message : "Unable to reach NEXNS AI Copilot.";
+      setError(message);
+      setMessages((current) => [
+        ...current,
+        createMessage(
+          "assistant",
+          ["AI service is not configured yet.", "AI model is not configured yet.", "AI response failed. Please try again.", "AI service timeout. Please try again."].includes(message)
+            ? message
+            : "AI response failed. Please try again.",
+        ),
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    submitQuestion(input);
+    void sendPrompt(input);
+  }
+
+  function retryLastPrompt() {
+    if (!lastPrompt) return;
+    setError("");
+    void sendPrompt(lastPrompt);
   }
 
   return (
     <AppShell>
-      <section className="mx-auto flex min-h-[calc(100vh-9rem)] w-full max-w-5xl flex-col overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/58 shadow-[0_0_60px_rgba(124,58,237,0.12)] backdrop-blur-xl">
-        <header className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4 md:px-7">
-          <div className="flex items-center gap-3">
-            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-neon/20 text-cyan">
-              <Bot className="h-6 w-6" />
-            </span>
-            <div>
-              <h1 className="text-xl font-black">NEX Chat</h1>
-              <p className="text-sm text-slate-400">Ask about markets, creators, projects, rewards, and growth.</p>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={() => setControlOpen(true)}
-            className="interactive-glow flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200"
-          >
-            <Settings className="h-4 w-4 text-cyan" />
-            AI Control
-          </button>
-        </header>
-
-        <div className="flex-1 overflow-y-auto px-5 py-6 md:px-10">
-          {companionMessages.length === 0 ? (
-            <div className="mx-auto flex min-h-[540px] max-w-3xl flex-col items-center justify-center text-center">
-              <Mascot variant="thinking" className="w-32 md:w-44" />
-              <h2 className="mt-6 text-4xl font-black leading-tight md:text-5xl">Ask NEX anything.</h2>
-              <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-300">
-                NEX is the AI growth companion inside NEXNS, helping you understand signals, progress, rewards, creators, projects, and your next best action.
-              </p>
-              <div className="mt-8 grid w-full gap-3 md:grid-cols-2">
-                {starterQuestions.map((question) => (
-                  <button
-                    key={question}
-                    type="button"
-                    onClick={() => submitQuestion(question, true)}
-                    className="interactive-glow rounded-2xl border border-white/10 bg-white/5 p-4 text-center text-sm font-semibold text-slate-100"
-                  >
-                    {question}
-                  </button>
-                ))}
+      <section className="mx-auto flex h-[calc(100vh-8.5rem)] min-h-[620px] w-full max-w-6xl flex-col overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/72 shadow-[0_0_60px_rgba(124,58,237,0.12)] backdrop-blur-xl max-md:h-[calc(100vh-7.2rem)] max-md:min-h-[560px]">
+        <header className="shrink-0 border-b border-white/10 px-5 py-4 md:px-7">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex min-w-0 items-center gap-3">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-neon/20 text-cyan">
+                <Bot className="h-6 w-6" />
+              </span>
+              <div className="min-w-0">
+                <h1 className="truncate text-xl font-black text-white md:text-2xl">NEXNS AI Copilot</h1>
+                <p className="truncate text-sm text-slate-400">Product assistant for Global Prediction Growth Infrastructure.</p>
               </div>
             </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <select
+                value={mode}
+                onChange={(event) => setMode(event.target.value as ChatMode)}
+                className="rounded-full border border-white/10 bg-black/40 px-4 py-2 text-xs font-bold text-slate-100 outline-none transition focus:border-cyan/40"
+                aria-label="AI mode"
+              >
+                {chatModes.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={() => setControlOpen(true)}
+                className="interactive-glow inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-200"
+              >
+                <Settings className="h-4 w-4 text-cyan" />
+                AI Control
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMessages([]);
+                  setError("");
+                  setLastPrompt("");
+                }}
+                className="interactive-glow inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-200"
+              >
+                <Trash2 className="h-4 w-4 text-gold" />
+                Clear
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-6 md:px-10">
+          {messages.length === 0 ? (
+            <EmptyChat onSelectPrompt={(prompt) => void sendPrompt(prompt)} />
           ) : (
-            <div className="mx-auto max-w-4xl space-y-6">
-              <ChatBubble role="nex" text="Welcome back. I can guide your next product action, explain the NEXNS growth loop, and connect your predictions, creators, projects, rewards, and NEX companion progress." />
-              {companionMessages.map((message) => (
-                <ChatBubble key={message.id} role={message.role} text={message.text} />
+            <div className="mx-auto grid max-w-4xl gap-6">
+              <ChatBubble
+                role="assistant"
+                text="I am NEXNS AI Copilot. I can help you understand NEXNS, prediction networks, Genesis, NEX, NS, wallet participation, market signals, creators, projects, and community contribution."
+              />
+              {messages.map((message) => (
+                <ChatBubble key={message.id} role={message.role} text={message.content} />
               ))}
+              {isLoading && (
+                <div className="flex items-center gap-3 text-sm font-bold text-cyan">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  NEXNS AI Copilot is thinking.
+                </div>
+              )}
             </div>
           )}
         </div>
 
-        <footer className="border-t border-white/10 bg-slate-950/72 px-5 py-4 md:px-10">
+        <footer className="shrink-0 border-t border-white/10 bg-slate-950/88 px-4 py-4 md:px-10">
+          {error && (
+            <div className="mx-auto mb-3 flex max-w-4xl flex-wrap items-center justify-between gap-3 rounded-2xl border border-gold/20 bg-gold/10 px-4 py-3 text-sm font-bold text-gold">
+              <span>{error}</span>
+              <button type="button" onClick={retryLastPrompt} className="inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2 text-xs uppercase tracking-[0.12em] text-white">
+                <RefreshCw className="h-3.5 w-3.5" />
+                Retry
+              </button>
+            </div>
+          )}
           <form onSubmit={onSubmit} className="mx-auto flex max-w-4xl items-end gap-3 rounded-[24px] border border-white/10 bg-white/[0.055] p-2">
             <textarea
               value={input}
               onChange={(event) => setInput(event.target.value)}
               rows={1}
-              placeholder="Ask NEX..."
+              placeholder="Ask NEXNS AI Copilot..."
               className="max-h-32 min-h-12 min-w-0 flex-1 resize-none bg-transparent px-4 py-3 leading-6 text-white outline-none placeholder:text-slate-500"
-              aria-label="Ask NEX"
+              aria-label="Ask NEXNS AI Copilot"
               onKeyDown={(event) => {
                 if (event.key === "Enter" && !event.shiftKey) {
                   event.preventDefault();
-                  submitQuestion(input);
+                  void sendPrompt(input);
                 }
               }}
             />
-            <button type="submit" className="purple-button interactive-glow grid h-12 w-12 place-items-center rounded-2xl">
-              <Send className="h-5 w-5" />
+            <button
+              type="submit"
+              disabled={!input.trim() || isLoading}
+              className="purple-button interactive-glow grid h-12 w-12 shrink-0 place-items-center rounded-2xl disabled:cursor-not-allowed disabled:opacity-50"
+              aria-label="Send message"
+            >
+              {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
             </button>
           </form>
+          <p className="mx-auto mt-3 max-w-4xl text-xs leading-5 text-slate-500">
+            NEXNS AI Copilot provides product guidance and general explanations. It does not provide financial, legal, tax, or investment advice.
+          </p>
         </footer>
       </section>
 
-      <PreviewModal open={controlOpen} title="NEX AI Control" description="All NEXNS AI settings, companion surfaces, memory controls, and AI product links are organized here." onClose={() => setControlOpen(false)}>
+      <PreviewModal open={controlOpen} title="NEX AI Control" description="NEXNS AI settings, companion surfaces, memory controls, and product links are organized here." onClose={() => setControlOpen(false)}>
         <div className="grid gap-4 md:grid-cols-2">
           {aiControlSections.map((section) => {
             const Icon = section.icon;
@@ -214,8 +320,43 @@ export function CompanionPage() {
   );
 }
 
-function ChatBubble({ role, text }: { role: "user" | "nex"; text: string }) {
+function EmptyChat({ onSelectPrompt }: { onSelectPrompt: (prompt: string) => void }) {
+  return (
+    <div className="mx-auto flex min-h-full max-w-4xl flex-col justify-center py-6">
+      <div className="text-center">
+        <div className="mx-auto grid h-16 w-16 place-items-center rounded-3xl border border-cyan/25 bg-cyan/10 text-cyan shadow-[0_0_40px_rgba(0,229,255,0.12)]">
+          <Bot className="h-8 w-8" />
+        </div>
+        <h2 className="mt-6 text-4xl font-black leading-tight text-white md:text-5xl">Ask NEXNS.</h2>
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-slate-300 md:text-lg">
+          Use NEXNS AI Copilot to understand prediction signals, Genesis, NEX, NS, creator growth, project activation, and community contribution.
+        </p>
+      </div>
+      <div className="mt-8 grid gap-3 md:grid-cols-2">
+        {emptyPrompts.map((question) => (
+          <button
+            key={question}
+            type="button"
+            onClick={() => onSelectPrompt(question)}
+            className="interactive-glow rounded-2xl border border-white/10 bg-white/[0.045] p-4 text-left text-sm font-semibold leading-6 text-slate-100 transition hover:border-cyan/35 hover:bg-cyan/10"
+          >
+            {question}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ChatBubble({ role, text }: { role: ChatRole; text: string }) {
+  const [copied, setCopied] = useState(false);
   const isUser = role === "user";
+
+  async function copyText() {
+    await navigator.clipboard.writeText(text).catch(() => undefined);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1200);
+  }
 
   return (
     <div className={`flex gap-4 ${isUser ? "justify-end" : "justify-start"}`}>
@@ -224,8 +365,18 @@ function ChatBubble({ role, text }: { role: "user" | "nex"; text: string }) {
           <Bot className="h-5 w-5" />
         </span>
       )}
-      <div className={`${isUser ? "max-w-[78%] rounded-[24px] bg-neon px-5 py-4 text-white" : "max-w-[84%] px-1 py-2 text-slate-100"} leading-8`}>
-        {text}
+      <div className={`group min-w-0 ${isUser ? "max-w-[82%] rounded-[24px] bg-neon px-5 py-4 text-white" : "max-w-[88%] px-1 py-2 text-slate-100"}`}>
+        <div className="whitespace-pre-wrap break-words leading-8">{text}</div>
+        {!isUser && (
+          <button
+            type="button"
+            onClick={() => void copyText()}
+            className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[0.68rem] font-black uppercase tracking-[0.12em] text-slate-400 opacity-100 transition hover:text-white md:opacity-0 md:group-hover:opacity-100"
+          >
+            {copied ? <Check className="h-3.5 w-3.5 text-cyan" /> : <Copy className="h-3.5 w-3.5" />}
+            {copied ? "Copied" : "Copy"}
+          </button>
+        )}
       </div>
     </div>
   );
