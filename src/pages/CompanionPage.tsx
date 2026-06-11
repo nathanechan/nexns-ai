@@ -4,7 +4,10 @@ import {
   Check,
   Copy,
   Database,
+  Download,
+  ExternalLink,
   Globe2,
+  Image as ImageIcon,
   Loader2,
   MessageCircle,
   PanelRight,
@@ -34,6 +37,7 @@ type ChatMessage = {
 };
 
 type ChatMode = "Ask NEXNS" | "Market Signal" | "Create Prediction" | "Generate Content" | "Research Summary";
+type AiCenterTab = "copilot" | "images" | "videos";
 
 const chatModes: ChatMode[] = ["Ask NEXNS", "Market Signal", "Create Prediction", "Generate Content", "Research Summary"];
 
@@ -91,11 +95,17 @@ export function CompanionPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [mode, setMode] = useState<ChatMode>("Ask NEXNS");
+  const [activeTab, setActiveTab] = useState<AiCenterTab>("copilot");
   const [modeOpen, setModeOpen] = useState(false);
   const [controlOpen, setControlOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [lastPrompt, setLastPrompt] = useState("");
+  const [imagePrompt, setImagePrompt] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageError, setImageError] = useState("");
+  const [imageCopied, setImageCopied] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const { connectedWallet } = useSolanaWallet();
 
@@ -165,6 +175,48 @@ export function CompanionPage() {
     void sendPrompt(lastPrompt);
   }
 
+  async function generateImage(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const clean = imagePrompt.trim();
+    if (!clean || isImageLoading) return;
+
+    setImageError("");
+    setImageUrl("");
+    setImageCopied(false);
+    setIsImageLoading(true);
+
+    try {
+      const response = await fetch("/api/ai/image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: clean }),
+      });
+      const body = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(typeof body?.error === "string" ? body.error : "Image generation failed.");
+      }
+
+      if (typeof body?.imageUrl !== "string" || !body.imageUrl) {
+        throw new Error("Image generation failed.");
+      }
+
+      setImageUrl(body.imageUrl);
+    } catch (requestError) {
+      const message = requestError instanceof Error ? requestError.message : "Image generation failed.";
+      setImageError(message);
+    } finally {
+      setIsImageLoading(false);
+    }
+  }
+
+  async function copyImageUrl() {
+    if (!imageUrl) return;
+    await navigator.clipboard.writeText(imageUrl).catch(() => undefined);
+    setImageCopied(true);
+    window.setTimeout(() => setImageCopied(false), 1200);
+  }
+
   return (
     <AppShell>
       <section className="mx-auto flex h-[calc(100vh-8.5rem)] min-h-[620px] w-full max-w-6xl flex-col overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/72 shadow-[0_0_60px_rgba(124,58,237,0.12)] backdrop-blur-xl max-md:h-[calc(100vh-7.2rem)] max-md:min-h-[560px]">
@@ -186,16 +238,29 @@ export function CompanionPage() {
 
             <div className="flex flex-wrap items-center justify-end gap-2">
               <div className="nexns-ai-scrollbar flex max-w-full overflow-x-auto rounded-full border border-white/10 bg-black/35 p-1">
-                <button type="button" className="rounded-full bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-black">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("copilot")}
+                  className={`rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.12em] transition ${activeTab === "copilot" ? "bg-white text-black" : "text-slate-500 hover:text-white"}`}
+                >
                   Copilot
                 </button>
-                <button type="button" disabled className="rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-slate-500">
-                  Images <span className="ml-1 text-[0.58rem] text-gold">Coming Soon</span>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("images")}
+                  className={`rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.12em] transition ${activeTab === "images" ? "bg-white text-black" : "text-slate-500 hover:text-white"}`}
+                >
+                  Images
                 </button>
-                <button type="button" disabled className="rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("videos")}
+                  className={`rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.12em] transition ${activeTab === "videos" ? "bg-white text-black" : "text-slate-500 hover:text-white"}`}
+                >
                   Videos <span className="ml-1 text-[0.58rem] text-gold">Coming Soon</span>
                 </button>
               </div>
+              {activeTab === "copilot" && (
               <div className="relative">
                 <button
                   type="button"
@@ -235,6 +300,7 @@ export function CompanionPage() {
                   </div>
                 )}
               </div>
+              )}
               <button
                 type="button"
                 onClick={() => setControlOpen(true)}
@@ -246,9 +312,16 @@ export function CompanionPage() {
               <button
                 type="button"
                 onClick={() => {
-                  setMessages([]);
-                  setError("");
-                  setLastPrompt("");
+                  if (activeTab === "images") {
+                    setImagePrompt("");
+                    setImageUrl("");
+                    setImageError("");
+                    setImageCopied(false);
+                  } else {
+                    setMessages([]);
+                    setError("");
+                    setLastPrompt("");
+                  }
                 }}
                 className="interactive-glow inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-200"
               >
@@ -260,27 +333,43 @@ export function CompanionPage() {
         </header>
 
         <div ref={scrollRef} className="nexns-ai-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain scroll-smooth px-5 py-6 md:px-10">
-          {messages.length === 0 ? (
-            <EmptyChat onSelectPrompt={(prompt) => void sendPrompt(prompt)} />
-          ) : (
-            <div className="mx-auto grid max-w-4xl gap-6">
-              <ChatBubble
-                role="assistant"
-                text="I am NEXNS AI Copilot. I can help you understand NEXNS, prediction networks, Genesis, NEX, NS, wallet participation, market signals, creators, projects, and community contribution."
-              />
-              {messages.map((message) => (
-                <ChatBubble key={message.id} role={message.role} text={message.content} />
-              ))}
-              {isLoading && (
-                <div className="flex items-center gap-3 text-sm font-bold text-cyan">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  NEXNS AI Copilot is thinking.
-                </div>
-              )}
-            </div>
+          {activeTab === "copilot" && (
+            messages.length === 0 ? (
+              <EmptyChat onSelectPrompt={(prompt) => void sendPrompt(prompt)} />
+            ) : (
+              <div className="mx-auto grid max-w-4xl gap-6">
+                <ChatBubble
+                  role="assistant"
+                  text="I am NEXNS AI Copilot. I can help you understand NEXNS, prediction networks, Genesis, NEX, NS, wallet participation, market signals, creators, projects, and community contribution."
+                />
+                {messages.map((message) => (
+                  <ChatBubble key={message.id} role={message.role} text={message.content} />
+                ))}
+                {isLoading && (
+                  <div className="flex items-center gap-3 text-sm font-bold text-cyan">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    NEXNS AI Copilot is thinking.
+                  </div>
+                )}
+              </div>
+            )
           )}
+          {activeTab === "images" && (
+            <ImageStudio
+              prompt={imagePrompt}
+              setPrompt={setImagePrompt}
+              imageUrl={imageUrl}
+              error={imageError}
+              copied={imageCopied}
+              isLoading={isImageLoading}
+              onGenerate={generateImage}
+              onCopyImageUrl={() => void copyImageUrl()}
+            />
+          )}
+          {activeTab === "videos" && <ComingSoonPanel title="NEXNS AI Video Studio" copy="Video generation is being prepared for future NEXNS AI Center releases." />}
         </div>
 
+        {activeTab === "copilot" && (
         <footer className="shrink-0 border-t border-white/10 bg-slate-950/88 px-4 py-4 md:px-10">
           {error && (
             <div className="mx-auto mb-3 flex max-w-4xl flex-wrap items-center justify-between gap-3 rounded-2xl border border-gold/20 bg-gold/10 px-4 py-3 text-sm font-bold text-gold">
@@ -319,6 +408,7 @@ export function CompanionPage() {
             NEXNS AI Copilot provides product guidance and general explanations. It does not provide financial, legal, tax, or investment advice.
           </p>
         </footer>
+        )}
       </section>
 
       <PreviewModal open={controlOpen} title="NEX AI Control" description="NEXNS AI settings, companion surfaces, memory controls, and product links are organized here." onClose={() => setControlOpen(false)}>
@@ -352,6 +442,111 @@ export function CompanionPage() {
         </div>
       </PreviewModal>
     </AppShell>
+  );
+}
+
+function ImageStudio({
+  prompt,
+  setPrompt,
+  imageUrl,
+  error,
+  copied,
+  isLoading,
+  onGenerate,
+  onCopyImageUrl,
+}: {
+  prompt: string;
+  setPrompt: (value: string) => void;
+  imageUrl: string;
+  error: string;
+  copied: boolean;
+  isLoading: boolean;
+  onGenerate: (event: FormEvent<HTMLFormElement>) => void;
+  onCopyImageUrl: () => void;
+}) {
+  return (
+    <div className="mx-auto grid min-h-full max-w-5xl content-center gap-6 py-4">
+      <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="rounded-[28px] border border-cyan/15 bg-white/[0.045] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.24)] md:p-7">
+          <div className="inline-flex items-center gap-2 rounded-full border border-cyan/20 bg-cyan/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-cyan">
+            <ImageIcon className="h-4 w-4" />
+            Image Studio
+          </div>
+          <h2 className="mt-5 text-3xl font-black leading-tight text-white md:text-5xl">NEXNS AI Image Studio</h2>
+          <p className="mt-4 text-base leading-7 text-slate-300">Generate images with AI.</p>
+          <form onSubmit={onGenerate} className="mt-6 grid gap-4">
+            <textarea
+              value={prompt}
+              onChange={(event) => setPrompt(event.target.value)}
+              rows={7}
+              placeholder="Describe the image you want to generate..."
+              className="nexns-ai-scrollbar min-h-44 resize-none rounded-3xl border border-white/10 bg-black/35 px-4 py-4 text-sm leading-7 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan/35 focus:bg-black/50"
+              aria-label="Image prompt"
+            />
+            {error && <div className="rounded-2xl border border-gold/20 bg-gold/10 px-4 py-3 text-sm font-bold text-gold">{error}</div>}
+            <button
+              type="submit"
+              disabled={!prompt.trim() || isLoading}
+              className="purple-button interactive-glow inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-[0.12em] disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Sparkles className="h-5 w-5" />}
+              {isLoading ? "Generating image..." : "Generate Image"}
+            </button>
+          </form>
+        </div>
+
+        <div className="rounded-[28px] border border-white/10 bg-black/32 p-4 shadow-[0_24px_80px_rgba(0,0,0,0.22)] md:p-5">
+          <div className="grid min-h-[420px] place-items-center overflow-hidden rounded-[24px] border border-white/10 bg-slate-950/75">
+            {isLoading ? (
+              <div className="grid place-items-center gap-4 text-center">
+                <Loader2 className="h-10 w-10 animate-spin text-cyan" />
+                <p className="text-sm font-black uppercase tracking-[0.14em] text-cyan">Generating image...</p>
+              </div>
+            ) : imageUrl ? (
+              <img src={imageUrl} alt="Generated by NEXNS AI Image Studio" className="h-full max-h-[540px] w-full object-contain" />
+            ) : (
+              <div className="grid place-items-center gap-4 px-8 text-center">
+                <span className="grid h-16 w-16 place-items-center rounded-3xl border border-cyan/20 bg-cyan/10 text-cyan">
+                  <ImageIcon className="h-8 w-8" />
+                </span>
+                <p className="max-w-sm text-sm leading-7 text-slate-400">Your generated image will appear here after the prompt is processed.</p>
+              </div>
+            )}
+          </div>
+
+          {imageUrl && (
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <a href={imageUrl} target="_blank" rel="noreferrer" className="interactive-glow inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.055] px-4 py-3 text-sm font-bold text-slate-100">
+                <ExternalLink className="h-4 w-4 text-cyan" />
+                Open Image
+              </a>
+              <button type="button" onClick={onCopyImageUrl} className="interactive-glow inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.055] px-4 py-3 text-sm font-bold text-slate-100">
+                {copied ? <Check className="h-4 w-4 text-cyan" /> : <Copy className="h-4 w-4 text-cyan" />}
+                {copied ? "Copied" : "Copy URL"}
+              </button>
+              <a href={imageUrl} download="nexns-ai-image.png" className="interactive-glow inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.055] px-4 py-3 text-sm font-bold text-slate-100">
+                <Download className="h-4 w-4 text-cyan" />
+                Download
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ComingSoonPanel({ title, copy }: { title: string; copy: string }) {
+  return (
+    <div className="mx-auto grid min-h-full max-w-3xl place-items-center py-8 text-center">
+      <div className="rounded-[28px] border border-white/10 bg-white/[0.045] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.24)]">
+        <span className="mx-auto grid h-16 w-16 place-items-center rounded-3xl border border-gold/20 bg-gold/10 text-gold">
+          <Sparkles className="h-8 w-8" />
+        </span>
+        <h2 className="mt-6 text-3xl font-black text-white">{title}</h2>
+        <p className="mx-auto mt-4 max-w-lg text-base leading-8 text-slate-300">{copy}</p>
+      </div>
+    </div>
   );
 }
 
