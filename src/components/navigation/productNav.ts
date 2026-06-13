@@ -28,7 +28,7 @@ export const productNavItems: ProductNavItem[] = [
 ];
 
 export const companionCard = {
-  to: "/companion",
+  to: "/app/chat",
   label: "Ask NEX",
   icon: Sparkles,
 };

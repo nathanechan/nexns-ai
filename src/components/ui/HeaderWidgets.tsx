@@ -18,11 +18,11 @@ export function HeaderWidgets({ compact = false }: { compact?: boolean }) {
         <span className="flex items-center gap-2"><Coins className="h-4 w-4 text-amber-300" /> NEX $0.0248</span>
         {!compact && <span className="hidden text-mint sm:inline">+8.7%</span>}
       </GlassCard>
-      <Link to="/companion" className={`${compact ? "interactive-glow grid h-10 w-10 place-items-center px-0 py-0" : "interactive-glow flex px-3 py-2.5 sm:px-4"} items-center gap-2 rounded-full border border-cyan/20 bg-white/[0.04] text-xs font-semibold text-purple-100 transition hover:bg-cyan/12 sm:text-sm`} aria-label="Open NEXNS AI Copilot">
+      <Link to="/chat" className={`${compact ? "interactive-glow grid h-10 w-10 place-items-center px-0 py-0" : "interactive-glow flex px-3 py-2.5 sm:px-4"} items-center gap-2 rounded-full border border-cyan/20 bg-white/[0.04] text-xs font-semibold text-purple-100 transition hover:bg-cyan/12 sm:text-sm`} aria-label="Open NEXNS Chat">
         <span className="grid h-6 w-6 shrink-0 place-items-center overflow-hidden rounded-full bg-cyan/10">
-          <Mascot variant="thinking" className="h-7 w-7 object-contain" alt="NEXNS AI Copilot" />
+          <Mascot variant="thinking" className="h-7 w-7 object-contain" alt="NEXNS Chat" />
         </span>
-        {!compact && "AI Copilot"}
+        {!compact && "Chat"}
       </Link>
       <ProductWalletButton compact={compact} />
       <button onClick={() => setOpen((value) => !value)} className={`interactive-glow relative rounded-full border border-white/10 bg-white/[0.04] ${compact ? "hidden" : "p-2.5"}`}>

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { CommunityPage } from "./pages/CommunityPage";
 import { AboutNexnsPage } from "./pages/company/AboutNexnsPage";
 import { ContactPage } from "./pages/company/ContactPage";
@@ -51,7 +51,10 @@ export default function App() {
         <Route path="/create" element={<CreatePage />} />
         <Route path="/creator" element={<CreatorPage />} />
         <Route path="/creator/:creatorId" element={<CreatorProfilePage />} />
-        <Route path="/companion" element={<CompanionPage />} />
+        <Route path="/chat" element={<CompanionPage />} />
+        <Route path="/app/chat" element={<Navigate to="/chat" replace />} />
+        <Route path="/app/companion" element={<Navigate to="/chat" replace />} />
+        <Route path="/companion" element={<Navigate to="/chat" replace />} />
         <Route path="/projects" element={<ProjectPage />} />
         <Route path="/projects/:projectId" element={<ProjectProfilePage />} />
         <Route path="/more" element={<MorePage />} />

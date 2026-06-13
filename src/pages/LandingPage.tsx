@@ -18,7 +18,6 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Mascot } from "../components/ui/Mascot";
 import { KineticNeuralMeshBackground } from "../components/website/KineticNeuralMeshBackground";
 import { WebsiteHeader } from "../components/website/WebsiteHeader";
 import nexLogoWhite from "../assets/logo/nex-logo-white.png";
@@ -433,7 +432,6 @@ const footerSocialLinks = [
 ];
 
 export function LandingPage() {
-  const [companionOpen, setCompanionOpen] = useState(false);
   const [focusPillar, setFocusPillar] = useState<(typeof ecosystemPillars)[number] | null>(null);
 
   return (
@@ -786,7 +784,6 @@ export function LandingPage() {
       </main>
 
       <FocusAuditPanel pillar={focusPillar} onClose={() => setFocusPillar(null)} />
-      <FloatingCompanion open={companionOpen} onOpen={() => setCompanionOpen(true)} onClose={() => setCompanionOpen(false)} />
       <WebsiteFooter />
     </div>
   );
@@ -1887,45 +1884,6 @@ function SignalMap() {
         NEX
       </text>
     </svg>
-  );
-}
-
-function FloatingCompanion({ open, onOpen, onClose }: { open: boolean; onOpen: () => void; onClose: () => void }) {
-  return (
-    <>
-      {open ? (
-        <div className="fixed bottom-28 right-4 z-[9999] w-[min(420px,calc(100vw-2rem))] rounded-[28px] border border-violet-500/25 bg-black/92 p-5 shadow-[0_0_44px_rgba(109,40,217,0.24)] backdrop-blur-xl md:bottom-40 md:right-10">
-          <div className="flex items-start justify-between gap-4">
-            <button type="button" onClick={onClose} className="rounded-full border border-violet-500/20 px-3 py-1 text-xs font-black text-white/78 hover:text-white">
-              Close
-            </button>
-          </div>
-          <div className="mt-6 grid gap-3">
-            {[
-              ["Network Status", "Growth loops are synchronized across prediction, creator, and project layers."],
-              ["Review Path", "Review the financial dashboard or enter Presentation Mode for institutional briefing."],
-              ["System Function", "NEX provides navigation, retention, progress, and ecosystem context."],
-            ].map(([title, copy]) => (
-              <div key={title} className="rounded-2xl border border-violet-500/20 bg-white/[0.018] p-4">
-                <div className="text-sm font-black text-white">{title}</div>
-                <div className="mt-2 text-sm leading-[1.65] text-white/74">{copy}</div>
-              </div>
-            ))}
-          </div>
-          <Link to="/companion" className="nex-primary-button mt-5 w-full justify-center">
-            Open Full Companion
-          </Link>
-        </div>
-      ) : null}
-      <button
-        type="button"
-        onClick={onOpen}
-        className="companion-anchor fixed bottom-5 right-5 z-[9999] flex h-16 w-16 items-center justify-center rounded-full border border-violet-500/25 bg-black/88 backdrop-blur-md md:bottom-10 md:right-10 md:h-24 md:w-24"
-        aria-label="Open NEX AI Companion"
-      >
-        <Mascot variant="thinking" className="w-14 md:w-20" />
-      </button>
-    </>
   );
 }
 
